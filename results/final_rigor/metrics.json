@@ -1,0 +1,226 @@
+{
+  "aggregate": {
+    "full": {
+      "drift_mse": {
+        "mean": 0.008093883438656727,
+        "std": 0.0
+      },
+      "eig_nmse": {
+        "mean": 0.20242640376091003,
+        "std": 0.0
+      },
+      "event_rate": {
+        "mean": 0.625,
+        "std": 0.0
+      },
+      "gap_rmse": {
+        "mean": 0.5339790185292562,
+        "std": 0.0
+      },
+      "gate_cal": {
+        "mean": 0.47552403807640076,
+        "std": 0.0
+      },
+      "gate_mean": {
+        "mean": 0.5886726379394531,
+        "std": 0.0
+      },
+      "lat_align": {
+        "mean": 0.0006424312887247652,
+        "std": 0.0
+      },
+      "proj_mse": {
+        "mean": 0.02747158147394657,
+        "std": 0.0
+      },
+      "rare_drift_mse": {
+        "mean": 0.008294056790570417,
+        "std": 0.0
+      },
+      "rare_eig_nmse": {
+        "mean": 0.1956999177734057,
+        "std": 0.0
+      },
+      "regime_acc": {
+        "mean": 0.3333333333333333,
+        "std": 0.0
+      },
+      "regime_bal_acc": {
+        "mean": 0.2222222222222222,
+        "std": 0.0
+      },
+      "tail_f1": {
+        "mean": 0.7602177747105284,
+        "std": 0.0
+      }
+    },
+    "no_gate": {
+      "drift_mse": {
+        "mean": 0.008630192372947931,
+        "std": 0.0
+      },
+      "eig_nmse": {
+        "mean": 0.20350195467472076,
+        "std": 0.0
+      },
+      "event_rate": {
+        "mean": 0.625,
+        "std": 0.0
+      },
+      "gap_rmse": {
+        "mean": 0.5357623298962911,
+        "std": 0.0
+      },
+      "gate_cal": {
+        "mean": 0.38538257280985516,
+        "std": 0.0
+      },
+      "gate_mean": {
+        "mean": 0.9578176935513815,
+        "std": 0.0
+      },
+      "lat_align": {
+        "mean": 0.0008504420305447032,
+        "std": 0.0
+      },
+      "proj_mse": {
+        "mean": 0.027475903431574505,
+        "std": 0.0
+      },
+      "rare_drift_mse": {
+        "mean": 0.008427296609928211,
+        "std": 0.0
+      },
+      "rare_eig_nmse": {
+        "mean": 0.1953310618797938,
+        "std": 0.0
+      },
+      "regime_acc": {
+        "mean": 0.3333333333333333,
+        "std": 0.0
+      },
+      "regime_bal_acc": {
+        "mean": 0.2222222222222222,
+        "std": 0.0
+      },
+      "tail_f1": {
+        "mean": 0.7602177747105284,
+        "std": 0.0
+      }
+    },
+    "no_memory": {
+      "drift_mse": {
+        "mean": 0.008625733976562818,
+        "std": 0.0
+      },
+      "eig_nmse": {
+        "mean": 0.25949084758758545,
+        "std": 0.0
+      },
+      "event_rate": {
+        "mean": 0.625,
+        "std": 0.0
+      },
+      "gap_rmse": {
+        "mean": 0.5164136985937754,
+        "std": 0.0
+      },
+      "gate_cal": {
+        "mean": 0.4700959424177806,
+        "std": 0.0
+      },
+      "gate_mean": {
+        "mean": 0.6253341635068258,
+        "std": 0.0
+      },
+      "lat_align": {
+        "mean": 0.0006981985061429441,
+        "std": 0.0
+      },
+      "proj_mse": {
+        "mean": 0.027601245790719986,
+        "std": 0.0
+      },
+      "rare_drift_mse": {
+        "mean": 0.009370374182860056,
+        "std": 0.0
+      },
+      "rare_eig_nmse": {
+        "mean": 0.28481124341487885,
+        "std": 0.0
+      },
+      "regime_acc": {
+        "mean": 0.3333333333333333,
+        "std": 0.0
+      },
+      "regime_bal_acc": {
+        "mean": 0.4305555555555555,
+        "std": 0.0
+      },
+      "tail_f1": {
+        "mean": 0.7602177747105284,
+        "std": 0.0
+      }
+    },
+    "no_regime": {
+      "drift_mse": {
+        "mean": 0.04138452125092348,
+        "std": 0.0
+      },
+      "eig_nmse": {
+        "mean": 0.3472856481870015,
+        "std": 0.0
+      },
+      "event_rate": {
+        "mean": 0.625,
+        "std": 0.0
+      },
+      "gap_rmse": {
+        "mean": 0.6652102470397949,
+        "std": 0.0
+      },
+      "gate_cal": {
+        "mean": 0.48085302114486694,
+        "std": 0.0
+      },
+      "gate_mean": {
+        "mean": 0.5795362194379171,
+        "std": 0.0
+      },
+      "lat_align": {
+        "mean": 0.0011930644783812265,
+        "std": 0.0
+      },
+      "proj_mse": {
+        "mean": 0.027477537592252094,
+        "std": 0.0
+      },
+      "rare_drift_mse": {
+        "mean": 0.049088746309280396,
+        "std": 0.0
+      },
+      "rare_eig_nmse": {
+        "mean": 0.3859795331954956,
+        "std": 0.0
+      },
+      "regime_acc": {
+        "mean": 0.2708333333333333,
+        "std": 0.0
+      },
+      "regime_bal_acc": {
+        "mean": 0.38888888888888884,
+        "std": 0.0
+      },
+      "tail_f1": {
+        "mean": 0.7602177747105284,
+        "std": 0.0
+      }
+    }
+  },
+  "market_style": "equity",
+  "num_seeds": 1,
+  "representative_run": "results/final_rigor/seed_7/full",
+  "seed_list": [
+    7
+  ]
+}

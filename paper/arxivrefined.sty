@@ -1,0 +1,275 @@
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{arxivrefined}[2026/03/29 Refined arXiv-style layout]
+
+\makeatletter
+
+\ProcessOptions\relax
+
+\renewcommand{\rmdefault}{ptm}
+\renewcommand{\sfdefault}{phv}
+
+\RequirePackage[
+  letterpaper,
+  verbose=true,
+  textheight=9in,
+  textwidth=6.5in,
+  top=1in,
+  headheight=14pt,
+  headsep=25pt,
+  footskip=30pt
+]{geometry}
+
+\widowpenalty=10000
+\clubpenalty=10000
+\flushbottom
+\sloppy
+
+\newcommand{\headeright}{A Preprint}
+\newcommand{\undertitle}{A Preprint}
+\newcommand{\shorttitle}{\@title}
+
+\RequirePackage{fancyhdr}
+
+\fancyhf{}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.4pt}
+\rhead{\scshape\footnotesize\headeright}
+\chead{\shorttitle}
+\cfoot{\thepage}
+
+\newcommand{\keywordname}{\bfseries\emph{Keywords}}
+
+\newcommand{\keywords}[1]{%
+  \par\addvspace\medskipamount
+  \rightskip=0pt plus 1cm
+  \def\and{\ifhmode\unskip\nobreak\fi\ $\cdot$\ }%
+  \noindent\keywordname\enspace#1\par
+}
+
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize\@xpt\@xipt
+  \abovedisplayskip      7\p@ \@plus2\p@ \@minus5\p@
+  \abovedisplayshortskip \z@  \@plus3\p@
+  \belowdisplayskip      \abovedisplayskip
+  \belowdisplayshortskip 4\p@ \@plus3\p@ \@minus3\p@
+}
+\normalsize
+
+\renewcommand\small{%
+  \@setfontsize\small\@ixpt\@xpt
+  \abovedisplayskip      6\p@ \@plus1.5\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus2\p@
+  \belowdisplayskip      \abovedisplayskip
+  \belowdisplayshortskip 3\p@ \@plus2\p@ \@minus2\p@
+}
+
+\renewcommand\footnotesize{\@setfontsize\footnotesize\@ixpt\@xpt}
+\renewcommand\scriptsize{\@setfontsize\scriptsize\@viipt\@viiipt}
+\renewcommand\tiny{\@setfontsize\tiny\@vipt\@viipt}
+\renewcommand\large{\@setfontsize\large\@xiipt{14}}
+\renewcommand\Large{\@setfontsize\Large\@xivpt{16}}
+\renewcommand\LARGE{\@setfontsize\LARGE\@xviipt{20}}
+\renewcommand\huge{\@setfontsize\huge\@xxpt{23}}
+\renewcommand\Huge{\@setfontsize\Huge\@xxvpt{28}}
+
+\newcommand{\@secfmt}[5]{%
+  \@startsection{#1}{#2}{\z@}
+    {#3}
+    {#4}
+    {#5}
+}
+
+\renewcommand\section{%
+  \@secfmt{section}{1}
+    {-2.0ex \@plus-.5ex \@minus-.2ex}
+    {1.5ex \@plus.3ex \@minus.2ex}
+    {\large\bfseries\raggedright}
+}
+
+\renewcommand\subsection{%
+  \@secfmt{subsection}{2}
+    {-1.8ex \@plus-.5ex \@minus-.2ex}
+    {.8ex \@plus.2ex}
+    {\normalsize\bfseries\raggedright}
+}
+
+\renewcommand\subsubsection{%
+  \@secfmt{subsubsection}{3}
+    {-1.5ex \@plus-.5ex \@minus-.2ex}
+    {.5ex \@plus.2ex}
+    {\normalsize\bfseries\raggedright}
+}
+
+\renewcommand\paragraph{%
+  \@secfmt{paragraph}{4}
+    {1.5ex \@plus.5ex \@minus.2ex}
+    {-1em}
+    {\normalsize\bfseries}
+}
+
+\renewcommand\subparagraph{%
+  \@secfmt{subparagraph}{5}
+    {1.5ex \@plus.5ex \@minus.2ex}
+    {-1em}
+    {\normalsize\bfseries}
+}
+
+\newcommand{\subsubsubsection}{%
+  \vskip5pt\noindent\normalsize\rmfamily\raggedright
+}
+
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.4}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.7}
+
+\newlength{\@abovecaptionskip}
+\setlength{\@abovecaptionskip}{7\p@}
+\newlength{\@belowcaptionskip}
+\setlength{\@belowcaptionskip}{\z@}
+\setlength{\abovecaptionskip}{\@abovecaptionskip}
+\setlength{\belowcaptionskip}{\@belowcaptionskip}
+
+\renewenvironment{table}
+  {%
+    \setlength{\abovecaptionskip}{\@belowcaptionskip}%
+    \setlength{\belowcaptionskip}{\@abovecaptionskip}%
+    \@float{table}
+  }
+  {\end@float}
+
+\setlength{\footnotesep}{6.65\p@}
+\setlength{\skip\footins}{9\p@ \@plus4\p@ \@minus2\p@}
+
+\renewcommand{\footnoterule}{%
+  \kern-3\p@
+  \hrule width 12pc
+  \kern2.6\p@
+}
+
+\setcounter{footnote}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.5\p@}
+
+\setlength{\topsep}{4\p@ \@plus1\p@ \@minus2\p@}
+\setlength{\partopsep}{1\p@ \@plus.5\p@ \@minus.5\p@}
+\setlength{\itemsep}{2\p@ \@plus1\p@ \@minus.5\p@}
+\setlength{\parsep}{2\p@ \@plus1\p@ \@minus.5\p@}
+
+\setlength{\leftmargin}{3pc}
+\setlength{\leftmargini}{\leftmargin}
+\setlength{\leftmarginii}{2em}
+\setlength{\leftmarginiii}{1.5em}
+\setlength{\leftmarginiv}{1em}
+\setlength{\leftmarginv}{0.5em}
+\setlength{\leftmarginvi}{0.5em}
+
+\def\@listi{\leftmargin\leftmargini}
+
+\def\@listii{%
+  \leftmargin\leftmarginii
+  \labelwidth\leftmarginii
+  \advance\labelwidth-\labelsep
+  \topsep2\p@ \@plus1\p@ \@minus.5\p@
+  \parsep1\p@ \@plus.5\p@ \@minus.5\p@
+  \itemsep\parsep
+}
+
+\def\@listiii{%
+  \leftmargin\leftmarginiii
+  \labelwidth\leftmarginiii
+  \advance\labelwidth-\labelsep
+  \topsep1\p@ \@plus.5\p@ \@minus.5\p@
+  \parsep\z@
+  \partopsep.5\p@ \@minus.5\p@
+  \itemsep\topsep
+}
+
+\renewcommand{\maketitle}{%
+  \begingroup
+    \renewcommand{\thefootnote}{\fnsymbol{footnote}}
+    \long\def\@makefntext##1{%
+      \parindent1em\noindent
+      \hbox to1.8em{\hss$\m@th^{\@thefnmark}$}##1%
+    }
+    \thispagestyle{empty}
+    \@maketitle
+    \@thanks
+  \endgroup
+  \let\maketitle\relax
+  \let\thanks\relax
+}
+
+\newcommand{\@toptitlebar}{%
+  \hrule height2\p@
+  \vskip.25in
+  \vskip-\parskip
+}
+
+\newcommand{\@bottomtitlebar}{%
+  \vskip.29in
+  \vskip-\parskip
+  \hrule height2\p@
+  \vskip.09in
+}
+
+\renewcommand{\@maketitle}{%
+  \vbox{%
+    \hsize\textwidth
+    \linewidth\hsize
+    \vskip.1in
+
+    \@toptitlebar
+
+    \centering
+    {\LARGE\scshape\@title\par}
+
+    \@bottomtitlebar
+
+    \textsc{\undertitle}\par
+    \vskip.1in
+
+    \def\And{%
+      \end{tabular}\hfil\linebreak[0]\hfil
+      \begin{tabular}[t]{c}\bfseries\rule{\z@}{24\p@}\ignorespaces
+    }
+
+    \def\AND{%
+      \end{tabular}\hfil\linebreak[4]\hfil
+      \begin{tabular}[t]{c}\bfseries\rule{\z@}{24\p@}\ignorespaces
+    }
+
+    \begin{tabular}[t]{c}\bfseries
+      \rule{\z@}{24\p@}\@author
+    \end{tabular}
+
+    \vskip.4in \@minus.1in
+
+    \center{\@date}
+
+    \vskip.2in
+  }%
+}
+
+\newcommand{\ftype@noticebox}{8}
+
+\newcommand{\@notice}{%
+  \enlargethispage{2\baselineskip}
+  \@float{noticebox}[b]
+    \footnotesize\@noticestring
+  \end@float
+}
+
+\renewenvironment{abstract}
+  {%
+    \centerline{\large\bfseries\scshape Abstract}
+    \begin{quote}
+  }
+  {%
+    \end{quote}
+  }
+
+\makeatother
+\endinput

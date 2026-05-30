@@ -1,0 +1,1308 @@
+{
+  "market_styles": [
+    "equity",
+    "crypto",
+    "rates"
+  ],
+  "num_seeds": 1,
+  "seed": 7,
+  "seed_stride": 11,
+  "styles": {
+    "crypto": {
+      "aggregate": {
+        "full": {
+          "cov_mse": {
+            "mean": 0.24687883257865906,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.03976340964436531,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.6415131688117981,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.00271300645545125,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 1.5252493619918823,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.568272590637207,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.568272590637207,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.01021539606153965,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.10514232516288757,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 2.323655843734741,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.41197139024734497,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.0,
+            "std": 0.0
+          }
+        },
+        "no_gate": {
+          "cov_mse": {
+            "mean": 0.24666982889175415,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.0398612879216671,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.6412941217422485,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.0027406704612076283,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 1.5252875089645386,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.009714080952107906,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.1052912175655365,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 2.3222360610961914,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.41021907329559326,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.0,
+            "std": 0.0
+          }
+        },
+        "no_memory": {
+          "cov_mse": {
+            "mean": 0.24721026420593262,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.03960757330060005,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.6417571306228638,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.0026723332703113556,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 1.525081992149353,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.5599905848503113,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.5599905848503113,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.011429287493228912,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.1048961877822876,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 2.3256781101226807,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.41419854760169983,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.0,
+            "std": 0.0
+          }
+        },
+        "no_regime": {
+          "cov_mse": {
+            "mean": 0.24687165021896362,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.03976326435804367,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.641507625579834,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.002713788067921996,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 1.5252375602722168,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.5681363344192505,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.5681363344192505,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.010213284753262997,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.10515372455120087,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 2.323650598526001,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": NaN,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.41198837757110596,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.0,
+            "std": 0.0
+          }
+        }
+      },
+      "benchmark": {
+        "persistence": {
+          "cov_mse": {
+            "mean": 5.766563892364502,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.6553667783737183,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 12.38183307647705,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.0275815948843956,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 7.486934661865234,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.4999971389770508,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.4999971389770508,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.08945279568433762,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 0.1044510006904602,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.27155810594558716,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.0,
+            "std": 0.0
+          }
+        },
+        "trend": {
+          "cov_mse": {
+            "mean": 0.3909706473350525,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.030679062008857727,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.7432565689086914,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.28867191076278687,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 1.4860788583755493,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.4999971389770508,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.4999971389770508,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.08402350544929504,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 0.6607711911201477,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.1055024117231369,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.0,
+            "std": 0.0
+          }
+        }
+      },
+      "market_style": "crypto",
+      "num_seeds": 1,
+      "representative_run": "/mnt/data/eigen_jepa_super_suite/crypto/seed_18/full",
+      "seed_list": [
+        18
+      ],
+      "variants": [
+        "full",
+        "no_memory",
+        "no_gate",
+        "no_regime"
+      ]
+    },
+    "equity": {
+      "aggregate": {
+        "full": {
+          "cov_mse": {
+            "mean": 0.06359955668449402,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.02335439994931221,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.6071410775184631,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.020781390368938446,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.75,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.9785112142562866,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.5050787329673767,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.4883592128753662,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.007335605565458536,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.09861776232719421,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 1.0109814405441284,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": 0.06105976924300194,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": 0.03013509511947632,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": 0.631147027015686,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.5568718910217285,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.8571428571428571,
+            "std": 0.0
+          }
+        },
+        "no_gate": {
+          "cov_mse": {
+            "mean": 0.06331782042980194,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.02358153834939003,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.6075222492218018,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.020520389080047607,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.75,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.9790812730789185,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.25,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.008841742761433125,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.09922027587890625,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 1.0089476108551025,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": 0.06083279475569725,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": 0.030483679845929146,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": 0.6315878629684448,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.5587101578712463,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.8571428571428571,
+            "std": 0.0
+          }
+        },
+        "no_memory": {
+          "cov_mse": {
+            "mean": 0.06383398175239563,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.02314034476876259,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.6067460179328918,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.021035123616456985,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.75,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.9779309630393982,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.5041043758392334,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.49038130044937134,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.006418533157557249,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.09797640144824982,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 1.0130572319030762,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": 0.06124228984117508,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": 0.029805639758706093,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": 0.6306844353675842,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.555185079574585,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.8571428571428571,
+            "std": 0.0
+          }
+        },
+        "no_regime": {
+          "cov_mse": {
+            "mean": 0.06359726190567017,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.023352794349193573,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.6071381568908691,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.02078036218881607,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.75,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.9785046577453613,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.5051660537719727,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.48819056153297424,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.0073380121029913425,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.09861449897289276,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 1.010973572731018,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": 0.061057429760694504,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": 0.030132634565234184,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": 0.6311455368995667,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.5568708777427673,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.8571428571428571,
+            "std": 0.0
+          }
+        }
+      },
+      "benchmark": {
+        "persistence": {
+          "cov_mse": {
+            "mean": 0.07774820923805237,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.515931248664856,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.22185246646404266,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.16074015200138092,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.75,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.41346731781959534,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.4923505187034607,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.4999992251396179,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.07216070592403412,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 0.6683170199394226,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.04370139539241791,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.8571428571428571,
+            "std": 0.0
+          }
+        },
+        "trend": {
+          "cov_mse": {
+            "mean": 0.06464865058660507,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.03946675360202789,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.8902810215950012,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.3135346472263336,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.75,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.917693555355072,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.4923505187034607,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.4999992251396179,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.08979304879903793,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 0.8946435451507568,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 0.25,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 0.25,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.00013643827696796507,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.8571428571428571,
+            "std": 0.0
+          }
+        }
+      },
+      "market_style": "equity",
+      "num_seeds": 1,
+      "representative_run": "/mnt/data/eigen_jepa_super_suite/equity/seed_7/full",
+      "seed_list": [
+        7
+      ],
+      "variants": [
+        "full",
+        "no_memory",
+        "no_gate",
+        "no_regime"
+      ]
+    },
+    "rates": {
+      "aggregate": {
+        "full": {
+          "cov_mse": {
+            "mean": 0.06968998163938522,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.005447992589324713,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.5279621481895447,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.02161801978945732,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.5,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.6532983183860779,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.5042943954467773,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.5749454498291016,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.013604119420051575,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.10534044355154037,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 2.9701590538024902,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": 0.07506094872951508,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": 0.00871378555893898,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": 0.5591283440589905,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.2710534632205963,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.6666666666666666,
+            "std": 0.0
+          }
+        },
+        "no_gate": {
+          "cov_mse": {
+            "mean": 0.06915076076984406,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.0055206548422575,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.5270592570304871,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.02158854529261589,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.5,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.6530387997627258,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.5,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.015050309710204601,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.1054229587316513,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 2.968149423599243,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": 0.07440900802612305,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": 0.008736396208405495,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": 0.5582841038703918,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.2737185060977936,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.6666666666666666,
+            "std": 0.0
+          }
+        },
+        "no_memory": {
+          "cov_mse": {
+            "mean": 0.07041045278310776,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.0053525385446846485,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.5287487506866455,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.02168467454612255,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.5,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.6534276604652405,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.5047475695610046,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.5913555026054382,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.012907780706882477,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.1053069457411766,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 2.9719126224517822,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": 0.07593126595020294,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": 0.008689653128385544,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": 0.5597831606864929,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.2673605680465698,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.6666666666666666,
+            "std": 0.0
+          }
+        },
+        "no_regime": {
+          "cov_mse": {
+            "mean": 0.06967336684465408,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.005450335331261158,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.5279943943023682,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.02162400633096695,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.5,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.6533132791519165,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.504288375377655,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.5748965740203857,
+            "std": 0.0
+          },
+          "lat_align": {
+            "mean": 0.013589086942374706,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.10534269362688065,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 2.970184087753296,
+            "std": 0.0
+          },
+          "rare_cov_mse": {
+            "mean": 0.07504270225763321,
+            "std": 0.0
+          },
+          "rare_drift_mse": {
+            "mean": 0.00871413853019476,
+            "std": 0.0
+          },
+          "rare_eig_nmse": {
+            "mean": 0.5591620206832886,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.27106720209121704,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.6666666666666666,
+            "std": 0.0
+          }
+        }
+      },
+      "benchmark": {
+        "persistence": {
+          "cov_mse": {
+            "mean": 0.05491243302822113,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.650194525718689,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.39904677867889404,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.050429992377758026,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.5,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.4920158386230469,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.5071674585342407,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.4999995827674866,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.08156287670135498,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 0.26858264207839966,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.015998611226677895,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.6666666666666666,
+            "std": 0.0
+          }
+        },
+        "trend": {
+          "cov_mse": {
+            "mean": 0.12232059985399246,
+            "std": 0.0
+          },
+          "drift_mse": {
+            "mean": 0.01597771979868412,
+            "std": 0.0
+          },
+          "eig_nmse": {
+            "mean": 0.5142939686775208,
+            "std": 0.0
+          },
+          "entropy_mse": {
+            "mean": 0.021560639142990112,
+            "std": 0.0
+          },
+          "event_rate": {
+            "mean": 0.5,
+            "std": 0.0
+          },
+          "gap_rmse": {
+            "mean": 0.37647145986557007,
+            "std": 0.0
+          },
+          "gate_cal": {
+            "mean": 0.5071674585342407,
+            "std": 0.0
+          },
+          "gate_mean": {
+            "mean": 0.4999995827674866,
+            "std": 0.0
+          },
+          "proj_mse": {
+            "mean": 0.0865795910358429,
+            "std": 0.0
+          },
+          "rank_mse": {
+            "mean": 0.10786163806915283,
+            "std": 0.0
+          },
+          "regime_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "regime_bal_acc": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "risk_mse": {
+            "mean": 0.019107680767774582,
+            "std": 0.0
+          },
+          "tail_f1": {
+            "mean": 0.6666666666666666,
+            "std": 0.0
+          }
+        }
+      },
+      "market_style": "rates",
+      "num_seeds": 1,
+      "representative_run": "/mnt/data/eigen_jepa_super_suite/rates/seed_29/full",
+      "seed_list": [
+        29
+      ],
+      "variants": [
+        "full",
+        "no_memory",
+        "no_gate",
+        "no_regime"
+      ]
+    }
+  },
+  "variants": [
+    "full",
+    "no_memory",
+    "no_gate",
+    "no_regime"
+  ]
+}

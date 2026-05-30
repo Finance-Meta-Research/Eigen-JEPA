@@ -1,0 +1,64 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Contributions.}{2}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Covariance structure and random matrix thinking}{2}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Predictive latent representation learning}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Memory and selective recall}{2}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Why spectral targets matter}{3}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Background and Intuition}{3}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Why covariance geometry matters}{3}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}From point prediction to state prediction}{3}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Why a memory path is useful}{3}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Problem Formulation}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Input data}{3}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Spectral target construction}{3}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Learning goal}{4}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Tail-sensitive objective}{4}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Method}{4}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Design principle}{4}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Three-space interpretation}{4}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Temporal spectral encoder}{4}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Latent dynamics model}{5}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Selective memory}{5}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Salience rule}{5}{subsection.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Gating and corrected dynamics}{5}{subsection.5.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}Decoder and rollout}{5}{subsection.5.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Training objective}{6}{subsection.5.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Why this is stronger than a memoryless forecaster}{6}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Experimental Protocol}{6}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Benchmark construction}{6}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Metrics}{6}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Baselines}{7}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Hypotheses}{7}{subsection.7.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}Implementation details}{7}{subsection.7.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Results}{7}{section.8}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Main benchmark table for Eigen-JEPA. The table is generated directly from the evaluation code so that the paper and the code remain coupled.}}{7}{table.caption.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Training loss over epochs for the full Eigen-JEPA model.}}{8}{figure.caption.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Validation traces for the main spectral metrics and tail F1.}}{8}{figure.caption.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces A representative test example showing true and predicted leading eigenvalues and projectors.}}{9}{figure.caption.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Memory-budget sweep for the full model. The tail metric should improve quickly at small budgets and then saturate.}}{9}{figure.caption.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Noise robustness sweep. The model should degrade gradually as input corruption increases rather than collapsing abruptly.}}{10}{figure.caption.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Walk-forward slices over the test set. Early, mid, and late segments should reveal whether spectral prediction degrades under drift.}}{10}{figure.caption.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Interpretation}{10}{subsection.8.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Mechanism-focused ablation table on the representative benchmark run. Each removed component changes a different part of the geometry, which is the point of the design.}}{11}{table.caption.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Diagnostic signatures}{11}{subsection.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Ablations and Mechanism Attribution}{11}{section.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}Discussion}{11}{section.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}What the results really say}{11}{subsection.10.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.2}When Eigen-JEPA should fail}{11}{subsection.10.2}\protected@file@percent }
+\bibcite{assran2023ijepa}{1}
+\bibcite{assran2025vjepa2}{2}
+\bibcite{bouchaud2009rmt}{3}
+\bibcite{pafka2004}{4}
+\bibcite{avellaneda2019}{5}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.3}Relationship to prior methods}{12}{subsection.10.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {11}Reproducibility}{12}{section.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {12}Limitations}{12}{section.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {13}Conclusion}{12}{section.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Future work.}{12}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {14}*}{12}{section.14}\protected@file@percent }
+\gdef \@abspage@last{12}

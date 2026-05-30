@@ -1,0 +1,232 @@
+{
+  "aggregate": {
+    "full": {
+      "drift_mse": {
+        "mean": 0.034384697675704956,
+        "std": 0.0
+      },
+      "eig_nmse": {
+        "mean": 0.9607586860656738,
+        "std": 0.0
+      },
+      "event_rate": {
+        "mean": 0.25,
+        "std": 0.0
+      },
+      "gap_rmse": {
+        "mean": 0.8012308776378632,
+        "std": 0.0
+      },
+      "gate_cal": {
+        "mean": 0.4904255270957947,
+        "std": 0.0
+      },
+      "gate_mean": {
+        "mean": 0.48154518008232117,
+        "std": 0.0
+      },
+      "lat_align": {
+        "mean": 0.008635343983769417,
+        "std": 0.0
+      },
+      "proj_mse": {
+        "mean": 0.10860452055931091,
+        "std": 0.0
+      },
+      "rare_drift_mse": {
+        "mean": 0.056339479982852936,
+        "std": 0.0
+      },
+      "rare_eig_nmse": {
+        "mean": 3.425328940153122,
+        "std": 0.0
+      },
+      "regime_acc": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "regime_bal_acc": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "tail_f1": {
+        "mean": 0.4,
+        "std": 0.0
+      }
+    },
+    "no_gate": {
+      "drift_mse": {
+        "mean": 0.034446895122528076,
+        "std": 0.0
+      },
+      "eig_nmse": {
+        "mean": 0.9598512947559357,
+        "std": 0.0
+      },
+      "event_rate": {
+        "mean": 0.25,
+        "std": 0.0
+      },
+      "gap_rmse": {
+        "mean": 0.8007524311542511,
+        "std": 0.0
+      },
+      "gate_cal": {
+        "mean": 0.7409805059432983,
+        "std": 0.0
+      },
+      "gate_mean": {
+        "mean": 0.9819591045379639,
+        "std": 0.0
+      },
+      "lat_align": {
+        "mean": 0.00936796609312296,
+        "std": 0.0
+      },
+      "proj_mse": {
+        "mean": 0.11118803173303604,
+        "std": 0.0
+      },
+      "rare_drift_mse": {
+        "mean": 0.056443000212311745,
+        "std": 0.0
+      },
+      "rare_eig_nmse": {
+        "mean": 3.427258849143982,
+        "std": 0.0
+      },
+      "regime_acc": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "regime_bal_acc": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "tail_f1": {
+        "mean": 0.4,
+        "std": 0.0
+      }
+    },
+    "no_memory": {
+      "drift_mse": {
+        "mean": 0.034318072721362114,
+        "std": 0.0
+      },
+      "eig_nmse": {
+        "mean": 0.9615238606929779,
+        "std": 0.0
+      },
+      "event_rate": {
+        "mean": 0.25,
+        "std": 0.0
+      },
+      "gap_rmse": {
+        "mean": 0.8016307651996613,
+        "std": 0.0
+      },
+      "gate_cal": {
+        "mean": 0.4958483874797821,
+        "std": 0.0
+      },
+      "gate_mean": {
+        "mean": 0.49165046215057373,
+        "std": 0.0
+      },
+      "lat_align": {
+        "mean": 0.008587167598307133,
+        "std": 0.0
+      },
+      "proj_mse": {
+        "mean": 0.10620072484016418,
+        "std": 0.0
+      },
+      "rare_drift_mse": {
+        "mean": 0.056229112669825554,
+        "std": 0.0
+      },
+      "rare_eig_nmse": {
+        "mean": 3.423225909471512,
+        "std": 0.0
+      },
+      "regime_acc": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "regime_bal_acc": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "tail_f1": {
+        "mean": 0.4,
+        "std": 0.0
+      }
+    },
+    "no_regime": {
+      "drift_mse": {
+        "mean": 0.03438515402376652,
+        "std": 0.0
+      },
+      "eig_nmse": {
+        "mean": 0.9607556462287903,
+        "std": 0.0
+      },
+      "event_rate": {
+        "mean": 0.25,
+        "std": 0.0
+      },
+      "gap_rmse": {
+        "mean": 0.801229864358902,
+        "std": 0.0
+      },
+      "gate_cal": {
+        "mean": 0.4903891235589981,
+        "std": 0.0
+      },
+      "gate_mean": {
+        "mean": 0.48149535059928894,
+        "std": 0.0
+      },
+      "lat_align": {
+        "mean": 0.00863560102880001,
+        "std": 0.0
+      },
+      "proj_mse": {
+        "mean": 0.10860694944858551,
+        "std": 0.0
+      },
+      "rare_drift_mse": {
+        "mean": 0.05634007975459099,
+        "std": 0.0
+      },
+      "rare_eig_nmse": {
+        "mean": 3.4253052473068237,
+        "std": 0.0
+      },
+      "regime_acc": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "regime_bal_acc": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "tail_f1": {
+        "mean": 0.4,
+        "std": 0.0
+      }
+    }
+  },
+  "market_style": "equity",
+  "num_seeds": 1,
+  "representative_run": "/mnt/data/eigen_jepa_final_build/suite_run/equity/seed_7/full",
+  "seed_list": [
+    7
+  ],
+  "variants": [
+    "full",
+    "no_memory",
+    "no_gate",
+    "no_regime"
+  ]
+}

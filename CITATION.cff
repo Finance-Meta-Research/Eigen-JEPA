@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the Eigen-JEPA paper."
+title: "Eigen-JEPA: Spectral Joint-Embedding Predictive Architectures for Financial World Modeling"
+authors:
+  - family-names: Gomez
+    given-names: Ryan
+version: "0.4.1"
+date-released: "2026-05-30"
+license: "CC-BY-4.0"

@@ -1,0 +1,417 @@
+
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{arxivrefined}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{nicefrac}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!55!black,
+  citecolor=blue!55!black,
+  urlcolor=blue!55!black,
+  pdftitle={Eigen-JEPA},
+  pdfauthor={Ryan Gomez}
+}
+
+\title{Eigen-JEPA: Spectral Joint-Embedding Predictive Architectures for Financial World Modeling}
+\author{Ryan Gomez}
+\date{May 2026}
+
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{hypothesis}{Hypothesis}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\diag}{\mathrm{diag}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\proj}{\mathbf{P}}
+\newcommand{\evals}{\boldsymbol{\lambda}}
+\newcommand{\dd}{\mathrm{d}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Eigen-JEPA is a spectral world model for finance that predicts \emph{market geometry} rather than only pointwise returns. The central object is the rolling covariance operator, whose eigenspectrum and principal subspaces encode how risk concentrates, rotates, and reorganizes over time. Instead of asking a model to recover the next noisy observation, we ask it to infer the future geometry of dependence from a masked historical context. That shift is not cosmetic. In real markets, the earliest sign of a regime change is often a change in covariance structure: correlations tighten, factor directions rotate, and dominant modes of variation collapse or separate before the move is obvious in raw returns. The current implementation extends that idea into a reproducible benchmark suite with ablation variants, walk-forward slices, and robustness sweeps under input corruption and memory scaling.
+
+The model follows a predictive latent-learning design with three coupled pieces. A context encoder compresses the observed market window after masking time and feature blocks. A latent predictor advances that compressed state toward the future spectral state. A selective memory archive stores rare but reusable spectral prototypes and reactivates them only when the current latent state approaches a previously seen transition. The memory rule is intentionally conservative: it writes only when a salience score indicates that the current window is structurally exceptional, and it merges nearby engrams instead of duplicating them. This turns the model into a learned atlas over market regimes rather than a generic sequence regressor.
+
+We train and evaluate the system on a chronological regime-switching benchmark spanning equity, crypto, and rates. The benchmark contains calm, rotation, and crisis phases, and it is scored with a tail-aware metric suite: eigenspectrum error, projector error, subspace drift error, eigengap error, gate calibration, regime classification, and tail-event F1. The implementation is fully end to end and reproducible from a single command line entry point. The purpose of the paper is not to claim trading alpha; it is to establish a rigorous, inspectable, geometry-aware baseline for predictive finance modeling.
+\end{abstract}
+
+\keywords{spectral prediction, covariance geometry, regime shifts, latent world models, selective memory}
+
+\section{Introduction}
+Financial markets are often treated as sequences of returns, prices, or volatilities. That perspective is useful, but incomplete. The quantities that matter most in stressed markets are frequently not the next observed values themselves, but the way the market reorganizes its internal geometry. Correlations expand or compress, factor loadings rotate, and dominant directions of risk may shift long before a crisis is visible in the raw series. Put differently, many market events are geometric before they are statistical: the structure changes first, and the prices reveal it later.
+
+Eigen-JEPA is built on that premise. The covariance matrix of a multivariate return window is not merely a summary statistic. It is a time-varying operator that encodes the geometry of dependence. Its eigenvalues describe how variance is distributed across latent directions, while its eigenvectors identify the principal modes along which shocks and capital flows propagate. When the market enters a new regime, that geometry changes. The modeling task is therefore not only to forecast returns, but to predict how the market's spectral state evolves.
+
+This paper proposes a predictive framework for that purpose. We adapt the joint-embedding predictive learning paradigm to finance by replacing raw reconstruction targets with spectral targets derived from rolling covariance matrices. The model receives masked context windows and is trained to infer the future eigenspectrum, principal subspace, eigengaps, and subspace-drift statistics. The target is not a point in observation space but a structured latent object. This shift makes the model more aligned with regime transition structure and less exposed to the noise that dominates one-step return prediction.
+
+The paper emphasizes three ideas. First, spectral geometry is the right state variable when correlation structure is the object of interest. Second, a selective memory mechanism is useful when rare spectral configurations recur and should not be rediscovered from scratch. Third, a good implementation should be reproducible and mechanically transparent, not just conceptually appealing. The code therefore includes deterministic seeding, a fixed benchmark generator, explicit loss decomposition, memory-budget sweeps, and diagnostics that separate bulk fit from tail fit.
+
+\paragraph{Contributions.}
+\begin{itemize}[leftmargin=*]
+\item We formulate financial forecasting as spectral prediction on a moving covariance manifold.
+\item We implement an end-to-end Eigen-JEPA system with masked temporal encoding, spectral heads, and selective memory.
+\item We define a tail-aware benchmark with regime shifts, crisis windows, multiple market styles, and walk-forward slices.
+\item We provide ablations, memory-budget sweeps, robustness sweeps, deterministic training/evaluation scripts, and paper-generation code.
+\item We develop a theory section that makes the geometry, boundedness, and failure modes explicit.
+\end{itemize}
+
+\section{Related Work}
+Eigen-JEPA sits at the intersection of spectral finance, predictive representation learning, and memory-augmented sequence modeling. The core scientific ingredients are not new individually. What is unusual is how they are coupled around a spectral prediction objective.
+
+\subsection{Covariance structure and random matrix thinking}
+Covariance matrices have long played a central role in quantitative finance. They compress cross-sectional dependence into a single operator and expose factor structure, concentration, and instability. Random matrix theory has also been used to distinguish signal from estimation noise in finite samples. Those lines of work motivate the basic idea that covariance geometry is meaningful in its own right, not just as a preprocessing step for risk models. Eigen-JEPA takes that geometry as the prediction target.
+
+\subsection{Predictive latent representation learning}
+Predictive representation learning has shown that useful structure can be learned without reconstructing raw observations. JEPA-style objectives replace pixel- or token-level reconstruction with latent alignment between context and target. That framing is especially appealing in finance, where raw observations are noisy and where the relevant information may live in a lower-dimensional structural state rather than in exact value prediction. Eigen-JEPA follows that principle but moves the target from generic latent semantics to spectral market geometry.
+
+\subsection{Memory and selective recall}
+Memory-augmented models separate computation from storage and let the network retrieve relevant fragments when the current state resembles something seen before. The important design choice is not whether memory exists, but what it stores and when it is used. Eigen-JEPA uses a sparse archive of spectral engrams. The archive is not a logbook of the past; it is a curated set of rare geometric prototypes. That is a much tighter match to regime forecasting than a general-purpose cache.
+
+\subsection{Why spectral targets matter}
+A model that predicts returns directly can be accurate in a mean-squared sense while still missing the geometry of a regime shift. A model that predicts spectral state instead can be wrong about individual returns but still capture the latent organization of risk. That is the central modeling trade-off in this paper. We are not replacing return forecasting in general. We are isolating a different object of interest: the future geometry of the market.
+
+\section{Background and Intuition}
+\subsection{Why covariance geometry matters}
+Let $r_t \in \R^N$ denote an $N$-asset return vector at time $t$. Over a rolling window of length $W$, the covariance operator
+\begin{equation}
+\Sigma_t = \frac{1}{W-1}\sum_{i=t-W+1}^{t}(r_i-\bar r_t)(r_i-\bar r_t)^\top
+\end{equation}
+encodes the market state as a second-order object. Its eigenvalues measure variance concentration, and its eigenvectors span the dominant directions of co-movement. In calm regimes, the leading subspace drifts slowly. In stressed regimes, the same subspace may rotate, fragment, or collapse. These changes are often more stable than any single return path, which makes them a natural prediction target.
+
+\subsection{From point prediction to state prediction}
+The target in Eigen-JEPA is not the next return but the future spectral state. This changes the learning problem from pointwise regression to latent state forecasting. The model is asked whether the market is becoming more concentrated, more diffuse, more rotated, or less identifiable. That target is lower variance than raw return prediction and more aligned with regime structure.
+
+\subsection{Why a memory path is useful}
+A memoryless predictor must fit all regimes with one global map. That is acceptable when the market is smooth and essentially unimodal in latent space. It breaks down when the same coarse state can lead to different futures depending on whether a rare transition is forming. A selective memory archive gives the model local correction charts for those exceptional regions. The memory is not there to memorize everything. It is there to prevent the model from forgetting the few states that reorganize the future.
+
+\section{Problem Formulation}
+\subsection{Input data}
+At each time step we assume access to a multivariate feature vector
+\begin{equation}
+x_t = [r_t, v_t, \sigma_t, s_t, \ldots] \in \R^d,
+\end{equation}
+where $r_t$ denotes returns, $v_t$ denotes volume or turnover features, $\sigma_t$ denotes realized or implied volatility measures, and $s_t$ denotes auxiliary stress indicators such as spreads, breadth, realized correlations, or macro signals. The model ingests a partially observed context window
+\begin{equation}
+X_{t-\kappa:t} = (x_{t-\kappa}, \ldots, x_t)
+\end{equation}
+with random masking across timesteps, features, or feature blocks.
+
+\subsection{Spectral target construction}
+Given a future window $X_{t+1:t+H}$, we compute a target covariance matrix $\Sigma_{t+1:t+H}$ and its eigendecomposition
+\begin{equation}
+\Sigma_{t+1:t+H} = U_{t+1:t+H}\Lambda_{t+1:t+H}U_{t+1:t+H}^\top.
+\end{equation}
+From this we extract a spectral target tuple
+\begin{equation}
+y_t = \big(\lambda_t^{(1:k)}, P_t^{(k)}, g_t^{(1:k-1)}, \rho_t\big),
+\end{equation}
+where $\lambda_t^{(1:k)}$ are the leading eigenvalues, $P_t^{(k)} = U_t^{(k)}U_t^{(k)\top}$ is the dominant subspace projector, $g_t^{(j)} = \lambda_t^{(j)} - \lambda_t^{(j+1)}$ are eigengaps, and $\rho_t$ is a drift statistic describing the movement between current and future principal subspaces.
+
+\begin{definition}[Spectral target]
+Given a masked context window and a future horizon, the spectral target is the tuple
+\[
+y_t = \big(\lambda_t^{(1:k)}, P_t^{(k)}, g_t^{(1:k-1)}, \rho_t\big).
+\]
+\end{definition}
+
+\begin{definition}[Tail event]
+A future window is tail-bearing if it contains a crisis fraction above a threshold, a large subspace drift, or unusually low spectral entropy.
+\end{definition}
+
+\subsection{Learning goal}
+The model learns a predictor $f_\theta$ such that a masked historical context is mapped to a latent code and then to the future spectral state:
+\begin{equation}
+\hat y_t = f_\theta\!\left(\mathrm{Enc}_\phi(M \odot X_{t-\kappa:t})\right).
+\end{equation}
+The context encoder is masked across time and feature blocks to avoid shortcut learning. The target encoder is used only during training to align the latent representations.
+
+\subsection{Tail-sensitive objective}
+Not all future windows matter equally. A calm regime window and a crisis window can have the same horizon length but very different scientific importance. To make that asymmetry explicit, we define a salience score $s_t$ and a tail indicator $\tau_t = \mathbf{1}[s_t \ge \tau]$. The learning objective therefore includes a weighted tail term so that rare spectral states are not washed out by the abundance of ordinary windows.
+
+\section{Method}
+\subsection{Design principle}
+Eigen-JEPA is built around one structural idea: the market should not be compressed into a single smooth latent map if its meaningful behavior lives in rare regime changes. The architecture therefore separates the forecasting problem into three coupled roles.
+\begin{enumerate}[leftmargin=*]
+\item The encoder preserves context geometry after masking.
+\item The latent predictor advances the state along the dominant flow.
+\item The memory system stores rare but reusable spectral prototypes.
+\end{enumerate}
+The modules are coupled through salience, gating, and retrieval. The backbone handles the ordinary dynamics, and memory contributes a bounded correction only when the state enters a previously seen rare region.
+
+\subsection{Three-space interpretation}
+A useful way to understand the model is as an interaction between three spaces: the observation space $X$, the latent space $Z$, and the memory space $M$. The encoder maps $X \to Z$, the memory archive provides a sparse set of event anchors in $M$, and the gate mediates whether a latent state should be corrected by a memory retrieval. The model is therefore not just a predictor. It is a learned atlas over market geometry.
+
+\subsection{Temporal spectral encoder}
+The encoder maps a masked input window into a latent vector using a temporal stem, positional parameters, and a small convolutional backbone with attention pooling. The purpose of the encoder is not to memorize the context verbatim, but to preserve the cues that identify regime changes after compression. In finance, those cues are multiscale: abrupt spikes, local volatility shifts, cross-sectional dispersion, and low-rank factor rotations.
+
+Let the masked input be $M \odot X_{t-\kappa:t}$. The encoder computes
+\[
+z_t = \mathrm{Enc}_\phi(M \odot X_{t-\kappa:t}),
+\]
+where the temporal branch preserves local variation and the pooling branch extracts a compact state vector. Masking is used to force the model to infer structure from incomplete context rather than memorize the entire window.
+
+\subsection{Latent dynamics model}
+The predictor advances the latent state under the regular flow of the market:
+\begin{equation}
+\bar z_{t+1} = P_\phi(z_t, r_t, u_t).
+\end{equation}
+We use a residual parameterization
+\begin{equation}
+\bar z_{t+1} = z_t + \Delta_\phi(z_t, r_t, u_t),
+\end{equation}
+because it is easier to stabilize and easier to correct. If the backbone is unstable, memory cannot rescue the rollout. The latent predictor should therefore be smooth, controlled, and easy to interpret.
+
+\subsection{Selective memory}
+The memory bank stores sparse engrams
+\[
+M_t = \{m_i\}_{i=1}^{N_t}, \qquad m_i = (k_i, v_i, a_i, \tau_i, c_i),
+\]
+with key, value, salience, time, and optional context metadata. The key is used for retrieval, the value is used for correction, and the salience score decides whether the item is worth keeping.
+
+Retrieval is content addressed. Given a query $q_t = W_q z_t$, the model computes a soft top-$K$ interpolation over the nearest engrams:
+\begin{equation}
+r_t = \sum_{i\in \mathcal{N}_K(q_t)} \pi_i v_i, \qquad
+\pi_i = \frac{\exp(\langle q_t,k_i\rangle / \tau_r)}{\sum_{j\in \mathcal{N}_K(q_t)} \exp(\langle q_t,k_j\rangle / \tau_r)}.
+\end{equation}
+This is not a raw lookup. It is a bounded local correction in latent space.
+
+\subsection{Salience rule}
+The salience score is a composite quantity that mixes surprise, novelty, drift, crisis intensity, and geometry change. In the implementation we write
+\begin{equation}
+s_t = \alpha_d \tilde\rho_t + \alpha_e (1 - \tilde H_t) + \alpha_c \eta_t + \alpha_v \nu_t,
+\end{equation}
+where $\tilde\rho_t$ is normalized drift, $\tilde H_t$ is normalized spectral entropy, $\eta_t$ is crisis fraction, and $\nu_t$ is a normalized volatility ratio. The resulting score is then thresholded by a training-set quantile to define the rare-event set. This makes the tail definition stable, split-aware, and reproducible.
+
+\subsection{Gating and corrected dynamics}
+The gate decides how much memory should influence the next latent state:
+\begin{equation}
+g_t = \sigma(W_g[z_t;r_t;u_t]).
+\end{equation}
+The corrected latent state is then
+\begin{equation}
+\tilde z_{t+1} = \bar z_{t+1} + g_t \odot W_r r_t.
+\end{equation}
+On normal trajectories, the correction is small. Near a rare regime, the gate opens and the memory path becomes active.
+
+\subsection{Decoder and rollout}
+The decoder maps the corrected latent vector back into spectral predictions and auxiliary regime logits. For multi-step prediction, the model rolls forward recursively, with memory writes and retrievals running alongside the forward pass. This makes the inference loop a coupled hybrid system rather than a static feedforward map.
+
+\subsection{Training objective}
+The full objective combines spectral accuracy, latent alignment, memory selectivity, and gate calibration:
+\begin{equation}
+\mathcal{L} = \lambda_{\text{align}}\mathcal{L}_{\text{align}} + \lambda_{\text{eig}}\mathcal{L}_{\text{eig}} + \lambda_{\text{sub}}\mathcal{L}_{\text{sub}} + \lambda_{\text{drift}}\mathcal{L}_{\text{drift}} + \lambda_{\text{regime}}\mathcal{L}_{\text{regime}} + \lambda_{\text{gate}}\mathcal{L}_{\text{gate}} + \lambda_{\text{reg}}\mathcal{L}_{\text{reg}}.
+\end{equation}
+The tail term is weighted so that windows with high salience count more than routine windows. That is the finance analogue of tail-aware scientific prediction: the rare structure is not an afterthought, it is part of the objective.
+
+\begin{proposition}[Projector loss is sign invariant]
+If $U$ and $-U$ are two orthonormal bases for the same subspace, then $UU^\top = (-U)(-U)^\top$. Therefore a projector loss depends on the subspace and not on the arbitrary sign of basis vectors.
+\end{proposition}
+
+\begin{theorem}[Bounded memory correction]
+Assume the retrieved memory values satisfy $\norm{v_i}_2 \le V_{\max}$ and the gate lies in $[0,1]$. Then the memory correction term is uniformly bounded by a constant proportional to $V_{\max}$ and the output projection norm. In particular, the retrieval path cannot explode unless the stored values themselves do.
+\end{theorem}
+
+\begin{proof}
+Because the retrieval weights are a softmax over the selected engrams, the retrieved vector is a convex combination of stored values. Hence $\norm{r_t}_2 \le V_{\max}$. Since $g_t$ is componentwise bounded by one, the corrected term obeys
+\[
+\norm{g_t \odot W_r r_t}_2 \le \norm{W_r}_2\norm{r_t}_2 \le \norm{W_r}_2 V_{\max}.
+\]
+\end{proof}
+
+\begin{proposition}[Subspace drift is gap sensitive]
+When the eigengap between the $k$-th and $(k+1)$-st eigenvalues is large, small covariance perturbations induce controlled subspace movement. In particular, Davis-Kahan type bounds imply that the principal subspace is stable when the spectral gap dominates the perturbation norm.
+\end{proposition}
+
+\begin{proposition}[Gate calibration is a selective trust mechanism]
+If the gate learns to open primarily on high-salience windows, then the memory path can improve rare-event recovery without fully overriding the backbone. In this case the gate implements a learned confidence boundary in latent space rather than a binary memory switch.
+\end{proposition}
+
+\section{Why this is stronger than a memoryless forecaster}
+A memoryless predictor approximates one global map $z_{t+1}=P_\phi(z_t)$. That is fine when the dynamics are smooth and unimodal in latent space. It is not enough when the same coarse state can lead to different futures depending on whether a regime shift is building. Eigen-JEPA expands the representational class from one global map to a family of local corrections indexed by memory:
+\begin{equation}
+z_{t+1} = P_\phi(z_t) + \Gamma_\theta(z_t,M_t).
+\end{equation}
+This matters because the effective Jacobian changes near rare states. The model can remain contractive on the background while selectively becoming expressive near the tail. That is the same basic logic that makes selective memory useful in intermittent scientific systems: the model behaves like a standard predictor on ordinary trajectories and like a corrective atlas near exceptional ones.
+
+\section{Experimental Protocol}
+\subsection{Benchmark construction}
+The repository includes three synthetic market styles: equity, crypto, and rates. Each style changes factor volatility, idiosyncratic noise, and crisis intensity. Every style follows the same regime logic: calm, rotation, and crisis. All splits are chronological to prevent leakage, and the salience threshold is fitted on the training windows only.
+
+\subsection{Metrics}
+We report:
+\begin{itemize}[leftmargin=*]
+\item \textbf{Eig NMSE}: normalized error on the leading eigenvalues.
+\item \textbf{Proj MSE}: error on the dominant subspace projector.
+\item \textbf{Cov MSE}: low-rank covariance reconstruction error.
+\item \textbf{Drift MSE}: error on the principal-angle drift statistic.
+\item \textbf{Gap RMSE}: error on eigengap forecasts.
+\item \textbf{Risk MSE}: error on an equal-weight portfolio risk proxy.
+\item \textbf{Entropy MSE}: error on spectral entropy.
+\item \textbf{Rank MSE}: error on effective spectral rank.
+\item \textbf{Gate Cal}: mean absolute calibration error for the gate.
+\item \textbf{Tail F1}: F1 score for tail-event detection.
+\item \textbf{Regime Acc}: classification accuracy of the regime head.
+\item \textbf{Regime Bal Acc}: balanced accuracy over the three regime classes.
+\end{itemize}
+
+\subsection{Baselines}
+The baseline set has two layers. The first is a persistence-style spectral forecast computed from the context window. The second is a trend baseline that extrapolates the change between the first and second halves of the context window. We also evaluate ablations of Eigen-JEPA with memory removed, gate disabled, regime supervision removed, and spectral losses removed. These ablations are mechanistic: each one removes one explicit pressure from the model.
+
+\subsection{Hypotheses}
+\begin{hypothesis}
+Removing memory should increase tail error and weaken drift prediction more than it hurts bulk eigenvalue error.
+\end{hypothesis}
+\begin{hypothesis}
+Removing the gate should make retrieval less selective and worsen calibration.
+\end{hypothesis}
+\begin{hypothesis}
+Removing the spectral branch should hurt covariance fidelity and walk-forward stability.
+\end{hypothesis}
+\begin{hypothesis}
+The full model should provide the best trade-off between spectral fidelity, calibration, and tail recovery.
+\end{hypothesis}
+\begin{hypothesis}
+A stable salience threshold and selective memory budget should produce saturation rather than unbounded dependence on archive size.
+\end{hypothesis}
+
+\subsection{Implementation details}
+The implementation uses deterministic seeds, single-thread execution for reproducibility in this environment, a lightweight convolutional temporal encoder, a residual latent predictor, a sparse content-addressed memory, and a masked training protocol. The benchmark writes its metrics, plots, and LaTeX tables from the same run to ensure that the paper and the code stay synchronized. The repository also supports CSV market ingestion through a simple column-mapped interface, which keeps the synthetic benchmark and real-data experiments on the same code path.
+
+\section{Results}
+\begin{table}[H]
+\centering
+\input{results_table.tex}
+\caption{Main benchmark table for Eigen-JEPA. The table is generated directly from the evaluation code so that the paper and the code remain coupled.}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\linewidth]{figures/training_curve.png}
+\caption{Training loss over epochs for the full Eigen-JEPA model.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\linewidth]{figures/validation_curve.png}
+\caption{Validation traces for the main spectral metrics and tail F1.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\linewidth]{figures/spectral_example.png}
+\caption{A representative test example showing true and predicted leading eigenvalues and projectors.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/memory_sweep.png}
+\caption{Memory-budget sweep for the full model. The tail metric should improve quickly at small budgets and then saturate.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/robustness_noise.png}
+\caption{Noise robustness sweep. The model should degrade gradually as input corruption increases rather than collapsing abruptly.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/walkforward.png}
+\caption{Walk-forward slices over the test set. Early, mid, and late segments should reveal whether spectral prediction degrades under drift.}
+\end{figure}
+
+\subsection{Interpretation}
+The important point is not just whether the scalar errors are lower. It is whether the model changes the shape of the forecast error. A good result is one where the memory path opens only on salient windows, the gate remains calibrated, the residual stays localized, and performance saturates with memory budget rather than depending on unbounded storage. The walk-forward slices test whether that behavior survives temporal drift, while the noise sweep tests whether the model is brittle under small perturbations. That is the signature of selective recall instead of brute-force memorization.
+
+\begin{table}[H]
+\centering
+\input{benchmark_ablation.tex}
+\caption{Mechanism-focused ablation table on the representative benchmark run. Each removed component changes a different part of the geometry, which is the point of the design.}
+\end{table}
+
+\subsection{Diagnostic signatures}
+The rendered diagnostics should all tell the same story. The training curve should show stable optimization rather than oscillation. The validation traces should indicate that the model does not trade tail performance for instability. The spectral example should preserve the ordering and scale of the leading eigenvalues. The memory sweep should saturate rather than diverge. Agreement across these views is stronger evidence than any single scalar metric.
+
+\section{Ablations and Mechanism Attribution}
+A good scientific architecture should fail in interpretable ways. That is why the ablations in Eigen-JEPA are mechanistic rather than decorative. Memory removal should erode tail recovery. Gate removal should increase over-retrieval and reduce calibration. Regime supervision removal should make the classifier less meaningful and weaken the link between spectral shape and market phase. In each case the expected failure mode corresponds to a specific part of the architecture.
+
+A second mechanism check is budget sensitivity. If a model keeps improving forever as the memory archive grows, it is probably memorizing noise. If it saturates after a modest number of prototypes, then the archive is storing reusable structure. The memory sweep is therefore not just an efficiency experiment. It is a structural test of whether the rare-state archive is learning a compact atlas or a bloated logbook.
+
+\section{Discussion}
+Eigen-JEPA is most useful when second-order geometry is the right state variable. It is less useful when the relevant dependence is strongly nonlinear and not well captured by covariance alone. Covariance estimates are also noisy in short windows, and eigenvectors become unstable when eigengaps are small. These are standard limitations, not failures of the overall architecture. The CSV ingestion path makes it straightforward to replace the synthetic generator with actual market data, but the quality of the conclusions then depends on the quality of the external dataset and the realism of the evaluation protocol.
+
+\subsection{What the results really say}
+The results should be read as a mechanism test. If the full model beats the ablations on tail metrics while remaining stable on bulk metrics, then the memory and gate are doing their intended work. If not, then the architecture needs to be revised. That is the correct scientific interpretation of a selective-memory predictive model.
+
+\subsection{When Eigen-JEPA should fail}
+The method is strongest when rare regimes recur in a way that is visible from the available observations. If the tail is fully novel, memory has little to reuse. If the observations hide the relevant cues, salience becomes hard to estimate. If the regime is too noisy to separate from background variation, the memory bank can become diffuse. These failure modes are important because they delimit the domain where the method is meaningful.
+
+\subsection{Relationship to prior methods}
+Compared with direct return forecasting, Eigen-JEPA pushes the target one level up in abstraction. Compared with a plain spectral forecaster, it adds masked predictive learning and selective memory. Compared with generic sequence models, it makes the geometry itself the object of learning. That is why the framework is more interpretable than a raw predictor and more structured than a plain PCA pipeline.
+
+\section{Reproducibility}
+The repository is designed to be deterministic and inspectable. Fixed seeds are propagated through Python, NumPy, and PyTorch; data-loader workers are seeded explicitly; and the benchmark writes a results file, figures, checkpoints, and a LaTeX table from the same run. The code supports repeated runs, ablations, and memory-budget sweeps from one command line interface. The paper is built from those outputs rather than from hand-edited numbers.
+
+\section{Limitations}
+This work is a controlled benchmark study, not a claim of real-world trading alpha. The data are synthetic, the regime generator is stylized, and covariance geometry is only one part of market dynamics. A strong follow-up would need real market data, transaction-cost-aware evaluation, larger baselines, and longer-horizon cross-asset experiments. The current project should therefore be read as a reproducible research platform and a rigorous prototype, not as a deployable trading system.
+
+\section{Conclusion}
+Eigen-JEPA reframes market forecasting as spectral prediction. Instead of asking a model to forecast the next return directly, we ask it to infer the future geometry of the market. The result is a predictive system that is structurally interpretable, mechanistically bounded, and reproducible end to end. The central claim is not that spectral prediction replaces all forecasting, but that it captures a class of market dynamics that raw pointwise models often miss.
+
+\paragraph{Future work.}
+The natural next steps are real-market validation, stronger covariance estimators, longer-horizon rollouts, a larger set of baselines from modern time-series forecasting, and deeper spectral stability theory.
+
+\begin{thebibliography}{9}
+\bibitem{assran2023ijepa}
+M. Assran et al.
+\newblock Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture.
+\newblock 2023.
+
+\bibitem{assran2025vjepa2}
+M. Assran et al.
+\newblock V-JEPA 2: Predictive Learning for Video World Models.
+\newblock 2025.
+
+\bibitem{bouchaud2009rmt}
+J.-P. Bouchaud and M. Potters.
+\newblock Financial Applications of Random Matrix Theory.
+\newblock 2009.
+
+\bibitem{pafka2004}
+S. Pafka and I. Kondor.
+\newblock Estimated Correlation Matrices and Financial Markets.
+\newblock 2004.
+
+\bibitem{avellaneda2019}
+M. Avellaneda and J.-H. Lee.
+\newblock Hierarchical Principal Component Analysis and Financial Covariance Structure.
+\newblock 2019.
+\end{thebibliography}
+
+\end{document}
