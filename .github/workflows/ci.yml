@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install package and test dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -e '.[dev]'
+      - name: Run tests
+        run: python -m pytest -q
+      - name: Verify rigor gate fails closed on current under-seeded evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          log="$(mktemp)"
+          if python scripts/check_rigor_gate.py >"$log" 2>&1; then
+            echo "Rigor gate unexpectedly passed before the frozen multi-seed evidence is complete."
+            cat "$log"
+            exit 1
+          fi
+          cat "$log"
+          grep -Fq 'RIGOR_GATE_FAIL:' "$log"
+          grep -Fq 'only 1 seed(s) present; at least 3 are required' "$log"

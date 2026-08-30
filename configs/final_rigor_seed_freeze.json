@@ -1,0 +1,17 @@
+{
+  "protocol": "eigen-jepa-final-rigor-multiseed-v1",
+  "status": "FROZEN_NOT_EXECUTED",
+  "frozen_on": "2026-08-30",
+  "seed_list": [7, 19, 31, 43, 59],
+  "num_seeds": 5,
+  "selection_rule": "Retain the existing paper-facing seed 7 and add four precommitted distinct prime seeds before any new multi-seed outcome access.",
+  "execution_scope": "Run the full model and every paper-facing ablation/control under identical data splits, budgets, and evaluation code for every frozen seed.",
+  "integrity_rules": [
+    "Preserve failed and adverse seeds.",
+    "Do not substitute, add, or remove seeds after outcome access.",
+    "Do not lower the rigor gate minimum seed requirement.",
+    "Regenerate results/final_rigor/metrics.json only from the complete frozen seed set.",
+    "Do not claim robustness or submission readiness unless scripts/check_rigor_gate.py returns RIGOR_GATE_PASS on the complete aggregate."
+  ],
+  "result_claim": "NO_NEW_RESULT_CLAIMED"
+}
