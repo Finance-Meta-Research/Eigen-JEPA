@@ -51,13 +51,26 @@ def _aggregate_nested(items: List[Dict[str, dict]]) -> Dict[str, dict]:
     return out
 
 
+def _resolve_seed_list(args: argparse.Namespace) -> List[int]:
+    explicit = getattr(args, 'seeds', None)
+    if explicit:
+        seed_list = [int(seed) for seed in explicit]
+        if len(seed_list) != len(set(seed_list)):
+            raise ValueError('explicit seed list must contain unique seeds')
+        return seed_list
+    return [args.seed + i * args.seed_stride for i in range(args.num_seeds)]
+
+
 def run(args, variants: Sequence[str] | None = None) -> Dict[str, object]:
-    set_seed(args.seed)
+    seed_list = _resolve_seed_list(args)
+    if not seed_list:
+        raise ValueError('at least one seed is required')
+
+    set_seed(seed_list[0])
     torch.device(args.device)
 
     out_dir = ensure_dir(args.out_dir)
     variants = list(variants) if variants is not None else ['full', 'no_memory', 'no_gate', 'no_regime', 'no_spectral', 'no_subspace', 'no_mask']
-    seed_list = [args.seed + i * args.seed_stride for i in range(args.num_seeds)]
 
     all_runs: Dict[str, List[Dict[str, float]]] = {v: [] for v in variants}
     all_bench: Dict[str, List[Dict[str, float]]] = {}
@@ -87,7 +100,7 @@ def run(args, variants: Sequence[str] | None = None) -> Dict[str, object]:
 
     summary = {
         'market_style': args.market_style,
-        'num_seeds': args.num_seeds,
+        'num_seeds': len(seed_list),
         'seed_list': seed_list,
         'variants': variants,
         'aggregate': aggregated,
@@ -118,6 +131,13 @@ def main():
     p.add_argument('--seed', type=int, default=7)
     p.add_argument('--num_seeds', type=int, default=1)
     p.add_argument('--seed_stride', type=int, default=11)
+    p.add_argument(
+        '--seeds',
+        type=int,
+        nargs='+',
+        default=None,
+        help='explicit seed list; when provided, overrides --seed/--num_seeds/--seed_stride',
+    )
     p.add_argument('--deterministic', action='store_true')
     p.add_argument('--num_assets', type=int, default=12)
     p.add_argument('--total_steps', type=int, default=240)
