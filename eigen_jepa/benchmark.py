@@ -14,6 +14,9 @@ from .plots import make_figures, write_results_table
 from .utils import set_seed, ensure_dir
 
 
+DEFAULT_VARIANTS = ['full', 'no_memory', 'no_gate', 'no_regime', 'no_spectral', 'no_subspace', 'no_mask']
+
+
 def _build_args(base: argparse.Namespace, variant: str, seed: int, out_dir: Path, market_style: str):
     args = deepcopy(base)
     args.variant = variant
@@ -70,7 +73,7 @@ def run(args, variants: Sequence[str] | None = None) -> Dict[str, object]:
     torch.device(args.device)
 
     out_dir = ensure_dir(args.out_dir)
-    variants = list(variants) if variants is not None else ['full', 'no_memory', 'no_gate', 'no_regime', 'no_spectral', 'no_subspace', 'no_mask']
+    variants = list(variants) if variants is not None else list(DEFAULT_VARIANTS)
 
     all_runs: Dict[str, List[Dict[str, float]]] = {v: [] for v in variants}
     all_bench: Dict[str, List[Dict[str, float]]] = {}
@@ -138,6 +141,14 @@ def main():
         default=None,
         help='explicit seed list; when provided, overrides --seed/--num_seeds/--seed_stride',
     )
+    p.add_argument(
+        '--variants',
+        type=str,
+        nargs='+',
+        choices=DEFAULT_VARIANTS,
+        default=None,
+        help='explicit model/control variants; when omitted, runs the historical full benchmark set',
+    )
     p.add_argument('--deterministic', action='store_true')
     p.add_argument('--num_assets', type=int, default=12)
     p.add_argument('--total_steps', type=int, default=240)
@@ -180,7 +191,7 @@ def main():
     p.add_argument('--entropy_weight', type=float, default=0.15)
     p.add_argument('--rank_weight', type=float, default=0.15)
     args = p.parse_args()
-    summary = run(args)
+    summary = run(args, variants=args.variants)
     print(json.dumps(summary, indent=2, sort_keys=True))
 
 
