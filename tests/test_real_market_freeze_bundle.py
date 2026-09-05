@@ -33,11 +33,13 @@ def _fixture(tmp_path: Path):
     verifier = b"verifier-v1\n"
     prepare = b"prepare-v1\n"
     folds_impl = b"folds-v1\n"
+    lock_bytes = b"numpy==2.0.0\n"
     _write(repo / "scripts/run_real_market_confirmation.py", runner)
     _write(repo / "scripts/analyze_real_market_confirmation.py", analysis)
     _write(repo / "scripts/verify_real_market_confirmation_result.py", verifier)
     _write(repo / "scripts/prepare_real_market_input.py", prepare)
     _write(repo / "eigen_jepa/real_market_folds.py", folds_impl)
+    lock_path = _write(repo / "requirements/real_market_confirmation_v1.txt", lock_bytes)
 
     protocol = {
         "schema_version": 1,
@@ -46,6 +48,12 @@ def _fixture(tmp_path: Path):
         "asset_universe": {"symbols_exact": list(EXPECTED_ASSETS)},
         "candidate_date_span": {"start": "2010-01-04", "end": "2025-12-31"},
         "data_freeze_requirements": {"execution_authorized": False},
+        "source_freeze_requirements": {
+            "dependency_lock_path": "requirements/real_market_confirmation_v1.txt",
+            "dependency_lock_sha256": _sha(lock_bytes),
+            "dependency_lock_status": "FROZEN_PRE_OUTCOME",
+            "source_commit": None,
+        },
         "evaluation_design": {
             "folds": [{"id": "F1"}, {"id": "F2"}, {"id": "F3"}],
             "fold_runner": {
@@ -103,7 +111,6 @@ def _fixture(tmp_path: Path):
     }
     plan_path = repo / "fold_plan.json"
     plan_path.write_text(json.dumps(plan), encoding="utf-8")
-    lock_path = _write(repo / "requirements.lock", b"numpy==2.0.0\n")
     return {
         "repo": repo,
         "protocol": protocol,
@@ -138,9 +145,7 @@ def test_valid_bundle_is_review_only_and_binds_all_material_inputs(tmp_path):
     assert request["execution_authorized"] is False
     assert request["independent_review_required"]["approved"] is False
     assert request["data_freeze"]["raw_to_normalized_lineage_verified"] is True
-    assert request["data_freeze"]["normalized_return_csv"]["sha256"] == hashlib.sha256(
-        fx["csv_path"].read_bytes()
-    ).hexdigest()
+    assert request["source_freeze"]["dependency_lock"]["protocol_bound"] is True
     assert request["source_freeze"]["source_commit"] == "1" * 40
     assert request["source_freeze"]["implementation_files"][
         "scripts/run_real_market_confirmation.py"
@@ -199,6 +204,30 @@ def test_rejects_fold_plan_built_from_different_protocol_or_with_nested_outcome_
         _build(fx)
 
 
+def test_rejects_dependency_lock_path_or_byte_drift(tmp_path):
+    fx = _fixture(tmp_path)
+    wrong_path = fx["repo"] / "requirements" / "other.txt"
+    wrong_path.write_bytes(fx["lock_path"].read_bytes())
+    with pytest.raises(FreezeBundleError, match="dependency lock path drift"):
+        build_review_request(
+            protocol_path=fx["protocol_path"],
+            raw_source_path=fx["raw_path"],
+            normalized_csv_path=fx["csv_path"],
+            input_receipt_path=fx["receipt_path"],
+            fold_plan_path=fx["plan_path"],
+            dependency_lock_path=wrong_path,
+            source_commit="1" * 40,
+            provider_identity="provider-a",
+            provider_snapshot_or_retrieval_id="snapshot-20260906",
+            repo_root=fx["repo"],
+        )
+
+    fx = _fixture(tmp_path / "bytes")
+    fx["lock_path"].write_text("numpy==9.9.9\n", encoding="utf-8")
+    with pytest.raises(FreezeBundleError, match="do not match the prospectively frozen"):
+        _build(fx)
+
+
 def test_rejects_frozen_implementation_byte_drift(tmp_path):
     fx = _fixture(tmp_path)
     (fx["repo"] / "scripts/analyze_real_market_confirmation.py").write_text(
@@ -233,7 +262,7 @@ def test_review_request_is_non_overwriting_retained_evidence(tmp_path):
         write_json_once(path, {"status": "y"})
 
 
-def test_current_repository_candidate_still_matches_its_frozen_execution_tools():
+def test_current_repository_candidate_still_matches_frozen_tools_and_lock():
     protocol_path = Path("protocols/real_market_confirmation_v1_candidate_20260906.json")
     protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
     validate_candidate_protocol(protocol)
@@ -241,3 +270,7 @@ def test_current_repository_candidate_still_matches_its_frozen_execution_tools()
     assert bindings["scripts/run_real_market_confirmation.py"]["protocol_bound"] is True
     assert bindings["scripts/analyze_real_market_confirmation.py"]["protocol_bound"] is True
     assert bindings["scripts/verify_real_market_confirmation_result.py"]["protocol_bound"] is True
+    lock = Path(protocol["source_freeze_requirements"]["dependency_lock_path"])
+    assert hashlib.sha256(lock.read_bytes()).hexdigest() == protocol["source_freeze_requirements"][
+        "dependency_lock_sha256"
+    ]
