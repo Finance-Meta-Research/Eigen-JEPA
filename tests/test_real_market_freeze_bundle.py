@@ -10,6 +10,8 @@ from scripts.build_real_market_freeze_bundle import (
     EXPECTED_STATUS,
     FreezeBundleError,
     build_review_request,
+    validate_candidate_protocol,
+    verify_implementation_bindings,
     write_json_once,
 )
 
@@ -207,3 +209,13 @@ def test_review_request_is_non_overwriting_retained_evidence(tmp_path):
     assert digest == hashlib.sha256(path.read_bytes()).hexdigest()
     with pytest.raises(FileExistsError, match="refusing to overwrite"):
         write_json_once(path, {"status": "y"})
+
+
+def test_current_repository_candidate_still_matches_its_frozen_execution_tools():
+    protocol_path = Path("protocols/real_market_confirmation_v1_candidate_20260906.json")
+    protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
+    validate_candidate_protocol(protocol)
+    bindings = verify_implementation_bindings(protocol, repo_root=Path("."))
+    assert bindings["scripts/run_real_market_confirmation.py"]["protocol_bound"] is True
+    assert bindings["scripts/analyze_real_market_confirmation.py"]["protocol_bound"] is True
+    assert bindings["scripts/verify_real_market_confirmation_result.py"]["protocol_bound"] is True
