@@ -124,7 +124,14 @@
       "future_invariance_requirement": "Changing any validation/test return while holding the complete training surface fixed must not alter training regime thresholds, training regime labels, or the event threshold.",
       "implementation": "eigen_jepa.real_market_folds._fit_train_only_regime_labels and build_purged_fold_datasets"
     },
-    "fold_note": "Exact row/window counts must be computed from the frozen normalized CSV and retained before training. The purged fold builder and train dataset-injection path are implemented; a fold-level execution wrapper and exact source binding remain pre-execution blockers.",
+    "fold_runner": {
+      "path": "scripts/run_real_market_confirmation.py",
+      "sha256": "840b1df408fcf5372a18794b8dfcfeb2c12dca3a35471f32ccee9d2711b9f64d",
+      "pre_outcome_mode": "--plan-only may materialize exact purged fold/window identities from the frozen normalized CSV without executing any model or reading test outcomes.",
+      "execution_gate": "Any model/test execution requires protocol status FROZEN_PRE_OUTCOME_AUTHORIZED, execution_authorized=true, frozen raw/normalized/input-receipt hashes, a 40-hex prospective source commit, a dependency-lock SHA-256, the exact fold-runner SHA-256, and independent pre-outcome review approval.",
+      "retained_evidence": "For every exact fold x seed x variant run, retain strictly increasing test window_index, per-window mean eigenvalue squared error, positive target energy, train-only regime thresholds, train-only event threshold, protocol SHA-256, and normalized CSV SHA-256. The runner then fail-closes unless full/no_memory window identities and target energies agree exactly across all five seeds before writing primary_analysis_input.json."
+    },
+    "fold_note": "Purged fold construction, train-only label generation, and a fail-closed fold-level runner are implemented. Exact row/window counts must still be materialized from the frozen normalized CSV before training, and the prospective source commit plus dependency lock must be bound before authorization.",
     "test_access_rule": "Do not inspect aggregate, window-level, or seed-level test metrics until the normalized dataset bytes, exact fold runner, analysis implementation, source commit, dependency lock, and authorization receipt are frozen and timestamped."
   },
   "analysis_freeze_requirements": {
@@ -146,8 +153,8 @@
   "authorization_blockers": [
     "freeze provider/source snapshot and raw-source hash",
     "materialize the exact common-date adjusted-return CSV and run scripts/prepare_real_market_input.py",
-    "implement and hash-bind a fold-level runner that emits the frozen window-level analysis schema from the purged folds",
-    "bind exact prospective source commit and dependency lock",
+    "materialize and retain the exact pre-outcome fold_plan.json from the frozen normalized CSV",
+    "bind exact prospective source commit and dependency lock and copy the frozen fold-runner SHA-256 into the authorization object",
     "independent pre-outcome review of the completed protocol"
   ],
   "claim_boundary": "A passing real-market confirmation may support only the predeclared primary comparison on this frozen ETF universe/date design. It does not establish trading alpha, economic profitability, causality, universal cross-asset superiority, or Tail-F1 benefit. A failed primary gate must be reported as failed confirmation."
