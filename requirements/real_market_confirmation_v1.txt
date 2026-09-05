@@ -1,0 +1,6 @@
+# Prospective direct scientific runtime pins for eigen-jepa-real-market-confirmation-v1.
+# Frozen before provider snapshot materialization or any real-market model/test outcome access.
+# Matches the dependency family used by final-rigor v2 to minimize avoidable runtime drift.
+numpy==2.4.6
+matplotlib==3.11.1
+torch==2.13.0

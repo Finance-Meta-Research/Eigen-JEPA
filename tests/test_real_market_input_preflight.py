@@ -1,4 +1,5 @@
 import csv
+import hashlib
 from pathlib import Path
 
 import pytest
@@ -32,7 +33,7 @@ def _rows(n: int):
     return rows
 
 
-def _inspect(path: Path):
+def _inspect(path: Path, **extra):
     return inspect_csv(
         path,
         date_col="date",
@@ -43,15 +44,14 @@ def _inspect(path: Path):
         num_train=5,
         num_val=2,
         num_test=2,
+        **extra,
     )
 
 
 def test_valid_csv_emits_exact_row_bound_benchmark_args(tmp_path):
     path = tmp_path / "market.csv"
     _write_csv(path, _rows(14))
-
     receipt = _inspect(path)
-
     assert receipt["status"] == "PREPARED_INPUT_ONLY_NOT_AUTHORIZED"
     assert receipt["dataset"]["rows"] == 14
     assert receipt["dataset"]["date_start"] == "2026-01-01"
@@ -63,6 +63,33 @@ def test_valid_csv_emits_exact_row_bound_benchmark_args(tmp_path):
     assert args[args.index("--total_steps") + 1] == "14"
     assert args[args.index("--num_assets") + 1] == "3"
     assert args[args.index("--return_cols") + 1 : args.index("--num_assets")] == RETURN_COLS
+
+
+def test_source_provenance_binds_raw_bytes_and_provider_identity(tmp_path):
+    path = tmp_path / "market.csv"
+    raw = tmp_path / "provider-snapshot.bin"
+    _write_csv(path, _rows(14))
+    raw.write_bytes(b"provider-snapshot-v1")
+    receipt = _inspect(
+        path,
+        raw_source_path=raw,
+        provider_identity="provider-a",
+        provider_snapshot_or_retrieval_id="snapshot-1",
+    )
+    source = receipt["source_provenance"]
+    assert source["provider_identity"] == "provider-a"
+    assert source["provider_snapshot_or_retrieval_id"] == "snapshot-1"
+    assert source["raw_source_sha256"] == hashlib.sha256(raw.read_bytes()).hexdigest()
+    assert source["raw_source_bytes"] == len(raw.read_bytes())
+
+
+def test_source_provenance_is_all_or_nothing(tmp_path):
+    path = tmp_path / "market.csv"
+    raw = tmp_path / "provider-snapshot.bin"
+    _write_csv(path, _rows(14))
+    raw.write_bytes(b"provider-snapshot-v1")
+    with pytest.raises(ValueError, match="must be supplied together"):
+        _inspect(path, raw_source_path=raw, provider_identity="provider-a")
 
 
 def test_hash_changes_when_dataset_bytes_change(tmp_path):

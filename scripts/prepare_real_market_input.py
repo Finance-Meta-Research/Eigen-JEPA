@@ -48,6 +48,41 @@ def _finite_float(value: str, column: str, row_number: int) -> float:
     return number
 
 
+def _source_receipt(
+    *,
+    raw_source_path: Path | None,
+    provider_identity: str | None,
+    provider_snapshot_or_retrieval_id: str | None,
+) -> dict | None:
+    supplied = (
+        raw_source_path is not None,
+        provider_identity not in (None, ""),
+        provider_snapshot_or_retrieval_id not in (None, ""),
+    )
+    if any(supplied) and not all(supplied):
+        raise ValueError(
+            "raw_source_path, provider_identity, and provider_snapshot_or_retrieval_id "
+            "must be supplied together"
+        )
+    if not any(supplied):
+        return None
+    assert raw_source_path is not None
+    if not raw_source_path.is_file():
+        raise FileNotFoundError(raw_source_path)
+    return {
+        "provider_identity": str(provider_identity).strip(),
+        "provider_snapshot_or_retrieval_id": str(provider_snapshot_or_retrieval_id).strip(),
+        "raw_source_path": raw_source_path.as_posix(),
+        "raw_source_sha256": _sha256_bytes(raw_source_path),
+        "raw_source_bytes": raw_source_path.stat().st_size,
+        "lineage_attestation": (
+            "The normalized CSV supplied to this preflight was produced from this exact raw-source "
+            "snapshot before model/test outcome access. This receipt binds identities and bytes; it "
+            "does not independently certify provider adjustment semantics."
+        ),
+    }
+
+
 def inspect_csv(
     path: Path,
     *,
@@ -59,6 +94,9 @@ def inspect_csv(
     num_train: int,
     num_val: int,
     num_test: int,
+    raw_source_path: Path | None = None,
+    provider_identity: str | None = None,
+    provider_snapshot_or_retrieval_id: str | None = None,
 ) -> dict:
     return_cols = list(return_cols)
     if expected_assets <= 1:
@@ -76,6 +114,12 @@ def inspect_csv(
 
     if not path.is_file():
         raise FileNotFoundError(path)
+
+    source = _source_receipt(
+        raw_source_path=raw_source_path,
+        provider_identity=provider_identity,
+        provider_snapshot_or_retrieval_id=provider_snapshot_or_retrieval_id,
+    )
 
     with path.open("r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
@@ -126,7 +170,7 @@ def inspect_csv(
             f"usable={usable_windows}, requested={requested_windows}"
         )
 
-    return {
+    receipt = {
         "schema_version": 1,
         "status": "PREPARED_INPUT_ONLY_NOT_AUTHORIZED",
         "dataset": {
@@ -164,11 +208,15 @@ def inspect_csv(
             "--num_test", str(num_test),
         ],
         "integrity_notes": [
-            "The receipt validates input shape, finite returns, canonical unique increasing dates, split capacity, and exact file bytes.",
-            "It does not authorize outcome access, choose a provider snapshot, establish a claim threshold, or certify absence of economic/data-vendor bias.",
+            "The receipt validates input shape, finite returns, canonical unique increasing dates, split capacity, and exact normalized-file bytes.",
+            "When source_provenance is present, it also binds the exact raw-source bytes and provider/snapshot identity used to prepare the normalized CSV.",
+            "It does not authorize outcome access, establish a claim threshold, or independently certify provider adjustment semantics or absence of economic/data-vendor bias.",
             "Eigen-JEPA's CSV loader derives regime labels from the supplied returns; those labels are not independently observed market regimes.",
         ],
     }
+    if source is not None:
+        receipt["source_provenance"] = source
+    return receipt
 
 
 def main() -> None:
@@ -184,6 +232,9 @@ def main() -> None:
     parser.add_argument("--num-train", required=True, type=int)
     parser.add_argument("--num-val", required=True, type=int)
     parser.add_argument("--num-test", required=True, type=int)
+    parser.add_argument("--raw-source", type=Path)
+    parser.add_argument("--provider-identity")
+    parser.add_argument("--provider-snapshot-or-retrieval-id")
     parser.add_argument("--receipt-out", required=True, type=Path)
     args = parser.parse_args()
 
@@ -197,6 +248,9 @@ def main() -> None:
         num_train=args.num_train,
         num_val=args.num_val,
         num_test=args.num_test,
+        raw_source_path=args.raw_source,
+        provider_identity=args.provider_identity,
+        provider_snapshot_or_retrieval_id=args.provider_snapshot_or_retrieval_id,
     )
     args.receipt_out.parent.mkdir(parents=True, exist_ok=True)
     if args.receipt_out.exists():
@@ -208,6 +262,8 @@ def main() -> None:
     )
     print("REAL_MARKET_INPUT_PREPARED_NOT_AUTHORIZED")
     print(f"DATASET_SHA256={receipt['dataset']['sha256']}")
+    if "source_provenance" in receipt:
+        print(f"RAW_SOURCE_SHA256={receipt['source_provenance']['raw_source_sha256']}")
     print(f"ROWS={receipt['dataset']['rows']}")
     print(f"USABLE_WINDOWS={receipt['windowing']['usable_windows']}")
 

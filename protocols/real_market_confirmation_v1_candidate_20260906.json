@@ -84,6 +84,13 @@
     "seed_policy": "No substitution, favorable-seed reruns, or dropping. Any deterministic failure remains in the evidence ledger and must be explained.",
     "hyperparameter_changes_before_freeze": "Only changes required to make the frozen real-market window counts executable may be made, and every such change must be finalized before outcome access. No outcome-driven architecture or optimizer tuning is allowed."
   },
+  "source_freeze_requirements": {
+    "dependency_lock_path": "requirements/real_market_confirmation_v1.txt",
+    "dependency_lock_sha256": "0498029a612f03f5ef0879dab715f1309d67c0de8b985f4ba7a45e966a9ba222",
+    "dependency_lock_status": "FROZEN_PRE_OUTCOME",
+    "source_commit": null,
+    "source_commit_rule": "Bind one exact lowercase 40-hex prospective source commit after all pre-outcome implementation changes are merged and before any model/test outcome access."
+  },
   "evaluation_design": {
     "type": "chronological expanding-window confirmation with purged boundaries",
     "folds": [
@@ -128,10 +135,10 @@
       "path": "scripts/run_real_market_confirmation.py",
       "sha256": "840b1df408fcf5372a18794b8dfcfeb2c12dca3a35471f32ccee9d2711b9f64d",
       "pre_outcome_mode": "--plan-only may materialize exact purged fold/window identities from the frozen normalized CSV without executing any model or reading test outcomes.",
-      "execution_gate": "Any model/test execution requires protocol status FROZEN_PRE_OUTCOME_AUTHORIZED, execution_authorized=true, frozen raw/normalized/input-receipt hashes, a 40-hex prospective source commit, a dependency-lock SHA-256, the exact fold-runner SHA-256, and independent pre-outcome review approval.",
+      "execution_gate": "Any model/test execution requires protocol status FROZEN_PRE_OUTCOME_AUTHORIZED, execution_authorized=true, frozen raw/normalized/input-receipt hashes, a 40-hex prospective source commit, the frozen dependency-lock SHA-256, the exact fold-runner SHA-256, and independent pre-outcome review approval.",
       "retained_evidence": "For every exact fold x seed x variant run, retain strictly increasing test window_index, per-window mean eigenvalue squared error, positive target energy, train-only regime thresholds, train-only event threshold, protocol SHA-256, and normalized CSV SHA-256. The runner then fail-closes unless full/no_memory window identities and target energies agree exactly across all five seeds before writing primary_analysis_input.json."
     },
-    "fold_note": "Purged fold construction, train-only label generation, and a fail-closed fold-level runner are implemented. Exact row/window counts must still be materialized from the frozen normalized CSV before training, and the prospective source commit plus dependency lock must be bound before authorization.",
+    "fold_note": "Purged fold construction, train-only label generation, and a fail-closed fold-level runner are implemented. Exact row/window counts must still be materialized from the frozen normalized CSV before training; the dependency lock is already frozen prospectively, while the final prospective source commit remains to be bound before authorization.",
     "test_access_rule": "Do not inspect aggregate, window-level, or seed-level test metrics until the normalized dataset bytes, exact fold runner, analysis implementation, source commit, dependency lock, and authorization receipt are frozen and timestamped."
   },
   "analysis_freeze_requirements": {
@@ -153,10 +160,10 @@
   },
   "authorization_blockers": [
     "freeze provider/source snapshot and raw-source hash",
-    "materialize the exact common-date adjusted-return CSV and run scripts/prepare_real_market_input.py",
+    "materialize the exact common-date adjusted-return CSV and source-bound receipt with scripts/prepare_real_market_input.py",
     "materialize and retain the exact pre-outcome fold_plan.json from the frozen normalized CSV",
-    "bind exact prospective source commit and dependency lock and copy the frozen fold-runner SHA-256 into the authorization object",
-    "independent pre-outcome review of the completed protocol"
+    "bind the exact prospective source commit and copy the already-frozen dependency-lock and fold-runner SHA-256 identities into the authorization object",
+    "independent pre-outcome review of the completed protocol and immutable review bundle"
   ],
   "claim_boundary": "A passing real-market confirmation may support only the predeclared primary comparison on this frozen ETF universe/date design. It does not establish trading alpha, economic profitability, causality, universal cross-asset superiority, or Tail-F1 benefit. A failed primary gate must be reported as failed confirmation."
 }
