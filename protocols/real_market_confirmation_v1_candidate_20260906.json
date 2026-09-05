@@ -147,7 +147,8 @@
     "multiple_testing": "Primary inference is only full versus no_memory on pooled_eig_nmse. Other endpoints/comparisons are descriptive unless a separate multiplicity rule is frozen before outcome access.",
     "analysis_script": "scripts/analyze_real_market_confirmation.py",
     "analysis_script_sha256": "7f066e9bd75290881b415ce98e92327da43be080e47ab7534a7d2c561508dbc5",
-    "result_verifier_sha256": "7f066e9bd75290881b415ce98e92327da43be080e47ab7534a7d2c561508dbc5",
+    "result_verifier": "scripts/verify_real_market_confirmation_result.py",
+    "result_verifier_sha256": "eaad935aad8d1f0d54929bad60b77a86c35f38cab40dedde2efcbccb99592eea",
     "required_input_schema": "Three exact folds F1/F2/F3; exact seeds 7/19/31/43/59 for full and no_memory; strictly increasing non-overlapping window indices; positive target energy; finite nonnegative per-window eigenvalue squared errors."
   },
   "authorization_blockers": [
