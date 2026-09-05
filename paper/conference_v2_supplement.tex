@@ -1,0 +1,25 @@
+% Conference supplement for the frozen final-rigor v2 evidence.
+% This file reports retained outcomes only and introduces no post-outcome
+% significance test, practical-effect threshold, seed selection, or rerun.
+
+\section{Seed-level retained outcomes}
+\label{sec:seed-level-v2}
+
+The aggregate results in the main manuscript summarize five precommitted seeds, but the retained evidence is sufficiently heterogeneous that the individual seed outcomes are useful for auditing the claim boundary. Table~\ref{tab:seed-level-v2} therefore reports the manuscript-facing seed-level values extracted from the completed frozen workflow artifact. No seed is omitted, and the same four variants are retained for each seed.
+
+\begin{table*}[t]
+\centering
+\small
+\input{final_rigor_v2_seed_table.tex}
+\caption{Seed-level outcomes from the frozen final-rigor v2 experiment. These 20 rows are the exact retained seed-by-variant surface used to reconstruct the manuscript aggregate. They are descriptive evidence only; the frozen protocol did not preregister a null-hypothesis significance test or practical-effect threshold.}
+\label{tab:seed-level-v2}
+\end{table*}
+
+The seed-level view reinforces the mixed interpretation rather than a full-model superiority story. At seed 7, removing regime supervision substantially lowers Eig NMSE relative to the full model ($0.194135$ versus $0.294799$), while at seed 59 the full model substantially lowers Eig NMSE relative to the no-memory variant ($0.165026$ versus $0.287247$). Seed 31 shows the largest adverse spectral effect for the gate-disabled variant ($0.454295$ Eig NMSE versus $0.346811$ for full), whereas seed 43 is nearly tied between full and no-memory on Eig NMSE ($0.329653$ versus $0.329433$). These heterogeneous paired outcomes are retained rather than averaged away or used to select favorable seeds.
+
+A stronger invariant appears in Tail F1: within each of the five retained seeds, all four paper-facing variants have exactly the same Tail F1. Consequently, the final-rigor v2 experiment supplies no observed Tail-F1 separation attributable to memory, gating, or regime supervision. This seed-level equality is encoded as a fail-closed verifier invariant in the retained evidence ledger so that future manuscript revisions cannot silently weaken this limitation.
+
+\section{Evidence reconstruction}
+\label{sec:evidence-reconstruction-v2}
+
+The repository-retained seed ledger records the exact protocol identity, execution head, workflow run, artifact identifier and digest, the SHA-256 of every raw seed-by-variant \texttt{metrics.json}, seven manuscript-facing metrics for all 20 rows, the recomputed five-seed means and population standard deviations, and the paired full-minus-ablation arithmetic. The verifier reproduces the reported aggregates from the seed rows and, when the downloaded workflow artifact is supplied, additionally checks every raw metric-file hash and exact test value. This creates an auditable path from the retained execution artifact to the manuscript table without rerunning the study or introducing post-outcome decision criteria.
