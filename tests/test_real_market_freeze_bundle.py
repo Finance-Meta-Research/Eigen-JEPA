@@ -66,6 +66,8 @@ def _fixture(tmp_path: Path):
     protocol_path.write_text(json.dumps(protocol, sort_keys=True), encoding="utf-8")
     protocol_sha = hashlib.sha256(protocol_path.read_bytes()).hexdigest()
 
+    raw_path = _write(repo / "raw_source.bin", b"immutable-provider-snapshot")
+    raw_sha = hashlib.sha256(raw_path.read_bytes()).hexdigest()
     csv_path = _write(repo / "returns.csv", b"date,SPY\n2010-01-04,0.0\n2025-12-31,0.0\n")
     csv_sha = hashlib.sha256(csv_path.read_bytes()).hexdigest()
     receipt = {
@@ -78,6 +80,11 @@ def _fixture(tmp_path: Path):
             "date_end": "2025-12-31",
             "return_cols": list(EXPECTED_ASSETS),
             "num_assets": 12,
+        },
+        "source_provenance": {
+            "provider_identity": "provider-a",
+            "provider_snapshot_or_retrieval_id": "snapshot-20260906",
+            "raw_source_sha256": raw_sha,
         },
     }
     receipt_path = repo / "input_receipt.json"
@@ -96,8 +103,6 @@ def _fixture(tmp_path: Path):
     }
     plan_path = repo / "fold_plan.json"
     plan_path.write_text(json.dumps(plan), encoding="utf-8")
-
-    raw_path = _write(repo / "raw_source.bin", b"immutable-provider-snapshot")
     lock_path = _write(repo / "requirements.lock", b"numpy==2.0.0\n")
     return {
         "repo": repo,
@@ -132,6 +137,7 @@ def test_valid_bundle_is_review_only_and_binds_all_material_inputs(tmp_path):
     assert request["status"] == "PREOUTCOME_REVIEW_REQUEST_NOT_AUTHORIZED"
     assert request["execution_authorized"] is False
     assert request["independent_review_required"]["approved"] is False
+    assert request["data_freeze"]["raw_to_normalized_lineage_verified"] is True
     assert request["data_freeze"]["normalized_return_csv"]["sha256"] == hashlib.sha256(
         fx["csv_path"].read_bytes()
     ).hexdigest()
@@ -161,7 +167,23 @@ def test_rejects_input_receipt_that_does_not_bind_csv_bytes(tmp_path):
         _build(fx)
 
 
-def test_rejects_fold_plan_built_from_different_protocol_or_with_outcome_fields(tmp_path):
+def test_rejects_missing_or_drifted_raw_source_lineage(tmp_path):
+    fx = _fixture(tmp_path)
+    receipt = json.loads(fx["receipt_path"].read_text(encoding="utf-8"))
+    receipt.pop("source_provenance")
+    fx["receipt_path"].write_text(json.dumps(receipt), encoding="utf-8")
+    with pytest.raises(FreezeBundleError, match="bind raw-source provenance"):
+        _build(fx)
+
+    fx = _fixture(tmp_path / "drift")
+    receipt = json.loads(fx["receipt_path"].read_text(encoding="utf-8"))
+    receipt["source_provenance"]["raw_source_sha256"] = "0" * 64
+    fx["receipt_path"].write_text(json.dumps(receipt), encoding="utf-8")
+    with pytest.raises(FreezeBundleError, match="raw-source hash"):
+        _build(fx)
+
+
+def test_rejects_fold_plan_built_from_different_protocol_or_with_nested_outcome_fields(tmp_path):
     fx = _fixture(tmp_path)
     plan = json.loads(fx["plan_path"].read_text(encoding="utf-8"))
     plan["protocol_sha256"] = "0" * 64
@@ -171,9 +193,9 @@ def test_rejects_fold_plan_built_from_different_protocol_or_with_outcome_fields(
 
     fx = _fixture(tmp_path / "second")
     plan = json.loads(fx["plan_path"].read_text(encoding="utf-8"))
-    plan["folds"]["F2"]["eig_nmse"] = 0.123
+    plan["folds"]["F2"]["nested"] = {"eig_nmse": 0.123}
     fx["plan_path"].write_text(json.dumps(plan), encoding="utf-8")
-    with pytest.raises(FreezeBundleError, match="outcome-like fields"):
+    with pytest.raises(FreezeBundleError, match="outcome-like field"):
         _build(fx)
 
 
