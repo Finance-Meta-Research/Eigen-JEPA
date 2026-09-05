@@ -1,0 +1,91 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{arxivrefined}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{enumitem}
+\usepackage{float}
+
+\hypersetup{colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black}
+
+\title{Eigen-JEPA: A Frozen Five-Seed Evaluation of Spectral Predictive Modeling with Selective Memory}
+\author{Ryan Gomez}
+\date{September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Eigen-JEPA predicts future covariance geometry rather than pointwise returns. We evaluate the current system under a frozen, deterministic five-seed synthetic-equity protocol with four paper-facing variants: the full model, memory disabled, gate disabled, and regime supervision disabled. The exact protocol fixes seeds $\{7,19,31,43,59\}$, chronological train/validation/test slices, model and optimizer settings, CPU-only deterministic execution, and an exact-output verifier before outcome access. The retained experiment contains all 20 seed-by-variant runs. Across the five seeds, the full model achieved Eig NMSE $0.305095\pm0.076342$, Drift MSE $0.022995\pm0.012830$, Gate Cal $0.500257\pm0.035723$, and Tail F1 $0.553932\pm0.191267$. Removing memory worsened mean Eig NMSE to $0.345191\pm0.035890$ and Gate Cal to $0.521784\pm0.048304$, but Tail F1 was identical to the full model at every retained seed. The gate-disabled variant obtained lower mean Drift MSE ($0.020178\pm0.008655$), while the no-regime variant obtained the lowest mean Eig NMSE ($0.285184\pm0.088981$). The resulting evidence is mixed rather than a full-model superiority result: selective memory is associated with better spectral-error and calibration summaries relative to the matched no-memory ablation, but the frozen study does not establish a tail-F1 benefit, a universal gating benefit, or dominance across metrics. Because the protocol did not preregister a significance test or practical-effect threshold, all component comparisons are descriptive. The study is synthetic and does not claim trading alpha or real-market validation.
+\end{abstract}
+
+\section{Introduction}
+Financial dependence structure can change even when one-step returns remain noisy. Eigen-JEPA treats the rolling covariance operator and its spectral summaries as prediction targets: leading eigenvalues describe concentration of variance, principal subspaces describe dominant co-movement directions, and subspace drift describes geometric change across time. The architecture combines a masked context encoder, a latent predictor, spectral prediction heads, and a selective memory path intended to reuse rare geometric prototypes.
+
+The scientific question in this paper is deliberately narrower than the architecture motivation: under one frozen synthetic-equity protocol, what do the planned ablations actually show? Earlier project material contained representative-run and prospective mechanism language. The final-rigor v2 experiment replaces that evidentiary basis with a single pre-outcome-frozen, five-seed protocol and requires adverse, null, or reversed outcomes to be retained.
+
+Our contributions are therefore: (1) a fully specified deterministic five-seed evaluation protocol; (2) a four-variant mechanism study with all 20 runs retained; (3) an evidence-bound interpretation that reports favorable, null, and adverse ablation effects together; and (4) a reproducibility chain tying the manuscript-facing table to the frozen protocol, source identities, execution command, verifier, and retained workflow artifact.
+
+\section{Model and spectral targets}
+Let $r_t\in\mathbb{R}^N$ be the return vector at time $t$. For a window of length $W$, the covariance operator is
+\begin{equation}
+\Sigma_t=\frac{1}{W-1}\sum_{i=t-W+1}^{t}(r_i-\bar r_t)(r_i-\bar r_t)^\top.
+\end{equation}
+The model predicts a structured spectral state derived from future covariance geometry, including leading eigenvalues, low-rank covariance structure, and drift-related quantities. The implementation uses a masked temporal encoder and latent predictor together with a sparse content-addressed memory. The memory path retrieves nearby stored latent prototypes and contributes a bounded correction modulated by a gate. An auxiliary regime objective provides additional supervision in the full model.
+
+The four frozen variants isolate three mechanisms. \texttt{no\_memory} disables the memory path; \texttt{no\_gate} fixes the gate override to $1.0$ under the frozen benchmark path; and \texttt{no\_regime} sets the regime-loss weight to zero. These are the only paper-facing variants in the final-rigor v2 aggregate.
+
+\section{Frozen experimental protocol}
+The final-rigor v2 protocol was frozen before outcome access. It uses synthetic equity-style data only, with 12 assets, 240 total steps, context length 20, horizon 6, and chronological slices of 140 training, 36 validation, and 36 test windows. The model uses $d_{\mathrm{model}}=64$, four attention heads, two layers, latent dimension 64, memory size 128, and memory top-$k=4$. Training uses AdamW for eight epochs with batch size 16, learning rate $8\times10^{-4}$, weight decay $10^{-4}$, cosine annealing, and gradient clipping at 1.0.
+
+The exact seeds are $\{7,19,31,43,59\}$ and cannot be substituted or selectively dropped. All four variants use the same seed set. Execution is CPU-only with deterministic mode enabled and one intra-op and one inter-op Torch thread. The frozen protocol also pins the scientific source commit and relevant source-file blob identities, the environment requirements, the complete execution command, and an exact verifier. Historical single-seed evidence is explicitly excluded from the v2 aggregate.
+
+We report mean $\pm$ population standard deviation across the five retained seeds, matching the frozen aggregation implementation. Importantly, v2 did not preregister a null-hypothesis significance test or a practical-effect threshold. We therefore do not retrofit significance language after seeing the outcomes.
+
+\section{Results}
+\begin{table}[H]
+\centering
+\small
+\input{final_rigor_v2_table.tex}
+\caption{Frozen five-seed final-rigor v2 results. Lower is better for error metrics; higher is better for Tail F1 and Regime Accuracy. Values are mean $\pm$ population standard deviation across seeds $\{7,19,31,43,59\}$.}
+\label{tab:v2}
+\end{table}
+
+\subsection{Memory ablation}
+Relative to \texttt{no\_memory}, the full model reduced mean Eig NMSE from $0.345191$ to $0.305095$, a descriptive difference of $0.040095$, and had lower Eig NMSE on four of five paired seeds. Mean gate-calibration error decreased from $0.521784$ to $0.500257$, with the full model lower on all five paired seeds. Drift MSE also favored the full model on average ($0.022995$ versus $0.029290$), but the paired seed pattern was mixed. Crucially, Tail F1 was exactly identical between full and \texttt{no\_memory} at every frozen seed. The frozen evidence therefore supports a narrow descriptive association between memory and some spectral/calibration summaries, not the stronger claim that memory improves tail-event F1.
+
+\subsection{Gate and regime-supervision ablations}
+The gate-disabled variant achieved lower mean Drift MSE than the full model ($0.020178$ versus $0.022995$), while the full model had lower mean Eig NMSE ($0.305095$ versus $0.322545$). Tail F1 and regime accuracy were identical between these two variants at every retained seed. This does not support a universal claim that the learned gate improves drift prediction.
+
+Disabling regime supervision reduced mean Eig NMSE from $0.305095$ to $0.285184$, the best mean Eig NMSE among the four frozen variants, while the full model had higher mean regime accuracy ($0.616667$ versus $0.495833$). This is another trade-off rather than full-model dominance.
+
+\subsection{Overall interpretation}
+The final-rigor v2 result is mixed. No single variant dominates the manuscript-facing metrics. Selective memory is associated with better mean Eig NMSE and Gate Cal than the matched no-memory variant, but the anticipated tail-F1 separation is absent. The gate-disabled and no-regime variants each outperform the full model on at least one central error metric. Because the protocol has no preregistered significance test or practical-effect threshold, these differences remain descriptive and should motivate separately frozen follow-up hypotheses rather than post-hoc inferential claims.
+
+\section{Reproducibility and evidence identity}
+The final-rigor v2 package was executed from the frozen scientific source and retained by GitHub Actions run \texttt{33988159305}. The retained workflow artifact is \texttt{9975833698} with digest
+\begin{center}
+\small\texttt{sha256:5de19317b079570db8a97f9cbd5b01da5c1c06878325e3f42c9c3a78db63f6b4}.
+\end{center}
+The verifier requires the exact five seeds, the exact four paper-facing variants, and complete finite aggregate summaries. The manuscript-facing table is generated from the retained v2 result package, while the frozen protocol records the source commit, source blob identities, environment contract, execution command, and aggregation rule.
+
+The evidentiary rule is fail-closed: historical single-seed results are audit evidence only and are not mixed into the v2 aggregate; failed or adverse seeds may not be selectively removed; and a weaker, null, or reversed result must be reported rather than repaired by changing the gate after outcome access.
+
+\section{Limitations and claim boundary}
+This study uses a stylized synthetic equity generator, not real market data. Its findings therefore do not establish real-market forecasting performance, trading alpha, transaction-cost robustness, cross-market generalization, or joint validation across equity, crypto, and rates. The five-seed design improves on representative-run reporting but remains small. The ablations isolate implementation paths, yet the current protocol does not supply preregistered causal-effect thresholds or statistical tests. Tail F1 is identical across all four paper-facing variants, which limits claims about the proposed memory mechanism's tail-event role.
+
+The strongest supported statement is correspondingly narrow: under the frozen synthetic-equity v2 benchmark, the architecture exhibits mixed component-specific behavior, including better mean eigenspectrum error and gate calibration for the full model relative to \texttt{no\_memory}, alongside null and adverse ablation effects that prevent a full-model-dominance claim.
+
+\section{Conclusion}
+Eigen-JEPA provides a reproducible framework for predicting spectral market geometry and for testing selective-memory mechanisms under controlled regime shifts. The frozen five-seed experiment does not validate the strongest prospective mechanism story. Instead, it yields a more useful scientific result: memory is associated with improvements on some spectral and calibration summaries, Tail F1 does not differentiate the variants, and alternative ablations outperform the full model on selected error metrics. The appropriate next step is not to reinterpret these outcomes post hoc, but to freeze a separate real-market or cross-market confirmation protocol with explicit inferential and practical-effect criteria before observing new outcomes.
+
+\begin{thebibliography}{5}
+\bibitem{assran2023ijepa} M. Assran et al., ``Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture,'' 2023.
+\bibitem{bouchaud2009rmt} J.-P. Bouchaud and M. Potters, ``Financial Applications of Random Matrix Theory,'' 2009.
+\bibitem{pafka2004} S. Pafka and I. Kondor, ``Estimated Correlation Matrices and Financial Markets,'' 2004.
+\end{thebibliography}
+
+\end{document}
