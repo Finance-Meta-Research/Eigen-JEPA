@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "protocol_id": "eigen-jepa-final-rigor-v2-20260905",
+  "status": "FROZEN_PRE_OUTCOME",
+  "supersedes_evidence_usage": "historical results/final_rigor is retained for audit only; it must not be mixed into v2 aggregates",
+  "reason": "The historical seed-7 final_rigor artifact lacks authoritative non-seed CLI/config provenance. Rather than infer those settings after seeing seed-7 outcomes, v2 freezes every material field now and requires all five precommitted seeds, including seed 7, to be run from scratch under one identical protocol.",
+  "scientific_source": {
+    "repository": "Finance-Meta-Research/Eigen-JEPA",
+    "commit": "8172e4085ea98543cb40261b4f9e8bf18da11969",
+    "benchmark_py_blob": "4144d26ad6f53999a9846c3c68afd22bf3bd1531",
+    "train_py_blob": "b5af43fac158930fb4ae63888894fb5a56a8b5a6",
+    "data_py_blob": "f596411acf134279bafabe5382d055aabaf41ac8",
+    "utils_py_blob": "7bca57c991f97de46151f6fabff4e9a7e3c836d3",
+    "rigor_gate_blob": "fdc4b53fcb44ccccca5cb2b5e27a079f8c81542d"
+  },
+  "environment": {
+    "execution_policy": "CPU only; deterministic flag required; one intra-op and one inter-op Torch thread as implemented by the frozen source; record a fresh environment receipt with every run",
+    "reference_verified_ci_run": 33347717815,
+    "reference_os": "Ubuntu 24.04.4 LTS",
+    "reference_runner_image": "ubuntu-24.04 image version 20260823.283.1",
+    "python": "3.11.16",
+    "pip": "26.2.1",
+    "numpy": "2.4.6",
+    "torch": "2.13.0",
+    "matplotlib": "3.11.1",
+    "requirements_file": "requirements/final_rigor_v2.txt",
+    "device": "cpu",
+    "deterministic": true,
+    "torch_num_threads": 1,
+    "torch_num_interop_threads": 1
+  },
+  "seeds": [7, 19, 31, 43, 59],
+  "seed_policy": "No substitution, dropping, or rerunning only favorable seeds. Failed/adverse seeds remain part of the evidence package. All variants use the same seed set.",
+  "data": {
+    "data_source": "synthetic",
+    "market_style": "equity",
+    "num_assets": 12,
+    "total_steps": 240,
+    "context_len": 20,
+    "horizon": 6,
+    "num_train": 140,
+    "num_val": 36,
+    "num_test": 36,
+    "k": 3,
+    "event_quantile": 0.70,
+    "mask_ratio": 0.25,
+    "block_time": 4,
+    "csv_path": null,
+    "return_cols": [],
+    "aux_cols": [],
+    "date_col": null,
+    "split_policy": "chronological slices produced by build_datasets: first num_train valid windows, then num_val, then num_test; no shuffling across splits"
+  },
+  "model": {
+    "d_model": 64,
+    "n_heads": 4,
+    "n_layers": 2,
+    "dropout": 0.10,
+    "latent_dim": 64,
+    "memory_size": 128,
+    "memory_top_k": 4,
+    "memory_temperature": 0.18,
+    "merge_radius": 0.16,
+    "min_salience": 0.20
+  },
+  "training": {
+    "epochs": 8,
+    "batch_size": 16,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0008,
+    "weight_decay": 0.0001,
+    "scheduler": "CosineAnnealingLR",
+    "scheduler_t_max": 8,
+    "gradient_clip_norm": 1.0,
+    "checkpoint_selection": "minimum validation score as implemented in frozen train.py"
+  },
+  "loss_and_masking": {
+    "regime_weight": 0.75,
+    "gate_weight": 0.05,
+    "tail_boost": 1.5,
+    "eig_weight": 1.0,
+    "subspace_weight": 2.0,
+    "drift_weight": 0.5,
+    "risk_weight": 0.25,
+    "entropy_weight": 0.15,
+    "rank_weight": 0.15,
+    "mask_ratio": 0.25,
+    "block_time": 4
+  },
+  "paper_facing_variants": ["full", "no_memory", "no_gate", "no_regime"],
+  "variant_semantics": {
+    "full": "frozen default model",
+    "no_memory": "memory disabled by frozen benchmark/train variant path",
+    "no_gate": "gate override fixed to 1.0 by frozen benchmark/train variant path",
+    "no_regime": "regime loss weight set to 0.0 by frozen benchmark/train variant path"
+  },
+  "execution": {
+    "output_dir": "results/final_rigor_v2",
+    "command": "python -m eigen_jepa.benchmark --deterministic --device cpu --seeds 7 19 31 43 59 --variants full no_memory no_gate no_regime --num_assets 12 --total_steps 240 --context_len 20 --horizon 6 --num_train 140 --num_val 36 --num_test 36 --k 3 --epochs 8 --batch_size 16 --lr 0.0008 --wd 0.0001 --d_model 64 --n_heads 4 --n_layers 2 --dropout 0.10 --latent_dim 64 --memory_size 128 --memory_top_k 4 --memory_temperature 0.18 --merge_radius 0.16 --min_salience 0.20 --market_style equity --regime_weight 0.75 --gate_weight 0.05 --tail_boost 1.5 --event_quantile 0.70 --mask_ratio 0.25 --block_time 4 --data_source synthetic --eig_weight 1.0 --subspace_weight 2.0 --drift_weight 0.5 --risk_weight 0.25 --entropy_weight 0.15 --rank_weight 0.15 --out_dir results/final_rigor_v2",
+    "install_command": "python -m pip install -r requirements/final_rigor_v2.txt && python -m pip install --no-deps -e .",
+    "environment_receipt_command": "python -VV && python -m pip freeze && python -c \"import platform, numpy, torch, matplotlib; print(platform.platform()); print('numpy', numpy.__version__); print('torch', torch.__version__); print('matplotlib', matplotlib.__version__); print('cuda_available', torch.cuda.is_available()); print('threads', torch.get_num_threads(), torch.get_num_interop_threads())\"",
+    "verification_command": "python scripts/check_final_rigor_v2.py --metrics results/final_rigor_v2/metrics.json"
+  },
+  "aggregation": {
+    "implementation": "eigen_jepa.benchmark._aggregate at frozen source commit",
+    "mean": "statistics.mean across the five retained seed-level test metrics",
+    "std": "statistics.pstdev across the five retained seed-level test metrics",
+    "required_seed_list_exact": [7, 19, 31, 43, 59],
+    "required_variants_exact": ["full", "no_memory", "no_gate", "no_regime"]
+  },
+  "outcome_access_rule": "Do not inspect newly generated v2 outcome metrics until this protocol, its direct dependency lock, and its exact-output verifier are merged or otherwise immutably timestamped. Once outcome access begins, do not alter this protocol in response to results.",
+  "claim_rule": "The historical single-seed result remains audit evidence only. Paper robustness/submission claims may be reconsidered only after all five v2 seeds and all four variants complete, adverse/failed runs are retained, scripts/check_final_rigor_v2.py prints FINAL_RIGOR_V2_PASS, and the manuscript is re-audited against the resulting aggregate. A weaker, null, or reversed result must be reported rather than repaired by changing this gate."
+}
