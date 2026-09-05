@@ -69,6 +69,21 @@ def validate_candidate_protocol(protocol: Mapping[str, Any]) -> None:
     if not isinstance(folds, list) or tuple(fold.get("id") for fold in folds) != EXPECTED_FOLDS:
         raise FreezeBundleError(f"fold identity drift: expected {EXPECTED_FOLDS}")
 
+    source_freeze = protocol.get("source_freeze_requirements")
+    if not isinstance(source_freeze, Mapping):
+        raise FreezeBundleError("protocol must freeze source/dependency requirements")
+    if source_freeze.get("dependency_lock_path") != "requirements/real_market_confirmation_v1.txt":
+        raise FreezeBundleError("unexpected real-market dependency lock path")
+    require_hex(
+        source_freeze.get("dependency_lock_sha256"),
+        length=64,
+        label="dependency lock sha256",
+    )
+    if source_freeze.get("dependency_lock_status") != "FROZEN_PRE_OUTCOME":
+        raise FreezeBundleError("dependency lock must be frozen before review-bundle construction")
+    if source_freeze.get("source_commit") is not None:
+        raise FreezeBundleError("candidate protocol source_commit must remain null until final freeze")
+
     runner = protocol.get("evaluation_design", {}).get("fold_runner", {})
     if runner.get("path") != "scripts/run_real_market_confirmation.py":
         raise FreezeBundleError("unexpected frozen fold runner path")
@@ -180,6 +195,21 @@ def verify_implementation_bindings(protocol: Mapping[str, Any], *, repo_root: Pa
     return observed
 
 
+def verify_dependency_lock(
+    protocol: Mapping[str, Any], *, dependency_lock_path: Path, repo_root: Path
+) -> str:
+    source_freeze = protocol["source_freeze_requirements"]
+    expected_path = (repo_root / source_freeze["dependency_lock_path"]).resolve()
+    if dependency_lock_path.resolve() != expected_path:
+        raise FreezeBundleError(
+            f"dependency lock path drift: expected {source_freeze['dependency_lock_path']}"
+        )
+    actual = sha256_file(dependency_lock_path)
+    if actual != source_freeze["dependency_lock_sha256"]:
+        raise FreezeBundleError("dependency lock bytes do not match the prospectively frozen protocol hash")
+    return actual
+
+
 def build_review_request(
     *,
     protocol_path: Path,
@@ -208,7 +238,9 @@ def build_review_request(
     csv_sha = sha256_file(normalized_csv_path)
     receipt_sha = sha256_file(input_receipt_path)
     plan_sha = sha256_file(fold_plan_path)
-    dependency_sha = sha256_file(dependency_lock_path)
+    dependency_sha = verify_dependency_lock(
+        protocol, dependency_lock_path=dependency_lock_path, repo_root=repo_root
+    )
 
     receipt = load_json(input_receipt_path)
     validate_input_receipt(
@@ -259,7 +291,11 @@ def build_review_request(
         },
         "source_freeze": {
             "source_commit": source_commit,
-            "dependency_lock": {"path": dependency_lock_path.as_posix(), "sha256": dependency_sha},
+            "dependency_lock": {
+                "path": protocol["source_freeze_requirements"]["dependency_lock_path"],
+                "sha256": dependency_sha,
+                "protocol_bound": True,
+            },
             "implementation_files": implementation,
         },
         "analysis_freeze": {
@@ -274,7 +310,7 @@ def build_review_request(
                 "provider/source snapshot identity and adjustment semantics",
                 "raw-to-normalized lineage plus raw/normalized hashes and input receipt",
                 "fold-plan identity and purged chronological boundaries",
-                "prospective source commit and dependency lock",
+                "prospective source commit and prospectively frozen dependency lock",
                 "frozen runner, analysis, and result-verifier byte identities",
                 "primary endpoint, practical-effect rule, bootstrap procedure, and claim boundary",
             ],
