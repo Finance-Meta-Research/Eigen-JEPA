@@ -114,6 +114,16 @@
     ],
     "fold_implementation": "eigen_jepa.real_market_folds.build_purged_fold_indices and build_purged_fold_datasets",
     "purge_rule": "Training targets must end on or before train_end. Validation and test retain only windows whose full context and full target are contained inside their declared date interval. Boundary-crossing windows are omitted.",
+    "label_generation": {
+      "regime_proxy": "For each retained date, stress = 0.5 * cross-sectional mean absolute return + 0.5 * cross-sectional return standard deviation.",
+      "regime_threshold_quantiles": [0.55, 0.82],
+      "regime_threshold_fit_surface": "Fit both stress quantiles using training rows only, through the final row consumed by a training target window. Validation and test returns must not influence the fitted thresholds.",
+      "regime_application": "Apply the two frozen training-fitted thresholds unchanged to all validation and test rows.",
+      "event_threshold_quantile": 0.70,
+      "event_threshold_fit_surface": "Compute window salience only on retained training windows using the training-fitted regime labels, then fit the event threshold at the 0.70 training-window quantile.",
+      "future_invariance_requirement": "Changing any validation/test return while holding the complete training surface fixed must not alter training regime thresholds, training regime labels, or the event threshold.",
+      "implementation": "eigen_jepa.real_market_folds._fit_train_only_regime_labels and build_purged_fold_datasets"
+    },
     "fold_note": "Exact row/window counts must be computed from the frozen normalized CSV and retained before training. The purged fold builder and train dataset-injection path are implemented; a fold-level execution wrapper and exact source binding remain pre-execution blockers.",
     "test_access_rule": "Do not inspect aggregate, window-level, or seed-level test metrics until the normalized dataset bytes, exact fold runner, analysis implementation, source commit, dependency lock, and authorization receipt are frozen and timestamped."
   },
