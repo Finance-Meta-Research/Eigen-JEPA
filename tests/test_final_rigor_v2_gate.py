@@ -30,7 +30,10 @@ def _write_complete_package(tmp_path: Path, *, seeds=SEEDS) -> Path:
         "representative_run": str(out / "seed_7" / "full"),
     }
     out.mkdir(parents=True)
-    (out / "metrics.json").write_text(json.dumps(summary), encoding="utf-8")
+    # Match eigen_jepa.utils.save_json: JSON object keys are sorted on disk. This
+    # alphabetizes aggregate mapping keys even though the scientific CLI variant
+    # order is retained separately in summary["variants"].
+    (out / "metrics.json").write_text(json.dumps(summary, sort_keys=True), encoding="utf-8")
 
     for seed in SEEDS:
         for variant in VARIANTS:
@@ -40,7 +43,7 @@ def _write_complete_package(tmp_path: Path, *, seeds=SEEDS) -> Path:
                 "test": {"eig_nmse": 1.0, "proj_mse": 0.2},
                 "history": [{"epoch": epoch} for epoch in range(1, 9)],
             }
-            (run_dir / "metrics.json").write_text(json.dumps(payload), encoding="utf-8")
+            (run_dir / "metrics.json").write_text(json.dumps(payload, sort_keys=True), encoding="utf-8")
     return out / "metrics.json"
 
 
@@ -54,8 +57,12 @@ def _run(metrics: Path) -> subprocess.CompletedProcess[str]:
     )
 
 
-def test_final_rigor_v2_gate_accepts_exact_complete_package(tmp_path: Path) -> None:
+def test_final_rigor_v2_gate_accepts_exact_complete_package_with_sorted_json_keys(tmp_path: Path) -> None:
     metrics = _write_complete_package(tmp_path)
+    loaded = json.loads(metrics.read_text(encoding="utf-8"))
+    assert list(loaded["aggregate"]) == ["full", "no_gate", "no_memory", "no_regime"]
+    assert loaded["variants"] == VARIANTS
+
     proc = _run(metrics)
     assert proc.returncode == 0, proc.stdout + proc.stderr
     assert "FINAL_RIGOR_V2_PASS:" in proc.stdout
@@ -75,3 +82,14 @@ def test_final_rigor_v2_gate_rejects_missing_preregistered_run(tmp_path: Path) -
     proc = _run(metrics)
     assert proc.returncode != 0
     assert "FINAL_RIGOR_V2_FAIL: missing preregistered run metrics" in proc.stdout + proc.stderr
+
+
+def test_final_rigor_v2_gate_rejects_aggregate_variant_set_drift(tmp_path: Path) -> None:
+    metrics = _write_complete_package(tmp_path)
+    data = json.loads(metrics.read_text(encoding="utf-8"))
+    data["aggregate"].pop("no_gate")
+    metrics.write_text(json.dumps(data, sort_keys=True), encoding="utf-8")
+
+    proc = _run(metrics)
+    assert proc.returncode != 0
+    assert "FINAL_RIGOR_V2_FAIL: aggregate variant set drift" in proc.stdout + proc.stderr

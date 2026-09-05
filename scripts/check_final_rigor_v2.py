@@ -43,9 +43,21 @@ def main() -> None:
         fail(f"market_style drift: expected {EXPECTED_MARKET_STYLE!r}, observed {data.get('market_style')!r}")
 
     aggregate = data.get("aggregate")
-    if not isinstance(aggregate, dict) or list(aggregate) != EXPECTED_VARIANTS:
-        fail(f"aggregate variant drift: expected {EXPECTED_VARIANTS}, observed {list(aggregate) if isinstance(aggregate, dict) else aggregate!r}")
+    if not isinstance(aggregate, dict):
+        fail(f"aggregate must be a mapping, observed {type(aggregate).__name__}")
+    observed_aggregate_variants = set(aggregate)
+    expected_aggregate_variants = set(EXPECTED_VARIANTS)
+    if observed_aggregate_variants != expected_aggregate_variants:
+        fail(
+            "aggregate variant set drift: "
+            f"expected {sorted(expected_aggregate_variants)}, "
+            f"observed {sorted(observed_aggregate_variants)}"
+        )
 
+    # The top-level `variants` field above remains order-sensitive because it records
+    # the frozen CLI order. The aggregate object is intentionally order-insensitive:
+    # benchmark output is serialized with json.dump(..., sort_keys=True), which
+    # alphabetizes mapping keys on disk without changing the scientific variant set.
     aggregate_summaries = 0
     for variant in EXPECTED_VARIANTS:
         metrics = aggregate.get(variant)
