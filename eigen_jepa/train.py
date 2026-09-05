@@ -58,7 +58,7 @@ def _aggregate_baseline(loader, model, device):
     return agg
 
 
-def run(args):
+def run(args, dataset_builder=None):
     set_seed(args.seed, deterministic=getattr(args, 'deterministic', False))
     try:
         torch.set_float32_matmul_precision('high')
@@ -85,16 +85,17 @@ def run(args):
         aux_cols=tuple(args.aux_cols) if args.aux_cols else (),
         date_col=args.date_col,
     )
-    ds = build_datasets(cfg, k=args.k)
+    ds = dataset_builder(cfg, k=args.k) if dataset_builder is not None else build_datasets(cfg, k=args.k)
     train_loader = _dataloader(ds['train'], args.batch_size, True, args.seed)
     val_loader = _dataloader(ds['val'], args.batch_size, False, args.seed + 1)
     test_loader = _dataloader(ds['test'], args.batch_size, False, args.seed + 2)
 
-    input_dim = args.num_assets + 4
-    target_dim = args.k + args.num_assets * args.num_assets + 1 + 3
+    actual_num_assets = int(ds['series']['returns'].shape[1])
+    input_dim = actual_num_assets + 4
+    target_dim = args.k + actual_num_assets * actual_num_assets + 1 + 3
     model_cfg = EigenJEPAConfig(
         input_dim=input_dim,
-        num_assets=args.num_assets,
+        num_assets=actual_num_assets,
         context_len=args.context_len,
         k=args.k,
         d_model=args.d_model,
