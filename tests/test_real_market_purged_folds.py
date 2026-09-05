@@ -30,6 +30,53 @@ def _boundary():
     )
 
 
+def _write_returns(path, *, future_scale=1.0):
+    dates = _dates(30)
+    with path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["date", "A", "B", "C"])
+        for i, d in enumerate(dates):
+            scale = future_scale if i >= 20 else 1.0
+            writer.writerow(
+                [
+                    d,
+                    scale * 0.001 * (i + 1),
+                    scale * -0.0007 * (i + 1),
+                    scale * 0.0004 * (i + 1),
+                ]
+            )
+    return dates
+
+
+def _build_from_csv(path):
+    dates = _dates(30)
+    indices = build_purged_fold_indices(
+        dates, context_len=4, horizon=2, boundary=_boundary()
+    )
+    cfg = MarketConfig(
+        num_assets=99,
+        total_steps=999,
+        context_len=4,
+        horizon=2,
+        num_train=1,
+        num_val=1,
+        num_test=1,
+        seed=7,
+        data_source="csv",
+        csv_path=str(path),
+        return_cols=("A", "B", "C"),
+        date_col="date",
+    )
+    datasets = build_purged_fold_datasets(
+        cfg,
+        train_indices=indices["train"],
+        validation_indices=indices["validation"],
+        test_indices=indices["test"],
+        k=2,
+    )
+    return cfg, indices, datasets
+
+
 def test_purged_indices_keep_full_windows_inside_declared_splits():
     dates = _dates(30)
     context_len = 4
@@ -98,37 +145,8 @@ def test_rejects_duplicate_or_unsorted_dates():
 
 def test_dataset_builder_uses_explicit_indices_and_actual_csv_shape(tmp_path):
     path = tmp_path / "returns.csv"
-    dates = _dates(30)
-    with path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["date", "A", "B", "C"])
-        for i, d in enumerate(dates):
-            writer.writerow([d, 0.001 * (i + 1), -0.0007 * (i + 1), 0.0004 * (i + 1)])
-
-    indices = build_purged_fold_indices(
-        dates, context_len=4, horizon=2, boundary=_boundary()
-    )
-    cfg = MarketConfig(
-        num_assets=99,
-        total_steps=999,
-        context_len=4,
-        horizon=2,
-        num_train=1,
-        num_val=1,
-        num_test=1,
-        seed=7,
-        data_source="csv",
-        csv_path=str(path),
-        return_cols=("A", "B", "C"),
-        date_col="date",
-    )
-    datasets = build_purged_fold_datasets(
-        cfg,
-        train_indices=indices["train"],
-        validation_indices=indices["validation"],
-        test_indices=indices["test"],
-        k=2,
-    )
+    _write_returns(path)
+    cfg, indices, datasets = _build_from_csv(path)
 
     assert cfg.total_steps == 30
     assert cfg.num_assets == 3
@@ -138,6 +156,37 @@ def test_dataset_builder_uses_explicit_indices_and_actual_csv_shape(tmp_path):
     assert len(datasets["train"]) == len(indices["train"])
     assert len(datasets["val"]) == len(indices["validation"])
     assert len(datasets["test"]) == len(indices["test"])
+    assert datasets["regime_fit_last_row"] == int(indices["train"][-1]) + cfg.horizon
+
+
+def test_future_test_return_shock_cannot_move_train_fitted_regime_or_event_threshold(tmp_path):
+    base_path = tmp_path / "base.csv"
+    shocked_path = tmp_path / "shocked.csv"
+    _write_returns(base_path, future_scale=1.0)
+    # A huge shock is confined to rows starting in the held-out test interval.
+    _write_returns(shocked_path, future_scale=10000.0)
+
+    _, base_indices, base = _build_from_csv(base_path)
+    _, shocked_indices, shocked = _build_from_csv(shocked_path)
+
+    assert np.array_equal(base_indices["train"], shocked_indices["train"])
+    assert base["regime_fit_last_row"] == shocked["regime_fit_last_row"]
+    assert base["regime_thresholds_train_only"] == pytest.approx(
+        shocked["regime_thresholds_train_only"]
+    )
+    assert base["event_threshold"] == pytest.approx(shocked["event_threshold"])
+
+    last_train_row = base["regime_fit_last_row"]
+    base_train_regime = base["series"]["regime"][: last_train_row + 1]
+    shocked_train_regime = shocked["series"]["regime"][: last_train_row + 1]
+    assert np.array_equal(base_train_regime.numpy(), shocked_train_regime.numpy())
+
+    # The perturbation is real and affects only the held-out future; this makes the
+    # invariance above a meaningful leakage regression rather than an identical-input test.
+    assert not np.array_equal(
+        base["series"]["returns"][20:].numpy(),
+        shocked["series"]["returns"][20:].numpy(),
+    )
 
 
 def test_dataset_builder_rejects_non_csv_and_overlapping_indices():
