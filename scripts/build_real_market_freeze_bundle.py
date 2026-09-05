@@ -11,22 +11,15 @@ from typing import Any, Mapping
 EXPECTED_STATUS = "CANDIDATE_PRE_DATA_FREEZE_NOT_AUTHORIZED"
 OUTPUT_STATUS = "PREOUTCOME_REVIEW_REQUEST_NOT_AUTHORIZED"
 EXPECTED_ASSETS = (
-    "SPY",
-    "IWM",
-    "QQQ",
-    "XLB",
-    "XLE",
-    "XLF",
-    "XLI",
-    "XLK",
-    "XLP",
-    "XLU",
-    "XLV",
-    "XLY",
+    "SPY", "IWM", "QQQ", "XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU", "XLV", "XLY"
 )
 EXPECTED_FOLDS = ("F1", "F2", "F3")
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+OUTCOME_KEYS = {
+    "eig_nmse", "tail_f1", "drift_mse", "gate_cal", "regime_bal_acc",
+    "window_rows", "test_metrics", "model_results", "primary_result", "p_value",
+}
 
 
 class FreezeBundleError(ValueError):
@@ -95,6 +88,9 @@ def validate_input_receipt(
     *,
     protocol: Mapping[str, Any],
     normalized_csv_sha256: str,
+    raw_source_sha256: str,
+    provider_identity: str,
+    provider_snapshot_or_retrieval_id: str,
 ) -> None:
     if receipt.get("schema_version") != 1 or receipt.get("status") != "PREPARED_INPUT_ONLY_NOT_AUTHORIZED":
         raise FreezeBundleError("input receipt must be a PREPARED_INPUT_ONLY_NOT_AUTHORIZED v1 receipt")
@@ -114,6 +110,28 @@ def validate_input_receipt(
     if dataset.get("date_end") != span.get("end"):
         raise FreezeBundleError("normalized input end date drifted from the candidate protocol")
 
+    source = receipt.get("source_provenance")
+    if not isinstance(source, Mapping):
+        raise FreezeBundleError("input receipt must bind raw-source provenance before review")
+    if source.get("raw_source_sha256") != raw_source_sha256:
+        raise FreezeBundleError("input receipt raw-source hash does not match supplied source bytes")
+    if source.get("provider_identity") != provider_identity:
+        raise FreezeBundleError("input receipt provider identity drift")
+    if source.get("provider_snapshot_or_retrieval_id") != provider_snapshot_or_retrieval_id:
+        raise FreezeBundleError("input receipt provider snapshot/retrieval identity drift")
+
+
+def _reject_outcome_fields(value: Any, *, path: str = "folds") -> None:
+    if isinstance(value, Mapping):
+        for key, nested in value.items():
+            key_text = str(key)
+            if key_text in OUTCOME_KEYS:
+                raise FreezeBundleError(f"{path}.{key_text}: outcome-like field found in pre-outcome fold plan")
+            _reject_outcome_fields(nested, path=f"{path}.{key_text}")
+    elif isinstance(value, list):
+        for index, nested in enumerate(value):
+            _reject_outcome_fields(nested, path=f"{path}[{index}]")
+
 
 def validate_fold_plan(
     plan: Mapping[str, Any],
@@ -131,13 +149,9 @@ def validate_fold_plan(
     if not isinstance(folds, Mapping) or tuple(folds.keys()) != EXPECTED_FOLDS:
         raise FreezeBundleError(f"fold plan must contain ordered folds {EXPECTED_FOLDS}")
     for fold_id in EXPECTED_FOLDS:
-        summary = folds.get(fold_id)
-        if not isinstance(summary, Mapping):
+        if not isinstance(folds.get(fold_id), Mapping):
             raise FreezeBundleError(f"{fold_id}: missing fold summary")
-        # A pre-outcome plan may contain identities/counts/boundaries, never model result payloads.
-        forbidden = {"eig_nmse", "tail_f1", "drift_mse", "gate_cal", "regime_bal_acc", "window_rows"}
-        if forbidden.intersection(summary):
-            raise FreezeBundleError(f"{fold_id}: outcome-like fields found in pre-outcome fold plan")
+    _reject_outcome_fields(folds)
 
 
 def verify_implementation_bindings(protocol: Mapping[str, Any], *, repo_root: Path) -> dict[str, Any]:
@@ -157,10 +171,7 @@ def verify_implementation_bindings(protocol: Mapping[str, Any], *, repo_root: Pa
             )
         observed[relative] = {"sha256": actual, "protocol_bound": True}
 
-    for relative in (
-        "scripts/prepare_real_market_input.py",
-        "eigen_jepa/real_market_folds.py",
-    ):
+    for relative in ("scripts/prepare_real_market_input.py", "eigen_jepa/real_market_folds.py"):
         observed[relative] = {
             "sha256": sha256_file(repo_root / relative),
             "protocol_bound": False,
@@ -185,9 +196,11 @@ def build_review_request(
     protocol = load_json(protocol_path)
     validate_candidate_protocol(protocol)
     source_commit = require_hex(source_commit, length=40, label="source_commit")
-    if not provider_identity.strip():
+    provider_identity = provider_identity.strip()
+    provider_snapshot_or_retrieval_id = provider_snapshot_or_retrieval_id.strip()
+    if not provider_identity:
         raise FreezeBundleError("provider_identity must be non-empty")
-    if not provider_snapshot_or_retrieval_id.strip():
+    if not provider_snapshot_or_retrieval_id:
         raise FreezeBundleError("provider_snapshot_or_retrieval_id must be non-empty")
 
     protocol_sha = sha256_file(protocol_path)
@@ -198,13 +211,16 @@ def build_review_request(
     dependency_sha = sha256_file(dependency_lock_path)
 
     receipt = load_json(input_receipt_path)
-    validate_input_receipt(receipt, protocol=protocol, normalized_csv_sha256=csv_sha)
-    plan = load_json(fold_plan_path)
-    validate_fold_plan(
-        plan,
-        protocol_sha256=protocol_sha,
+    validate_input_receipt(
+        receipt,
+        protocol=protocol,
         normalized_csv_sha256=csv_sha,
+        raw_source_sha256=raw_sha,
+        provider_identity=provider_identity,
+        provider_snapshot_or_retrieval_id=provider_snapshot_or_retrieval_id,
     )
+    plan = load_json(fold_plan_path)
+    validate_fold_plan(plan, protocol_sha256=protocol_sha, normalized_csv_sha256=csv_sha)
     implementation = verify_implementation_bindings(protocol, repo_root=repo_root)
 
     return {
@@ -217,8 +233,8 @@ def build_review_request(
             "candidate_status": protocol.get("status"),
         },
         "data_freeze": {
-            "provider_identity": provider_identity.strip(),
-            "provider_snapshot_or_retrieval_id": provider_snapshot_or_retrieval_id.strip(),
+            "provider_identity": provider_identity,
+            "provider_snapshot_or_retrieval_id": provider_snapshot_or_retrieval_id,
             "raw_source": {
                 "path": raw_source_path.as_posix(),
                 "sha256": raw_sha,
@@ -233,22 +249,17 @@ def build_review_request(
                 "date_end": receipt["dataset"].get("date_end"),
                 "return_cols": receipt["dataset"].get("return_cols"),
             },
-            "input_receipt": {
-                "path": input_receipt_path.as_posix(),
-                "sha256": receipt_sha,
-            },
+            "input_receipt": {"path": input_receipt_path.as_posix(), "sha256": receipt_sha},
             "fold_plan": {
                 "path": fold_plan_path.as_posix(),
                 "sha256": plan_sha,
                 "folds": list(EXPECTED_FOLDS),
             },
+            "raw_to_normalized_lineage_verified": True,
         },
         "source_freeze": {
             "source_commit": source_commit,
-            "dependency_lock": {
-                "path": dependency_lock_path.as_posix(),
-                "sha256": dependency_sha,
-            },
+            "dependency_lock": {"path": dependency_lock_path.as_posix(), "sha256": dependency_sha},
             "implementation_files": implementation,
         },
         "analysis_freeze": {
@@ -261,7 +272,7 @@ def build_review_request(
             "review_must_precede_any_model_or_test_outcome_access": True,
             "reviewer_must_confirm": [
                 "provider/source snapshot identity and adjustment semantics",
-                "raw and normalized data hashes plus input receipt",
+                "raw-to-normalized lineage plus raw/normalized hashes and input receipt",
                 "fold-plan identity and purged chronological boundaries",
                 "prospective source commit and dependency lock",
                 "frozen runner, analysis, and result-verifier byte identities",
