@@ -5,6 +5,7 @@ from datetime import date
 from typing import Iterable, Mapping, Sequence
 
 import numpy as np
+import torch
 
 from .data import (
     MarketConfig,
@@ -178,6 +179,41 @@ def summarize_fold_indices(
     }
 
 
+def _fit_train_only_regime_labels(
+    returns: torch.Tensor,
+    *,
+    train_last_row: int,
+) -> tuple[torch.Tensor, tuple[float, float]]:
+    """Fit the CSV volatility/spread regime proxy using training rows only.
+
+    The general CSV loader computes regime quantiles over the whole CSV. That is safe for
+    descriptive use but inappropriate for prospective confirmation because future
+    validation/test returns would influence labels used by the training loss. This
+    prospective helper freezes the thresholds on rows available to the training fold and
+    then applies those thresholds unchanged to every later row.
+    """
+
+    if returns.ndim != 2 or returns.shape[0] == 0 or returns.shape[1] < 2:
+        raise ValueError("returns must be a non-empty [time, assets] tensor with at least 2 assets")
+    if train_last_row < 0 or train_last_row >= int(returns.shape[0]):
+        raise ValueError("train_last_row must index an observed training row")
+
+    vol = returns.abs().mean(dim=1)
+    spread = returns.std(dim=1)
+    stress = 0.5 * vol + 0.5 * spread
+    train_stress = stress[: train_last_row + 1]
+    if train_stress.numel() < 2:
+        raise ValueError("at least two training rows are required to fit regime thresholds")
+    q1, q2 = torch.quantile(
+        train_stress,
+        torch.tensor([0.55, 0.82], dtype=train_stress.dtype, device=train_stress.device),
+    )
+    regime = torch.zeros(len(returns), dtype=torch.long, device=returns.device)
+    regime[stress >= q1] = 1
+    regime[stress >= q2] = 2
+    return regime.cpu(), (float(q1.item()), float(q2.item()))
+
+
 def build_purged_fold_datasets(
     cfg: MarketConfig,
     *,
@@ -190,6 +226,8 @@ def build_purged_fold_datasets(
 
     This is intentionally separate from build_datasets so frozen historical evidence is
     not silently reinterpreted. It is meant for prospective real-market confirmation.
+    All label-generating thresholds used by the prospective path are fit on training
+    rows only; validation/test returns cannot move the regime or event thresholds.
     """
 
     if cfg.data_source != "csv":
@@ -197,7 +235,6 @@ def build_purged_fold_datasets(
     series = generate_market_series(cfg)
     returns = series["returns"]
     aux = series["aux"]
-    regime = series["regime"]
 
     actual_steps = int(returns.shape[0])
     cfg.total_steps = actual_steps
@@ -222,6 +259,16 @@ def build_purged_fold_datasets(
     all_values = np.concatenate([train_idx, val_idx, test_idx])
     if len(all_values) != len(np.unique(all_values)):
         raise ValueError("train/validation/test context-end indices must be disjoint")
+
+    train_last_row = int(train_idx[-1]) + cfg.horizon
+    regime, regime_thresholds = _fit_train_only_regime_labels(
+        returns, train_last_row=train_last_row
+    )
+    # Retain the prospectively fitted labels/thresholds in the returned series evidence.
+    series = dict(series)
+    series["regime"] = regime
+    series["regime_thresholds_train_only"] = regime_thresholds
+    series["regime_fit_last_row"] = train_last_row
 
     train_scores = []
     for idx in train_idx:
@@ -254,6 +301,8 @@ def build_purged_fold_datasets(
         "test": MarketWindowDataset(indices=test_idx, seed=cfg.seed + 2, **common),
         "series": series,
         "event_threshold": event_threshold,
+        "regime_thresholds_train_only": regime_thresholds,
+        "regime_fit_last_row": train_last_row,
         "split_indices": {
             "train": train_idx,
             "validation": val_idx,
