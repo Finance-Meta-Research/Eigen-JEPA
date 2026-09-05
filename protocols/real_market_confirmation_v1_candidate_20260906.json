@@ -7,10 +7,10 @@
   "hypotheses": {
     "primary": {
       "comparison": "full minus no_memory",
-      "endpoint": "eig_nmse",
+      "endpoint": "pooled_eig_nmse",
       "direction": "lower_is_better",
-      "practical_effect_rule": "The full model must reduce mean test eig_nmse by at least 5 percent relative to no_memory across the frozen evaluation package.",
-      "uncertainty_rule": "A paired moving-block bootstrap 95 percent interval for the full-minus-no_memory eig_nmse difference must lie below zero. Bootstrap implementation, block length, resample count, and aggregation unit must be hash-bound before outcome access."
+      "practical_effect_rule": "The full model must reduce pooled test eig_nmse by at least 5 percent relative to no_memory across the frozen evaluation package.",
+      "uncertainty_rule": "The upper endpoint of a predeclared two-stage paired bootstrap 95 percent interval for full-minus-no_memory pooled eig_nmse must be below zero. The frozen analysis resamples the five exact seeds with replacement, then independently moving-block-resamples chronological test windows within each frozen fold using 20-window blocks, 10000 resamples, and bootstrap seed 20260906."
     },
     "secondary_descriptive": [
       "gate_cal",
@@ -85,7 +85,7 @@
     "hyperparameter_changes_before_freeze": "Only changes required to make the frozen real-market window counts executable may be made, and every such change must be finalized before outcome access. No outcome-driven architecture or optimizer tuning is allowed."
   },
   "evaluation_design": {
-    "type": "chronological expanding-window confirmation",
+    "type": "chronological expanding-window confirmation with purged boundaries",
     "folds": [
       {
         "id": "F1",
@@ -112,25 +112,32 @@
         "test_end": "2025-12-31"
       }
     ],
-    "fold_note": "Exact row/window counts must be computed from the frozen normalized CSV and recorded before training. The current benchmark's count-based splitter cannot by itself express these date boundaries; a date-bound fold runner is therefore a pre-execution engineering blocker.",
-    "test_access_rule": "Do not inspect aggregate or seed-level test metrics until the normalized dataset bytes, exact fold runner, bootstrap implementation, source commit, dependency lock, and analysis verifier are frozen and timestamped."
+    "fold_implementation": "eigen_jepa.real_market_folds.build_purged_fold_indices and build_purged_fold_datasets",
+    "purge_rule": "Training targets must end on or before train_end. Validation and test retain only windows whose full context and full target are contained inside their declared date interval. Boundary-crossing windows are omitted.",
+    "fold_note": "Exact row/window counts must be computed from the frozen normalized CSV and retained before training. The purged fold builder and train dataset-injection path are implemented; a fold-level execution wrapper and exact source binding remain pre-execution blockers.",
+    "test_access_rule": "Do not inspect aggregate, window-level, or seed-level test metrics until the normalized dataset bytes, exact fold runner, analysis implementation, source commit, dependency lock, and authorization receipt are frozen and timestamped."
   },
   "analysis_freeze_requirements": {
-    "paired_unit": "Must be fixed before outcome access; intended unit is matched seed-by-fold evaluation output.",
-    "bootstrap_method": "moving block bootstrap",
-    "block_length": null,
-    "resamples": null,
+    "paired_unit": "Chronological test window, paired across full and no_memory and across the exact five seeds; each bootstrap replicate resamples seeds with replacement and moving-block-resamples windows independently within each fold.",
+    "primary_endpoint_definition": "For each system, pooled_eig_nmse equals the sum of per-window mean squared eigenvalue error, after averaging matched seed errors at each selected window, divided by the sum of per-window mean squared target eigenvalue energy across the three frozen test folds.",
+    "bootstrap_method": "two-stage paired seed plus within-fold moving-block bootstrap",
+    "block_length_windows": 20,
+    "block_length_rationale": "Approximately one trading month; fixed prospectively before provider snapshot freeze or model outcome access.",
+    "resamples": 10000,
+    "bootstrap_seed": 20260906,
     "confidence_level": 0.95,
-    "multiple_testing": "Primary inference is only full versus no_memory on eig_nmse. Other endpoints/comparisons are descriptive unless a separate multiplicity rule is frozen before outcome access.",
-    "analysis_script_sha256": null,
-    "result_verifier_sha256": null
+    "ci_method": "percentile interval using NumPy linear quantiles at 0.025 and 0.975",
+    "multiple_testing": "Primary inference is only full versus no_memory on pooled_eig_nmse. Other endpoints/comparisons are descriptive unless a separate multiplicity rule is frozen before outcome access.",
+    "analysis_script": "scripts/analyze_real_market_confirmation.py",
+    "analysis_script_sha256": "7f066e9bd75290881b415ce98e92327da43be080e47ab7534a7d2c561508dbc5",
+    "result_verifier_sha256": "7f066e9bd75290881b415ce98e92327da43be080e47ab7534a7d2c561508dbc5",
+    "required_input_schema": "Three exact folds F1/F2/F3; exact seeds 7/19/31/43/59 for full and no_memory; strictly increasing non-overlapping window indices; positive target energy; finite nonnegative per-window eigenvalue squared errors."
   },
   "authorization_blockers": [
     "freeze provider/source snapshot and raw-source hash",
     "materialize the exact common-date adjusted-return CSV and run scripts/prepare_real_market_input.py",
-    "implement and test a date-bound fold runner rather than relying on the current count-only splitter",
-    "freeze moving-block bootstrap implementation, block length, and resample count",
-    "bind exact source commit and dependency lock",
+    "implement and hash-bind a fold-level runner that emits the frozen window-level analysis schema from the purged folds",
+    "bind exact prospective source commit and dependency lock",
     "independent pre-outcome review of the completed protocol"
   ],
   "claim_boundary": "A passing real-market confirmation may support only the predeclared primary comparison on this frozen ETF universe/date design. It does not establish trading alpha, economic profitability, causality, universal cross-asset superiority, or Tail-F1 benefit. A failed primary gate must be reported as failed confirmation."
