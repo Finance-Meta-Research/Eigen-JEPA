@@ -2,6 +2,7 @@ from pathlib import Path
 
 
 PAPER = Path("paper/conference_v2.tex")
+PUBLISHING = Path("PUBLISHING.md")
 
 
 def test_related_work_is_present_and_bounded():
@@ -21,3 +22,12 @@ def test_verified_citation_metadata_replaces_mistitled_pafka_entry():
     assert "doi:10.1016/S0927-5398(03)00007-0" in text
     assert "doi:10.1016/S0047-259X(03)00096-4" in text
     assert "doi:10.1109/CVPR52729.2023.01499" in text
+
+
+def test_publishing_notes_match_current_evidence_surface():
+    text = PUBLISHING.read_text(encoding="utf-8")
+    assert "paper/final_rigor_v2_paired_table.tex" in text
+    assert "SEED_LEVEL_METRICS_20260906.json" in text
+    assert "superiority over DCC" in text
+    assert "fresh submission-PDF build" in text
+    assert "source/tests being green are not a PDF-build certificate" in text
