@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "freeze_id": "eigen-jepa-real-market-source-freeze-candidate-20260906",
+  "status": "FROZEN_PREOUTCOME_SOURCE_BASIS_NOT_AUTHORIZED",
+  "execution_authorized": false,
+  "outcome_access_authorized": false,
+  "source_commit": "057d723bdb693233ac47bcd4bd351fc8f36fc281",
+  "source_commit_role": "Prospectively frozen executable source basis for the real-market confirmation. This commit predates this metadata/verifier-only freeze commit and contains the complete research execution code to be reviewed before any model/test outcome access.",
+  "candidate_protocol": {
+    "path": "protocols/real_market_confirmation_v1_candidate_20260906.json",
+    "git_blob_sha1": "012deb8e1fd11ad9db526dcb0c1f8235183c8117"
+  },
+  "dependency_lock": {
+    "path": "requirements/real_market_confirmation_v1.txt",
+    "git_blob_sha1": "c1b0e7dd89d0729dcf52c1faa6926292a5ab69c3",
+    "sha256": "0498029a612f03f5ef0879dab715f1309d67c0de8b985f4ba7a45e966a9ba222"
+  },
+  "critical_code_bindings": {
+    "scripts/prepare_real_market_input.py": {
+      "git_blob_sha1": "3819e61a034ebab3e87bf83993d7591c8700bc74",
+      "role": "normalized-input preflight and raw-source provenance receipt"
+    },
+    "eigen_jepa/real_market_folds.py": {
+      "git_blob_sha1": "ee2e4694c27906f1d37d5751c947317fc1cf57f0",
+      "role": "purged chronological folds and train-only label thresholds"
+    },
+    "scripts/run_real_market_confirmation.py": {
+      "git_blob_sha1": "c69d5ef6cd4aeb0389ffa1a5b5888118d8db4c63",
+      "role": "fail-closed fold planner and model execution runner"
+    },
+    "scripts/analyze_real_market_confirmation.py": {
+      "git_blob_sha1": "9ba1a2ece254f80ad7e697ecb7857672fa978321",
+      "role": "predeclared primary endpoint and two-stage paired bootstrap"
+    },
+    "scripts/verify_real_market_confirmation_result.py": {
+      "git_blob_sha1": "f68c027d81d6f64b59fe325a55c695c70cfaaea3",
+      "role": "independent result-package verifier"
+    }
+  },
+  "authorization_remaining": [
+    "freeze one immutable provider/source snapshot and raw-source SHA-256",
+    "materialize the exact normalized 12-ETF return CSV and source-bound input receipt",
+    "materialize the exact PREOUTCOME_FOLD_PLAN_ONLY artifact from those frozen bytes",
+    "build the immutable pre-outcome review request against this source basis",
+    "obtain independent pre-outcome approval before any model or test outcome access"
+  ],
+  "claim_boundary": "This source freeze is reproducibility metadata only. It is not a result, does not authorize model/test execution, and cannot support a real-market performance, trading, causal, or superiority claim."
+}
