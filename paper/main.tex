@@ -1,4 +1,10 @@
 % Canonical conference manuscript entry point.
 % Keep this wrapper intentionally minimal: empirical claims live in
 % conference_v2.tex, which is reconciled to the frozen five-seed evidence.
+% The manuscript style derives its running header from the full title by
+% default; bind a short, non-overlapping header before the document starts.
+\AtBeginDocument{%
+  \renewcommand{\shorttitle}{Eigen-JEPA}%
+  \renewcommand{\headeright}{Preprint}%
+}
 \input{conference_v2.tex}
