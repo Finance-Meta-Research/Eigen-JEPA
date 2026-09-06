@@ -70,7 +70,7 @@ jobs:
       - name: Fail on overfull layout boxes
         run: |
           set -euo pipefail
-          if grep -E "Overfull \\\\(hbox|vbox\\\\)" paper/main.log; then
+          if grep -F -e 'Overfull \hbox' -e 'Overfull \vbox' paper/main.log; then
             echo "Canonical manuscript contains an overfull layout box; fix the source instead of retaining clipped submission evidence."
             exit 1
           fi
