@@ -75,6 +75,14 @@ jobs:
             exit 1
           fi
 
+      - name: Fail on leaked starred section headings
+        run: |
+          set -euo pipefail
+          if pdftotext paper/main.pdf - | grep -Eq '^[[:space:]]*[0-9]+[[:space:]]+\*[[:space:]]*$'; then
+            echo "Canonical PDF leaked a starred section command as a numbered heading."
+            exit 1
+          fi
+
       - name: Upload layout diagnostics
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
