@@ -54,6 +54,16 @@ We report mean $\pm$ population standard deviation across the five retained seed
 \label{tab:v2}
 \end{table}
 
+\begin{table}[H]
+\centering
+\scriptsize
+\input{final_rigor_v2_paired_table.tex}
+\caption{Paired seed-level descriptive differences for the same frozen runs. Mean $\Delta$ is full minus ablation. ``Full better'' and ``Ablation better'' respect the metric direction shown by the arrow; ties are exact retained equalities. These counts are descriptive summaries, not an inferential test, and no post-outcome significance or practical-effect gate is introduced.}
+\label{tab:paired}
+\end{table}
+
+Paired seed signs add an important qualification to the aggregate means. Against \texttt{no\_memory}, the full model has lower Eig NMSE on four of five seeds and lower Gate Cal on all five, but lower Drift MSE on only three of five; Tail F1 is an exact tie on all five seeds. Mean direction and seed-majority direction can also disagree: \texttt{no\_regime} has lower mean Eig NMSE even though the full model is lower on three of five paired seeds, while the full model has lower mean Gate Cal than \texttt{no\_gate} even though it is lower on only two of five seeds. This reinforces the decision to treat the ablation evidence as descriptive rather than as a dominance or significance result.
+
 \subsection{Memory ablation}
 Relative to \texttt{no\_memory}, the full model reduced mean Eig NMSE from $0.345191$ to $0.305095$, a descriptive difference of $0.040095$, and had lower Eig NMSE on four of five paired seeds. Mean gate-calibration error decreased from $0.521784$ to $0.500257$, with the full model lower on all five paired seeds. Drift MSE also favored the full model on average ($0.022995$ versus $0.029290$), but the paired seed pattern was mixed. Crucially, Tail F1 was exactly identical between full and \texttt{no\_memory} at every frozen seed. The frozen evidence therefore supports a narrow descriptive association between memory and some spectral/calibration summaries, not the stronger claim that memory improves tail-event F1.
 
@@ -70,7 +80,7 @@ The final-rigor v2 package was executed from the frozen scientific source and re
 \begin{center}
 \small\texttt{sha256:5de19317b079570db8a97f9cbd5b01da5c1c06878325e3f42c9c3a78db63f6b4}.
 \end{center}
-The verifier requires the exact five seeds, the exact four paper-facing variants, and complete finite aggregate summaries. The manuscript-facing table is generated from the retained v2 result package, while the frozen protocol records the source commit, source blob identities, environment contract, execution command, and aggregation rule.
+The verifier requires the exact five seeds, the exact four paper-facing variants, and complete finite aggregate summaries. The manuscript-facing table is generated from the retained v2 result package, while the frozen protocol records the source commit, source blob identities, environment contract, execution command, and aggregation rule. The paired table is regenerated directly from the retained paired seed deltas and fails closed if any comparison loses a seed, if the recorded mean disagrees with the five retained deltas, or if the evidence boundary is changed to introduce a post-outcome significance test or practical-effect threshold.
 
 The evidentiary rule is fail-closed: historical single-seed results are audit evidence only and are not mixed into the v2 aggregate; failed or adverse seeds may not be selectively removed; and a weaker, null, or reversed result must be reported rather than repaired by changing the gate after outcome access.
 
