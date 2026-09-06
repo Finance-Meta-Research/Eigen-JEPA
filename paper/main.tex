@@ -10,7 +10,7 @@
   \let\EigenNumberedSection\section
   \newcommand{\EigenUnnumberedSection}[1]{%
     \par\addvspace{1.5ex}%
-    \noindent{\large\bfseries ##1}\par
+    \noindent{\large\bfseries #1}\par
     \addvspace{0.8ex}%
   }%
   \renewcommand{\section}{\@ifstar{\EigenUnnumberedSection}{\EigenNumberedSection}}%
