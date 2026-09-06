@@ -4,7 +4,7 @@ This project is designed as a research package for a paper submission.
 
 ## Current evidence-bound submission source
 
-The current conference-facing manuscript is `paper/conference_v2.tex`. It is reconciled to the frozen five-seed final-rigor v2 package and should be preferred over older representative-run manuscript text when making empirical claims.
+The canonical manuscript entry point is now `paper/main.tex`. It intentionally delegates to `paper/conference_v2.tex`, the evidence-bound conference manuscript reconciled to the frozen five-seed final-rigor v2 package. This prevents the older representative-run manuscript from silently becoming the default submission surface again.
 
 The retained v2 evidence comes from GitHub Actions run `33988159305`, artifact `9975833698`, digest `sha256:5de19317b079570db8a97f9cbd5b01da5c1c06878325e3f42c9c3a78db63f6b4`. The frozen protocol is `protocols/final_rigor_v2_20260905.json` and the manuscript-facing aggregate table is `paper/final_rigor_v2_table.tex`.
 
@@ -16,7 +16,8 @@ The retained v2 evidence comes from GitHub Actions run `33988159305`, artifact `
 - four paper-facing variants: `full`, `no_memory`, `no_gate`, `no_regime`
 - all 20 seed-by-variant runs retained and verified for completeness
 - evidence-bound result summary and LaTeX table
-- conference-facing LaTeX source that reports favorable, null, and adverse outcomes together
+- canonical `paper/main.tex` entry point that resolves only to the evidence-bound conference manuscript
+- CI regression coverage that fails if the canonical entry point or core frozen-v2 claim boundary drifts back to stale representative-run language
 
 ## What the paper may claim
 
@@ -37,7 +38,7 @@ Do **not** claim:
 ## Final checks before release
 
 1. Re-run or verify the exact frozen v2 evidence package rather than substituting historical representative-run outputs.
-2. Build `paper/conference_v2.tex` with `paper/final_rigor_v2_table.tex` available in the same paper directory.
+2. Build `paper/main.tex`; it must resolve to `paper/conference_v2.tex`, with `paper/final_rigor_v2_table.tex` available in the same paper directory.
 3. Confirm the table values match `results/final_rigor_v2/RESULT_SUMMARY_20260906.md` and the retained v2 artifact identity.
 4. Confirm no prose reintroduces historical representative-run, multi-market, or future-tense mechanism claims as observed results.
 5. Verify the README quick-start commands still work.
