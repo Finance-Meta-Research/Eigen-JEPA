@@ -29,6 +29,13 @@ The scientific question in this paper is deliberately narrower than the architec
 
 Our contributions are therefore: (1) a fully specified deterministic five-seed evaluation protocol; (2) a four-variant mechanism study with all 20 runs retained; (3) an evidence-bound interpretation that reports favorable, null, and adverse ablation effects together; and (4) a reproducibility chain tying the manuscript-facing table to the frozen protocol, source identities, execution command, verifier, and retained workflow artifact.
 
+\section{Related work and scope}
+The joint-embedding predictive framing is motivated by I-JEPA, which predicts representations of masked target regions from context rather than reconstructing raw observations \cite{assran2023ijepa}. Eigen-JEPA transfers only the broad predictive-representation idea to a temporal financial setting; the target geometry, architecture, training task, and evidence in this paper are distinct.
+
+Financial dependence modeling has a substantial classical literature that the present mechanism study does not supersede. Dynamic Conditional Correlation models provide a parsimonious likelihood-based framework for time-varying correlations \cite{engle2002dcc}. Shrinkage estimators address instability in high-dimensional sample covariance matrices, including finance-specific covariance estimation and well-conditioned general estimators \cite{ledoitwolf2003,ledoitwolf2004}. Random-matrix approaches study noise and spectral structure in empirical financial covariance matrices \cite{bouchaud2009rmt}, while Pafka and Kondor analyze the consequences of noisy estimated correlations for portfolio optimization \cite{pafka2004}.
+
+These references are scientific context, not experimental baselines in final-rigor v2. The frozen experiment compares only the four internal variants described below. It therefore does not establish superiority over DCC, covariance-shrinkage estimators, random-matrix filters, or other classical covariance-forecasting methods. A matched external-baseline benchmark would require its own prospectively frozen protocol rather than being inferred from the current ablations.
+
 \section{Model and spectral targets}
 Let $r_t\in\mathbb{R}^N$ be the return vector at time $t$. For a window of length $W$, the covariance operator is
 \begin{equation}
@@ -85,17 +92,20 @@ The verifier requires the exact five seeds, the exact four paper-facing variants
 The evidentiary rule is fail-closed: historical single-seed results are audit evidence only and are not mixed into the v2 aggregate; failed or adverse seeds may not be selectively removed; and a weaker, null, or reversed result must be reported rather than repaired by changing the gate after outcome access.
 
 \section{Limitations and claim boundary}
-This study uses a stylized synthetic equity generator, not real market data. Its findings therefore do not establish real-market forecasting performance, trading alpha, transaction-cost robustness, cross-market generalization, or joint validation across equity, crypto, and rates. The five-seed design improves on representative-run reporting but remains small. The ablations isolate implementation paths, yet the current protocol does not supply preregistered causal-effect thresholds or statistical tests. Tail F1 is identical across all four paper-facing variants, which limits claims about the proposed memory mechanism's tail-event role.
+This study uses a stylized synthetic equity generator, not real market data. Its findings therefore do not establish real-market forecasting performance, trading alpha, transaction-cost robustness, cross-market generalization, or joint validation across equity, crypto, and rates. The five-seed design improves on representative-run reporting but remains small. The ablations isolate implementation paths, yet the current protocol does not supply preregistered causal-effect thresholds or statistical tests. Tail F1 is identical across all four paper-facing variants, which limits claims about the proposed memory mechanism's tail-event role. The study also does not include matched DCC, shrinkage, or random-matrix forecasting baselines, so the retained evidence cannot support comparative claims against those classical families.
 
 The strongest supported statement is correspondingly narrow: under the frozen synthetic-equity v2 benchmark, the architecture exhibits mixed component-specific behavior, including better mean eigenspectrum error and gate calibration for the full model relative to \texttt{no\_memory}, alongside null and adverse ablation effects that prevent a full-model-dominance claim.
 
 \section{Conclusion}
 Eigen-JEPA provides a reproducible framework for predicting spectral market geometry and for testing selective-memory mechanisms under controlled regime shifts. The frozen five-seed experiment does not validate the strongest prospective mechanism story. Instead, it yields a more useful scientific result: memory is associated with improvements on some spectral and calibration summaries, Tail F1 does not differentiate the variants, and alternative ablations outperform the full model on selected error metrics. The appropriate next step is not to reinterpret these outcomes post hoc, but to freeze a separate real-market or cross-market confirmation protocol with explicit inferential and practical-effect criteria before observing new outcomes.
 
-\begin{thebibliography}{5}
-\bibitem{assran2023ijepa} M. Assran et al., ``Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture,'' 2023.
-\bibitem{bouchaud2009rmt} J.-P. Bouchaud and M. Potters, ``Financial Applications of Random Matrix Theory,'' 2009.
-\bibitem{pafka2004} S. Pafka and I. Kondor, ``Estimated Correlation Matrices and Financial Markets,'' 2004.
+\begin{thebibliography}{6}
+\bibitem{assran2023ijepa} M. Assran, Q. Duval, I. Misra, P. Bojanowski, P. Vincent, M. Rabbat, Y. LeCun, and N. Ballas, ``Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture,'' \emph{Proc. IEEE/CVF CVPR}, pp. 15619--15629, 2023, doi:10.1109/CVPR52729.2023.01499.
+\bibitem{engle2002dcc} R. Engle, ``Dynamic Conditional Correlation: A Simple Class of Multivariate Generalized Autoregressive Conditional Heteroskedasticity Models,'' \emph{Journal of Business \& Economic Statistics}, vol. 20, no. 3, pp. 339--350, 2002, doi:10.1198/073500102288618487.
+\bibitem{ledoitwolf2003} O. Ledoit and M. Wolf, ``Improved estimation of the covariance matrix of stock returns with an application to portfolio selection,'' \emph{Journal of Empirical Finance}, vol. 10, no. 5, pp. 603--621, 2003, doi:10.1016/S0927-5398(03)00007-0.
+\bibitem{ledoitwolf2004} O. Ledoit and M. Wolf, ``A well-conditioned estimator for large-dimensional covariance matrices,'' \emph{Journal of Multivariate Analysis}, vol. 88, no. 2, pp. 365--411, 2004, doi:10.1016/S0047-259X(03)00096-4.
+\bibitem{bouchaud2009rmt} J.-P. Bouchaud and M. Potters, ``Financial Applications of Random Matrix Theory: a short review,'' arXiv:0910.1205, 2009.
+\bibitem{pafka2004} S. Pafka and I. Kondor, ``Estimated Correlation Matrices and Portfolio Optimization,'' \emph{Physica A: Statistical Mechanics and its Applications}, vol. 343, pp. 623--634, 2004, doi:10.1016/j.physa.2004.05.079.
 \end{thebibliography}
 
 \end{document}
