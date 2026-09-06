@@ -67,6 +67,14 @@ jobs:
             exit 1
           fi
 
+      - name: Fail on overfull layout boxes
+        run: |
+          set -euo pipefail
+          if grep -E "Overfull \\\\(hbox|vbox\\\\)" paper/main.log; then
+            echo "Canonical manuscript contains an overfull layout box; fix the source instead of retaining clipped submission evidence."
+            exit 1
+          fi
+
       - name: Record source-bound PDF receipt
         env:
           EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
