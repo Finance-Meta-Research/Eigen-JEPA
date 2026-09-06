@@ -6,7 +6,6 @@ reconciles frozen retained evidence and manuscript/package identities.
 """
 from __future__ import annotations
 
-import copy
 import hashlib
 import json
 from pathlib import Path
@@ -88,7 +87,7 @@ def validate_manuscript(text: str) -> None:
         "Tail F1 was exactly identical between full and \\texttt{no\\_memory} at every frozen seed",
         "The gate-disabled variant achieved lower mean Drift MSE than the full model",
         "the best mean Eig NMSE among the four frozen variants",
-        "does not establish real-market forecasting performance",
+        "do not establish real-market forecasting performance",
         "does not include matched DCC, shrinkage, or random-matrix forecasting baselines",
         "\\input{final_rigor_v2_table.tex}",
         "\\input{final_rigor_v2_paired_table.tex}",
