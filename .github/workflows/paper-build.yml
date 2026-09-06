@@ -67,6 +67,14 @@ jobs:
             exit 1
           fi
 
+      - name: Fail on duplicate PDF destinations
+        run: |
+          set -euo pipefail
+          if grep -F 'destination with the same identifier' paper/main.log; then
+            echo "Canonical manuscript contains duplicate PDF hyperlink destinations."
+            exit 1
+          fi
+
       - name: Fail on overfull layout boxes
         run: |
           set -euo pipefail
