@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "project": "Eigen-JEPA",
+  "evidence_base_head_sha": "c9dee8572f4aaf43251e4e63268040ea89bdc644",
+  "scientific_status": "FROZEN_SYNTHETIC_FINAL_RIGOR_V2_MIXED_DESCRIPTIVE_RESULT",
+  "scientific_execution_performed_by_this_gate": false,
+  "new_outcome_access_performed_by_this_gate": false,
+  "real_market_confirmation_promoted_to_evidence": false,
+  "canonical_entrypoint": "paper/main.tex",
+  "canonical_manuscript": "paper/conference_v2.tex",
+  "final_rigor_v2": {
+    "protocol_id": "eigen-jepa-final-rigor-v2-20260905",
+    "execution_head": "9369a5f2b0b972af846fa70baca027451271e08c",
+    "workflow_run_id": 33988159305,
+    "artifact_id": 9975833698,
+    "artifact_digest": "sha256:5de19317b079570db8a97f9cbd5b01da5c1c06878325e3f42c9c3a78db63f6b4",
+    "seeds": [7, 19, 31, 43, 59],
+    "variants": ["full", "no_memory", "no_gate", "no_regime"],
+    "retained_seed_variant_runs": 20
+  },
+  "evidence_files": [
+    {"path": "PUBLISHING.md", "git_blob_sha1": "85c9b03b2ca10567b451807200c0957336d5ba5f"},
+    {"path": "paper/main.tex", "git_blob_sha1": "4ea04624da3a4ac7ca1159e17195fce392c3c580"},
+    {"path": "paper/conference_v2.tex", "git_blob_sha1": "d488000f039e206975e034e93e19839f31770462"},
+    {"path": "paper/final_rigor_v2_table.tex", "git_blob_sha1": "d0d3b5469ac2a20554c70ab4fd2d365cceeae722"},
+    {"path": "paper/final_rigor_v2_paired_table.tex", "git_blob_sha1": "e52430ffee726580e3964397f3f9c1205fb07cc8"},
+    {"path": "results/final_rigor_v2/RESULT_SUMMARY_20260906.md", "git_blob_sha1": "51d11755834e0b3f298faaaa39ec916888340840"},
+    {"path": "results/final_rigor_v2/SEED_LEVEL_METRICS_20260906.json", "git_blob_sha1": "7efd9bd70b2ffdf0102a1cbe2a265f94393b2c56"},
+    {"path": "protocols/final_rigor_v2_20260905.json", "git_blob_sha1": "a13d418dfd50316bfe252fee7761ce6ee0e17766"}
+  ],
+  "claim_boundary": {
+    "supported_descriptive": [
+      "Under the frozen synthetic-equity v2 benchmark, full has lower mean Eig NMSE than no_memory.",
+      "Under the frozen synthetic-equity v2 benchmark, full has lower mean Gate Cal than no_memory.",
+      "All 20 frozen seed-by-variant runs are retained in the v2 evidence package."
+    ],
+    "mixed_or_negative": [
+      "Tail F1 is identical between full and no_memory at every retained seed.",
+      "no_gate has lower mean Drift MSE than full.",
+      "no_regime has the lowest mean Eig NMSE among the four paper-facing variants.",
+      "The retained ablation evidence does not establish full-model dominance."
+    ],
+    "not_supported": [
+      "trading alpha or deployable trading performance",
+      "real-market validation",
+      "joint equity/crypto/rates validation from final-rigor v2",
+      "statistically significant component effects",
+      "full-model dominance across metrics",
+      "a Tail-F1 benefit from memory",
+      "a universal drift-prediction benefit from gating",
+      "superiority over unexecuted DCC, covariance-shrinkage, or random-matrix baselines"
+    ]
+  },
+  "historical_outputs_forbidden_as_final_v2_evidence": [
+    "paper/results_table.tex",
+    "paper/benchmark_ablation.tex"
+  ],
+  "submission_ready": false,
+  "release_authorization_asserted": false,
+  "remaining_submission_gates": [
+    "fresh canonical submission-PDF build remains required after any manuscript change",
+    "venue-specific page-limit, anonymity, template, and submission-portal checks require a selected target venue",
+    "scientific/release review must explicitly authorize submission; this machine-readable gate does not self-authorize"
+  ],
+  "separate_followup_boundary": "Any real-market confirmation remains a separately frozen pre-outcome lane and must not be promoted into this synthetic-v2 evidence package before its own authorization and retained evidence exist."
+}
