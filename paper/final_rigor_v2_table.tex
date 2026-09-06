@@ -1,10 +1,27 @@
-\begin{tabular}{lrrrrrrr}
+\begingroup
+\setlength{\tabcolsep}{4pt}
+\scriptsize
+\begin{tabular}{@{}lrrrr@{}}
 \toprule
-Variant & Eig NMSE $\downarrow$ & Drift MSE $\downarrow$ & Cov MSE $\downarrow$ & Gate Cal $\downarrow$ & Tail F1 $\uparrow$ & Regime Acc $\uparrow$ & Rare Eig NMSE $\downarrow$ \\
+Variant & Eig NMSE $\downarrow$ & Drift MSE $\downarrow$ & Gate Cal $\downarrow$ & Tail F1 $\uparrow$ \\
 \midrule
-Full & $0.305095 \pm 0.076342$ & $0.022995 \pm 0.012830$ & $0.091642 \pm 0.048656$ & $0.500257 \pm 0.035723$ & $0.553932 \pm 0.191267$ & $0.616667 \pm 0.211886$ & $0.372357 \pm 0.162879$ \\
-No memory & $0.345191 \pm 0.035890$ & $0.029290 \pm 0.009450$ & $0.092045 \pm 0.046544$ & $0.521784 \pm 0.048304$ & $0.553932 \pm 0.191267$ & $0.612500 \pm 0.217546$ & $0.388451 \pm 0.163679$ \\
-No gate & $0.322545 \pm 0.098770$ & $0.020178 \pm 0.008655$ & $0.090629 \pm 0.046908$ & $0.550000 \pm 0.176088$ & $0.553932 \pm 0.191267$ & $0.616667 \pm 0.211886$ & $0.391944 \pm 0.170947$ \\
-No regime & $0.285184 \pm 0.088981$ & $0.022839 \pm 0.012889$ & $0.094715 \pm 0.047779$ & $0.500099 \pm 0.035875$ & $0.553932 \pm 0.191267$ & $0.495833 \pm 0.290593$ & $0.344453 \pm 0.179640$ \\
+Full & $0.305095 \pm 0.076342$ & $0.022995 \pm 0.012830$ & $0.500257 \pm 0.035723$ & $0.553932 \pm 0.191267$ \\
+No memory & $0.345191 \pm 0.035890$ & $0.029290 \pm 0.009450$ & $0.521784 \pm 0.048304$ & $0.553932 \pm 0.191267$ \\
+No gate & $0.322545 \pm 0.098770$ & $0.020178 \pm 0.008655$ & $0.550000 \pm 0.176088$ & $0.553932 \pm 0.191267$ \\
+No regime & $0.285184 \pm 0.088981$ & $0.022839 \pm 0.012889$ & $0.500099 \pm 0.035875$ & $0.553932 \pm 0.191267$ \\
 \bottomrule
 \end{tabular}
+
+\vspace{0.45em}
+
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Variant & Cov MSE $\downarrow$ & Regime Acc $\uparrow$ & Rare Eig NMSE $\downarrow$ \\
+\midrule
+Full & $0.091642 \pm 0.048656$ & $0.616667 \pm 0.211886$ & $0.372357 \pm 0.162879$ \\
+No memory & $0.092045 \pm 0.046544$ & $0.612500 \pm 0.217546$ & $0.388451 \pm 0.163679$ \\
+No gate & $0.090629 \pm 0.046908$ & $0.616667 \pm 0.211886$ & $0.391944 \pm 0.170947$ \\
+No regime & $0.094715 \pm 0.047779$ & $0.495833 \pm 0.290593$ & $0.344453 \pm 0.179640$ \\
+\bottomrule
+\end{tabular}
+\endgroup
