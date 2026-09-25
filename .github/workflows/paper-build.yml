@@ -1,0 +1,124 @@
+name: Canonical paper PDF
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "paper/**"
+      - "PUBLISHING.md"
+      - ".github/workflows/paper-build.yml"
+  push:
+    branches: [main]
+    paths:
+      - "paper/**"
+      - "PUBLISHING.md"
+      - ".github/workflows/paper-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: eigen-jepa-paper-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-canonical-pdf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact source head
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Assert exact source identity
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+
+      - name: Install minimal LaTeX toolchain
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            poppler-utils
+
+      - name: Build canonical manuscript twice
+        run: |
+          set -euo pipefail
+          cd paper
+          rm -f main.aux main.log main.out main.toc main.pdf
+          pdflatex -halt-on-error -file-line-error -interaction=nonstopmode main.tex
+          pdflatex -halt-on-error -file-line-error -interaction=nonstopmode main.tex
+          test -s main.pdf
+
+      - name: Fail on unresolved references or citations
+        run: |
+          set -euo pipefail
+          if grep -E "LaTeX Warning: (Reference|Citation).*undefined|There were undefined references|There were undefined citations" paper/main.log; then
+            echo "Canonical manuscript contains unresolved references/citations."
+            exit 1
+          fi
+
+      - name: Fail on duplicate PDF destinations
+        run: |
+          set -euo pipefail
+          if grep -F 'destination with the same identifier' paper/main.log; then
+            echo "Canonical manuscript contains duplicate PDF hyperlink destinations."
+            exit 1
+          fi
+
+      - name: Fail on overfull layout boxes
+        run: |
+          set -euo pipefail
+          if grep -F -e 'Overfull \hbox' -e 'Overfull \vbox' paper/main.log; then
+            echo "Canonical manuscript contains an overfull layout box; fix the source instead of retaining clipped submission evidence."
+            exit 1
+          fi
+
+      - name: Fail on leaked starred section headings
+        run: |
+          set -euo pipefail
+          if pdftotext paper/main.pdf - | grep -Eq '^[[:space:]]*[0-9]+[[:space:]]+\*[[:space:]]*$'; then
+            echo "Canonical PDF leaked a starred section command as a numbered heading."
+            exit 1
+          fi
+
+      - name: Upload layout diagnostics
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: eigen-jepa-layout-diagnostics-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            paper/main.log
+            paper/main.pdf
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Record source-bound PDF receipt
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p paper-build-evidence
+          git rev-parse HEAD | tee paper-build-evidence/source-head.txt
+          test "$(cat paper-build-evidence/source-head.txt)" = "$EXPECTED_HEAD"
+          sha256sum paper/main.tex paper/conference_v2.tex paper/main.pdf \
+            | tee paper-build-evidence/sha256sums.txt
+          pdfinfo paper/main.pdf > paper-build-evidence/pdfinfo.txt
+          cp paper/main.pdf paper-build-evidence/eigen-jepa-canonical.pdf
+
+      - name: Upload canonical PDF and receipt
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: eigen-jepa-paper-${{ github.event.pull_request.head.sha || github.sha }}
+          path: paper-build-evidence
+          if-no-files-found: error
+          retention-days: 30

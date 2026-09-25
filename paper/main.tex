@@ -1,4 +1,20 @@
 % Canonical conference manuscript entry point.
 % Keep this wrapper intentionally minimal: empirical claims live in
 % conference_v2.tex, which is reconciled to the frozen five-seed evidence.
+% The custom manuscript style uses a numbered-only section override; restore
+% starred section handling so bibliography headings remain unnumbered.
+\makeatletter
+\AtBeginDocument{%
+  \renewcommand{\shorttitle}{Eigen-JEPA}%
+  \renewcommand{\headeright}{Preprint}%
+  \hypersetup{hypertexnames=false}%
+  \let\EigenNumberedSection\section
+  \newcommand{\EigenUnnumberedSection}[1]{%
+    \par\addvspace{1.5ex}%
+    \noindent{\large\bfseries #1}\par
+    \addvspace{0.8ex}%
+  }%
+  \renewcommand{\section}{\@ifstar{\EigenUnnumberedSection}{\EigenNumberedSection}}%
+}
+\makeatother
 \input{conference_v2.tex}
