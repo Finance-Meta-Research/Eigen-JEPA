@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 from dataclasses import asdict
 from pathlib import Path
+import subprocess
 from typing import Any, Mapping
 
 import numpy as np
@@ -43,6 +44,36 @@ EXPECTED_FAMILIES = (
 )
 
 
+def _git_commit() -> str:
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except Exception as exc:
+        raise ConfirmationRunnerError("could not resolve git HEAD") from exc
+
+
+def _git_dirty() -> bool:
+    try:
+        return bool(
+            subprocess.check_output(
+                ["git", "status", "--porcelain"],
+                text=True,
+                stderr=subprocess.DEVNULL,
+            ).strip()
+        )
+    except Exception as exc:
+        raise ConfirmationRunnerError("could not determine git dirty state") from exc
+
+
+def _is_hex(value: str, length: int) -> bool:
+    if len(value) != length:
+        return False
+    return all(ch in "0123456789abcdef" for ch in value.lower())
+
+
 def validate_baseline_protocol(protocol: Mapping[str, Any]) -> None:
     if protocol.get("schema_version") != 1:
         raise ConfirmationRunnerError("baseline protocol schema_version must equal 1")
@@ -62,8 +93,18 @@ def validate_baseline_protocol(protocol: Mapping[str, Any]) -> None:
     if protocol.get("test_access_policy") != "single_pass_after_freeze_and_authorization":
         raise ConfirmationRunnerError("unexpected classical baseline test-access policy")
 
+    implementation = protocol.get("implementation", {})
+    if implementation.get("reference_protocol") != "protocols/final_rigor_v2_20260905.json":
+        raise ConfirmationRunnerError("unexpected reference protocol path")
 
-def assert_baseline_execution_authorized(protocol: Mapping[str, Any]) -> None:
+
+def assert_baseline_execution_authorized(
+    protocol: Mapping[str, Any],
+    *,
+    actual_source_commit: str | None = None,
+    actual_git_dirty: bool | None = None,
+    actual_reference_protocol_sha256: str | None = None,
+) -> None:
     validate_baseline_protocol(protocol)
     if protocol.get("status") != BASELINE_STATUS:
         raise ConfirmationRunnerError(
@@ -71,9 +112,41 @@ def assert_baseline_execution_authorized(protocol: Mapping[str, Any]) -> None:
         )
     if protocol.get("execution_authorized") is not True:
         raise ConfirmationRunnerError("baseline execution_authorized must be true")
-    source_commit = protocol.get("implementation", {}).get("source_commit")
-    if not isinstance(source_commit, str) or len(source_commit) != 40:
-        raise ConfirmationRunnerError("baseline source_commit must be bound before execution")
+
+    implementation = protocol.get("implementation", {})
+    source_commit = implementation.get("source_commit")
+    if not isinstance(source_commit, str) or not _is_hex(source_commit, 40):
+        raise ConfirmationRunnerError(
+            "baseline source_commit must be one bound 40-hex commit before execution"
+        )
+
+    reference_protocol_sha256 = implementation.get("reference_protocol_sha256")
+    if not isinstance(reference_protocol_sha256, str) or not _is_hex(
+        reference_protocol_sha256, 64
+    ):
+        raise ConfirmationRunnerError(
+            "reference_protocol_sha256 must be one bound 64-hex digest before execution"
+        )
+
+    observed_commit = actual_source_commit if actual_source_commit is not None else _git_commit()
+    if observed_commit != source_commit:
+        raise ConfirmationRunnerError(
+            f"running git HEAD {observed_commit} does not match bound source_commit {source_commit}"
+        )
+
+    dirty = actual_git_dirty if actual_git_dirty is not None else _git_dirty()
+    if dirty:
+        raise ConfirmationRunnerError(
+            "working tree must be clean before baseline test-outcome execution"
+        )
+
+    if actual_reference_protocol_sha256 is None:
+        reference_path = Path(str(implementation["reference_protocol"]))
+        actual_reference_protocol_sha256 = _sha256_bytes(reference_path)
+    if actual_reference_protocol_sha256 != reference_protocol_sha256:
+        raise ConfirmationRunnerError(
+            "runtime reference-protocol SHA-256 does not match the prospectively bound digest"
+        )
 
 
 def _families() -> dict[str, tuple[ClassicalCovarianceSpec, ...]]:
@@ -155,23 +228,36 @@ def run_baseline_ladder(
     csv_path: Path,
     parent_protocol_sha256: str,
     baseline_protocol_sha256: str,
+    reference_protocol_sha256: str,
     csv_sha256: str,
     plan: Mapping[str, Mapping[str, Any]],
     out_dir: Path,
     date_col: str,
 ) -> None:
-    assert_baseline_execution_authorized(baseline_protocol)
+    assert_baseline_execution_authorized(
+        baseline_protocol,
+        actual_reference_protocol_sha256=reference_protocol_sha256,
+    )
     assets = tuple(parent_protocol["asset_universe"]["symbols_exact"])
     data = reference["data"]
+    context_len = int(data["context_len"])
+    horizon = int(data["horizon"])
     k = int(data["k"])
     families = _families()
 
     payload: dict[str, Any] = {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "RETAINED_CLASSICAL_BASELINE_EVIDENCE",
+        "source_commit": _git_commit(),
+        "git_dirty": _git_dirty(),
         "parent_protocol_sha256": parent_protocol_sha256,
         "baseline_protocol_sha256": baseline_protocol_sha256,
+        "reference_protocol_sha256": reference_protocol_sha256,
         "normalized_return_csv_sha256": csv_sha256,
+        "context_len": context_len,
+        "horizon": horizon,
+        "k": k,
+        "covariance_target": "future-window demeaned sample covariance, denominator n-1",
         "selection_surface": "validation_only",
         "test_access": "single_pass_after_freeze_and_authorization",
         "folds": {},
@@ -182,8 +268,8 @@ def run_baseline_ladder(
         cfg = MarketConfig(
             num_assets=len(assets),
             total_steps=1,
-            context_len=int(data["context_len"]),
-            horizon=int(data["horizon"]),
+            context_len=context_len,
+            horizon=horizon,
             num_train=len(split["train"]),
             num_val=len(split["validation"]),
             num_test=len(split["test"]),
@@ -273,13 +359,25 @@ def main() -> None:
     validate_protocol_shape(parent)
     validate_baseline_protocol(baseline)
 
+    implementation = baseline.get("implementation", {})
+    if str(args.reference_protocol) != str(implementation.get("reference_protocol")):
+        raise ConfirmationRunnerError(
+            "--reference-protocol must equal the path frozen in the baseline protocol"
+        )
+
     data = reference.get("data", {})
     context_len = int(data.get("context_len", 0))
     horizon = int(data.get("horizon", 0))
-    if context_len <= 0 or horizon <= 0:
+    k = int(data.get("k", 0))
+    if context_len <= 0 or horizon <= 0 or k <= 0:
         raise ConfirmationRunnerError(
-            "reference protocol has invalid context_len/horizon"
+            "reference protocol has invalid context_len/horizon/k"
         )
+
+    parent_sha256 = _sha256_bytes(args.parent_protocol)
+    baseline_sha256 = _sha256_bytes(args.baseline_protocol)
+    reference_sha256 = _sha256_bytes(args.reference_protocol)
+    csv_sha256 = _sha256_bytes(args.csv)
 
     dates = read_csv_dates(args.csv, date_col=args.date_col)
     plan = build_fold_plan(
@@ -289,11 +387,18 @@ def main() -> None:
         horizon=horizon,
     )
     plan_payload = {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "PREOUTCOME_CLASSICAL_BASELINE_PLAN_ONLY",
-        "parent_protocol_sha256": _sha256_bytes(args.parent_protocol),
-        "baseline_protocol_sha256": _sha256_bytes(args.baseline_protocol),
-        "normalized_return_csv_sha256": _sha256_bytes(args.csv),
+        "source_commit_observed": _git_commit(),
+        "git_dirty_observed": _git_dirty(),
+        "parent_protocol_sha256": parent_sha256,
+        "baseline_protocol_sha256": baseline_sha256,
+        "reference_protocol_sha256": reference_sha256,
+        "normalized_return_csv_sha256": csv_sha256,
+        "context_len": context_len,
+        "horizon": horizon,
+        "k": k,
+        "covariance_target": "future-window demeaned sample covariance, denominator n-1",
         "families": list(EXPECTED_FAMILIES),
         "candidate_count": len(default_candidate_grid()),
         "folds": {
@@ -301,11 +406,12 @@ def main() -> None:
             for fold in EXPECTED_FOLDS
         },
     }
-    _write_json_once(
-        args.out_dir / "classical_baseline_plan.json",
-        plan_payload,
-    )
+
     if args.plan_only:
+        _write_json_once(
+            args.out_dir / "classical_baseline_plan.json",
+            plan_payload,
+        )
         print("REAL_MARKET_CLASSICAL_BASELINE_PLAN_PREOUTCOME")
         return
 
@@ -313,20 +419,33 @@ def main() -> None:
         raise ConfirmationRunnerError(
             "--input-receipt is required for baseline outcome execution"
         )
+
+    # Authorization and repository provenance are checked before any result or
+    # plan artifact is written, so our own output files cannot make the tree
+    # look dirty after the gate has already passed.
     verify_frozen_inputs(
         parent,
         csv_path=args.csv,
         input_receipt_path=args.input_receipt,
     )
-    assert_baseline_execution_authorized(baseline)
+    assert_baseline_execution_authorized(
+        baseline,
+        actual_reference_protocol_sha256=reference_sha256,
+    )
+
+    _write_json_once(
+        args.out_dir / "classical_baseline_plan.json",
+        plan_payload,
+    )
     run_baseline_ladder(
         parent,
         baseline,
         reference,
         csv_path=args.csv,
-        parent_protocol_sha256=_sha256_bytes(args.parent_protocol),
-        baseline_protocol_sha256=_sha256_bytes(args.baseline_protocol),
-        csv_sha256=_sha256_bytes(args.csv),
+        parent_protocol_sha256=parent_sha256,
+        baseline_protocol_sha256=baseline_sha256,
+        reference_protocol_sha256=reference_sha256,
+        csv_sha256=csv_sha256,
         plan=plan,
         out_dir=args.out_dir,
         date_col=args.date_col,
