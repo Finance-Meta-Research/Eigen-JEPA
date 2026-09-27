@@ -119,9 +119,10 @@
   "evaluation": {
     "folds": "exactly the parent protocol's purged F1/F2/F3 expanding-window folds",
     "context_horizon_rank": "exactly the frozen final-rigor v2 context_len, horizon, and k used by the parent runner",
+    "covariance_target": "future-window demeaned sample covariance with denominator n-1, as implemented by sample_covariance",
     "headline_comparator_metric": "pooled top-k eigenspectrum NMSE constructed from retained per-window eig_sq_error and target_energy",
     "secondary_metric": "covariance NMSE constructed from retained per-window cov_sq_error and cov_target_energy",
-    "retention": "retain selected spec, every validation score, and every chronological test-window error row"
+    "retention": "retain selected spec, every validation score, every chronological test-window error row, exact context_len/horizon/k, and all bound source/protocol/data hashes"
   },
   "test_access_policy": "single_pass_after_freeze_and_authorization",
   "implementation": {
@@ -129,14 +130,19 @@
     "runner": "scripts/run_real_market_classical_baselines.py",
     "tests": "tests/test_classical_covariance.py",
     "source_commit": null,
-    "source_commit_rule": "Bind one exact prospective source commit after review and before any baseline test-outcome access."
+    "source_commit_rule": "Bind one exact prospective 40-hex source commit after review and before any baseline test-outcome access; execution must prove git HEAD equals this value and the working tree is clean.",
+    "reference_protocol": "protocols/final_rigor_v2_20260905.json",
+    "reference_protocol_sha256": null,
+    "reference_protocol_sha256_rule": "Bind the exact SHA-256 of the reference protocol before authorization; execution must recompute and match it."
   },
   "authorization_requirements": [
     "parent real-market protocol is separately FROZEN_PRE_OUTCOME_AUTHORIZED",
     "parent normalized CSV and input receipt pass the existing hash checks",
     "this baseline protocol is changed to FROZEN_PRE_OUTCOME_AUTHORIZED with execution_authorized=true before test evaluation",
-    "the exact baseline source commit is bound prospectively",
-    "no candidate, family, validation rule, fold, or metric is changed after test-outcome access"
+    "the exact baseline source commit is bound prospectively and equals the running git HEAD",
+    "the running working tree is clean before any result/plan artifact is written",
+    "the exact final-rigor reference protocol SHA-256 is bound prospectively and matches the runtime file",
+    "no candidate, family, validation rule, fold, metric, covariance convention, or reference protocol is changed after test-outcome access"
   ],
   "claim_boundary": "These baselines are controls, not trading strategies. A baseline win weakens an Eigen-JEPA forecasting claim; an Eigen-JEPA win supports only comparative forecast evidence on the frozen ETF/date design. Neither outcome establishes trading alpha, economic profitability, causality, or broad cross-asset superiority."
 }
