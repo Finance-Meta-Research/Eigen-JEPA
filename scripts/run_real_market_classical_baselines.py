@@ -4,7 +4,7 @@ import argparse
 from dataclasses import asdict
 from pathlib import Path
 import subprocess
-from typing import Any, Mapping
+from typing import Any, Mapping, Sequence
 
 import numpy as np
 
@@ -34,6 +34,7 @@ from scripts.run_real_market_confirmation import (
 
 BASELINE_STATUS = "FROZEN_PRE_OUTCOME_AUTHORIZED"
 PROTOCOL_ID = "eigen-jepa-real-market-classical-baseline-ladder-v1-candidate-20260926"
+BASELINE_PROTOCOL_PATH = "protocols/real_market_classical_baseline_ladder_v1_candidate_20260926.json"
 EXPECTED_FAMILIES = (
     "sample_persistence",
     "oas",
@@ -66,6 +67,35 @@ def _git_dirty() -> bool:
         )
     except Exception as exc:
         raise ConfirmationRunnerError("could not determine git dirty state") from exc
+
+
+def _git_is_ancestor(ancestor: str, descendant: str) -> bool:
+    try:
+        result = subprocess.run(
+            ["git", "merge-base", "--is-ancestor", ancestor, descendant],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+    except Exception as exc:
+        raise ConfirmationRunnerError("could not verify bound source ancestry") from exc
+    if result.returncode == 0:
+        return True
+    if result.returncode == 1:
+        return False
+    raise ConfirmationRunnerError("git could not verify bound source ancestry")
+
+
+def _git_changed_paths(base: str, head: str) -> tuple[str, ...]:
+    try:
+        output = subprocess.check_output(
+            ["git", "diff", "--name-only", f"{base}..{head}"],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
+    except Exception as exc:
+        raise ConfirmationRunnerError("could not inspect post-binding source drift") from exc
+    return tuple(line.strip() for line in output.splitlines() if line.strip())
 
 
 def _is_hex(value: str, length: int) -> bool:
