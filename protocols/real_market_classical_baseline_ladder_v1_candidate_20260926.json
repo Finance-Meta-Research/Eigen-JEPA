@@ -130,19 +130,30 @@
     "runner": "scripts/run_real_market_classical_baselines.py",
     "tests": "tests/test_classical_covariance.py",
     "source_commit": null,
-    "source_commit_rule": "Bind one exact prospective 40-hex source commit after review and before any baseline test-outcome access; execution must prove git HEAD equals this value and the working tree is clean.",
+    "source_commit_rule": "Bind the last reviewed pre-authorization code commit. Outcome execution may run at that exact commit or at a descendant whose only changes since the bound commit are to this baseline authorization protocol; any code, reference-protocol, test, data, or runner drift fails closed.",
     "reference_protocol": "protocols/final_rigor_v2_20260905.json",
     "reference_protocol_sha256": null,
-    "reference_protocol_sha256_rule": "Bind the exact SHA-256 of the reference protocol before authorization; execution must recompute and match it."
+    "reference_protocol_sha256_rule": "Bind the exact SHA-256 of the reference protocol before authorization; execution must recompute and match it.",
+    "parent_protocol_sha256": null,
+    "parent_protocol_sha256_rule": "Bind the exact SHA-256 of the separately authorized parent real-market protocol before baseline test access; execution must recompute and match it."
   },
   "authorization_requirements": [
     "parent real-market protocol is separately FROZEN_PRE_OUTCOME_AUTHORIZED",
+    "the exact authorized parent protocol SHA-256 is bound prospectively and matches the runtime parent protocol",
     "parent normalized CSV and input receipt pass the existing hash checks",
     "this baseline protocol is changed to FROZEN_PRE_OUTCOME_AUTHORIZED with execution_authorized=true before test evaluation",
-    "the exact baseline source commit is bound prospectively and equals the running git HEAD",
+    "the exact reviewed pre-authorization source commit is bound prospectively",
+    "runtime HEAD equals the bound source commit or is its descendant with no changed path other than this baseline authorization protocol",
     "the running working tree is clean before any result/plan artifact is written",
     "the exact final-rigor reference protocol SHA-256 is bound prospectively and matches the runtime file",
-    "no candidate, family, validation rule, fold, metric, covariance convention, or reference protocol is changed after test-outcome access"
+    "no candidate, family, validation rule, fold, metric, covariance convention, parent/reference protocol, or code path is changed after test-outcome access"
   ],
-  "claim_boundary": "These baselines are controls, not trading strategies. A baseline win weakens an Eigen-JEPA forecasting claim; an Eigen-JEPA win supports only comparative forecast evidence on the frozen ETF/date design. Neither outcome establishes trading alpha, economic profitability, causality, or broad cross-asset superiority."
+  "claim_boundary": "These baselines are controls, not trading strategies. A baseline win weakens an Eigen-JEPA forecasting claim; an Eigen-JEPA win supports only comparative forecast evidence on the frozen ETF/date design. Neither outcome establishes trading alpha, economic profitability, causality, or broad cross-asset superiority.",
+  "economic_evaluation": {
+    "trading_strategy_defined": false,
+    "transaction_costs": "not_applicable_no_trading_strategy",
+    "slippage": "not_applicable_no_trading_strategy",
+    "execution_assumptions": "not_applicable_no_trading_strategy",
+    "boundary": "This protocol evaluates covariance forecasts only. No returns, Sharpe ratio, turnover, PnL, capacity, or economic-profitability claim may be derived from this study. Any later trading study must be separately preregistered with timestamp-safe signals, executable portfolio rules, transaction costs, slippage, turnover, and latency/market-impact assumptions frozen before outcome access."
+  }
 }
