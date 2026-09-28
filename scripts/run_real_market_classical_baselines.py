@@ -104,6 +104,25 @@ def _is_hex(value: str, length: int) -> bool:
     return all(ch in "0123456789abcdef" for ch in value.lower())
 
 
+def _protocol_candidate_grid() -> dict[str, Any]:
+    """Canonical JSON-shaped candidate grid implemented by this source tree."""
+    grid: dict[str, list[dict[str, Any]]] = {name: [] for name in EXPECTED_FAMILIES}
+    for spec in default_candidate_grid():
+        item: dict[str, Any] = {}
+        if spec.decay is not None:
+            item["decay"] = float(spec.decay)
+        if spec.factor_rank is not None:
+            item["factor_rank"] = int(spec.factor_rank)
+        if spec.shrinkage_alpha is not None:
+            item["shrinkage_alpha"] = float(spec.shrinkage_alpha)
+            item["target"] = spec.shrinkage_target
+        grid[spec.name].append(item)
+    return {
+        "total_candidates": len(default_candidate_grid()),
+        **grid,
+    }
+
+
 def validate_baseline_protocol(protocol: Mapping[str, Any]) -> None:
     if protocol.get("schema_version") != 1:
         raise ConfirmationRunnerError("baseline protocol schema_version must equal 1")
@@ -112,16 +131,55 @@ def validate_baseline_protocol(protocol: Mapping[str, Any]) -> None:
     families = tuple(protocol.get("reporting_families_exact", ()))
     if families != EXPECTED_FAMILIES:
         raise ConfirmationRunnerError(f"baseline family drift: expected {EXPECTED_FAMILIES}")
-    expected_count = int(protocol.get("candidate_grid", {}).get("total_candidates", -1))
-    actual_count = len(default_candidate_grid())
-    if expected_count != actual_count:
+    protocol_grid = protocol.get("candidate_grid")
+    implemented_grid = _protocol_candidate_grid()
+    if protocol_grid != implemented_grid:
         raise ConfirmationRunnerError(
-            f"candidate count drift: protocol={expected_count}, implementation={actual_count}"
+            "candidate grid drift: protocol must exactly match the implemented ordered grid"
         )
-    if protocol.get("selection", {}).get("surface") != "validation_only":
+
+    selection = protocol.get("selection", {})
+    if selection.get("surface") != "validation_only":
         raise ConfirmationRunnerError("baseline hyperparameters must be validation-only selected")
+    if selection.get("within_family_rule") != (
+        "Choose the candidate with lowest mean validation top-k eigenspectrum NMSE "
+        "independently within each predeclared family."
+    ):
+        raise ConfirmationRunnerError("baseline within-family selection rule drift")
+    if selection.get("tie_rule") != "Stable candidate-grid order; no test metric may break a tie.":
+        raise ConfirmationRunnerError("baseline tie rule drift")
+    if selection.get("test_reuse_for_selection") is not False:
+        raise ConfirmationRunnerError("test outcomes must never be reused for baseline selection")
+
+    evaluation = protocol.get("evaluation", {})
+    expected_evaluation = {
+        "folds": "exactly the parent protocol's purged F1/F2/F3 expanding-window folds",
+        "context_horizon_rank": (
+            "exactly the frozen final-rigor v2 context_len, horizon, and k used by the parent runner"
+        ),
+        "covariance_target": (
+            "future-window demeaned sample covariance with denominator n-1, "
+            "as implemented by sample_covariance"
+        ),
+        "headline_comparator_metric": (
+            "pooled top-k eigenspectrum NMSE constructed from retained per-window "
+            "eig_sq_error and target_energy"
+        ),
+        "secondary_metric": (
+            "covariance NMSE constructed from retained per-window cov_sq_error "
+            "and cov_target_energy"
+        ),
+    }
+    for key, expected in expected_evaluation.items():
+        if evaluation.get(key) != expected:
+            raise ConfirmationRunnerError(f"baseline evaluation rule drift: {key}")
+
     if protocol.get("test_access_policy") != "single_pass_after_freeze_and_authorization":
         raise ConfirmationRunnerError("unexpected classical baseline test-access policy")
+    if protocol.get("parent_protocol") != (
+        "protocols/real_market_confirmation_v1_candidate_20260906.json"
+    ):
+        raise ConfirmationRunnerError("unexpected parent protocol path")
 
     implementation = protocol.get("implementation", {})
     if implementation.get("reference_protocol") != "protocols/final_rigor_v2_20260905.json":
@@ -134,6 +192,9 @@ def assert_baseline_execution_authorized(
     actual_source_commit: str | None = None,
     actual_git_dirty: bool | None = None,
     actual_reference_protocol_sha256: str | None = None,
+    actual_parent_protocol_sha256: str | None = None,
+    actual_source_is_descendant: bool | None = None,
+    actual_changed_paths: Sequence[str] | None = None,
 ) -> None:
     validate_baseline_protocol(protocol)
     if protocol.get("status") != BASELINE_STATUS:
@@ -158,11 +219,37 @@ def assert_baseline_execution_authorized(
             "reference_protocol_sha256 must be one bound 64-hex digest before execution"
         )
 
+    parent_protocol_sha256 = implementation.get("parent_protocol_sha256")
+    if not isinstance(parent_protocol_sha256, str) or not _is_hex(
+        parent_protocol_sha256, 64
+    ):
+        raise ConfirmationRunnerError(
+            "parent_protocol_sha256 must be one bound 64-hex digest before execution"
+        )
+
     observed_commit = actual_source_commit if actual_source_commit is not None else _git_commit()
     if observed_commit != source_commit:
-        raise ConfirmationRunnerError(
-            f"running git HEAD {observed_commit} does not match bound source_commit {source_commit}"
+        is_descendant = (
+            actual_source_is_descendant
+            if actual_source_is_descendant is not None
+            else _git_is_ancestor(source_commit, observed_commit)
         )
+        if not is_descendant:
+            raise ConfirmationRunnerError(
+                f"running git HEAD {observed_commit} is not the bound source_commit "
+                f"{source_commit} or its authorization-only descendant"
+            )
+        changed_paths = (
+            tuple(actual_changed_paths)
+            if actual_changed_paths is not None
+            else _git_changed_paths(source_commit, observed_commit)
+        )
+        disallowed = tuple(path for path in changed_paths if path != BASELINE_PROTOCOL_PATH)
+        if disallowed:
+            raise ConfirmationRunnerError(
+                "post-binding source drift is not authorization-only: "
+                + ", ".join(disallowed)
+            )
 
     dirty = actual_git_dirty if actual_git_dirty is not None else _git_dirty()
     if dirty:
@@ -176,6 +263,14 @@ def assert_baseline_execution_authorized(
     if actual_reference_protocol_sha256 != reference_protocol_sha256:
         raise ConfirmationRunnerError(
             "runtime reference-protocol SHA-256 does not match the prospectively bound digest"
+        )
+
+    if actual_parent_protocol_sha256 is None:
+        parent_path = Path(str(protocol["parent_protocol"]))
+        actual_parent_protocol_sha256 = _sha256_bytes(parent_path)
+    if actual_parent_protocol_sha256 != parent_protocol_sha256:
+        raise ConfirmationRunnerError(
+            "runtime parent-protocol SHA-256 does not match the prospectively bound digest"
         )
 
 
@@ -267,6 +362,7 @@ def run_baseline_ladder(
     assert_baseline_execution_authorized(
         baseline_protocol,
         actual_reference_protocol_sha256=reference_protocol_sha256,
+        actual_parent_protocol_sha256=parent_protocol_sha256,
     )
     assets = tuple(parent_protocol["asset_universe"]["symbols_exact"])
     data = reference["data"]
@@ -461,6 +557,7 @@ def main() -> None:
     assert_baseline_execution_authorized(
         baseline,
         actual_reference_protocol_sha256=reference_sha256,
+        actual_parent_protocol_sha256=parent_sha256,
     )
 
     _write_json_once(
