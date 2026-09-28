@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "protocol_id": "eigen-jepa-real-market-classical-baseline-ladder-v1-candidate-20260926",
+  "status": "CANDIDATE_PRE_OUTCOME_NOT_AUTHORIZED",
+  "execution_authorized": false,
+  "parent_protocol": "protocols/real_market_confirmation_v1_candidate_20260906.json",
+  "scientific_role": "Prospective secondary comparator ladder for the separately frozen Eigen-JEPA real-market confirmation. It does not alter the parent study's full-versus-no_memory primary hypothesis, effect threshold, bootstrap, or claim boundary.",
+  "primary_question": "Do simple covariance estimators match or outperform Eigen-JEPA on the same purged real-market test windows when every baseline hyperparameter is selected on validation data only?",
+  "reporting_families_exact": [
+    "sample_persistence",
+    "oas",
+    "ewma",
+    "factor",
+    "sample_shrinkage",
+    "ewma_shrinkage"
+  ],
+  "candidate_grid": {
+    "total_candidates": 21,
+    "sample_persistence": [
+      {}
+    ],
+    "oas": [
+      {}
+    ],
+    "ewma": [
+      {
+        "decay": 0.9
+      },
+      {
+        "decay": 0.94
+      },
+      {
+        "decay": 0.97
+      }
+    ],
+    "factor": [
+      {
+        "factor_rank": 1
+      },
+      {
+        "factor_rank": 2
+      },
+      {
+        "factor_rank": 3
+      }
+    ],
+    "sample_shrinkage": [
+      {
+        "shrinkage_alpha": 0.05,
+        "target": "scaled_identity"
+      },
+      {
+        "shrinkage_alpha": 0.15,
+        "target": "scaled_identity"
+      },
+      {
+        "shrinkage_alpha": 0.3,
+        "target": "scaled_identity"
+      },
+      {
+        "shrinkage_alpha": 0.5,
+        "target": "scaled_identity"
+      }
+    ],
+    "ewma_shrinkage": [
+      {
+        "decay": 0.9,
+        "shrinkage_alpha": 0.05,
+        "target": "scaled_identity"
+      },
+      {
+        "decay": 0.9,
+        "shrinkage_alpha": 0.15,
+        "target": "scaled_identity"
+      },
+      {
+        "decay": 0.9,
+        "shrinkage_alpha": 0.3,
+        "target": "scaled_identity"
+      },
+      {
+        "decay": 0.94,
+        "shrinkage_alpha": 0.05,
+        "target": "scaled_identity"
+      },
+      {
+        "decay": 0.94,
+        "shrinkage_alpha": 0.15,
+        "target": "scaled_identity"
+      },
+      {
+        "decay": 0.94,
+        "shrinkage_alpha": 0.3,
+        "target": "scaled_identity"
+      },
+      {
+        "decay": 0.97,
+        "shrinkage_alpha": 0.05,
+        "target": "scaled_identity"
+      },
+      {
+        "decay": 0.97,
+        "shrinkage_alpha": 0.15,
+        "target": "scaled_identity"
+      },
+      {
+        "decay": 0.97,
+        "shrinkage_alpha": 0.3,
+        "target": "scaled_identity"
+      }
+    ]
+  },
+  "selection": {
+    "surface": "validation_only",
+    "within_family_rule": "Choose the candidate with lowest mean validation top-k eigenspectrum NMSE independently within each predeclared family.",
+    "tie_rule": "Stable candidate-grid order; no test metric may break a tie.",
+    "test_reuse_for_selection": false
+  },
+  "evaluation": {
+    "folds": "exactly the parent protocol's purged F1/F2/F3 expanding-window folds",
+    "context_horizon_rank": "exactly the frozen final-rigor v2 context_len, horizon, and k used by the parent runner",
+    "covariance_target": "future-window demeaned sample covariance with denominator n-1, as implemented by sample_covariance",
+    "headline_comparator_metric": "pooled top-k eigenspectrum NMSE constructed from retained per-window eig_sq_error and target_energy",
+    "secondary_metric": "covariance NMSE constructed from retained per-window cov_sq_error and cov_target_energy",
+    "retention": "retain selected spec, every validation score, every chronological test-window error row, exact context_len/horizon/k, and all bound source/protocol/data hashes"
+  },
+  "test_access_policy": "single_pass_after_freeze_and_authorization",
+  "implementation": {
+    "module": "eigen_jepa/classical_covariance.py",
+    "runner": "scripts/run_real_market_classical_baselines.py",
+    "tests": "tests/test_classical_covariance.py",
+    "source_commit": null,
+    "source_commit_rule": "Bind the last reviewed pre-authorization code commit. Outcome execution may run at that exact commit or at a descendant whose only changes since the bound commit are to this baseline authorization protocol; any code, reference-protocol, test, data, or runner drift fails closed.",
+    "reference_protocol": "protocols/final_rigor_v2_20260905.json",
+    "reference_protocol_sha256": null,
+    "reference_protocol_sha256_rule": "Bind the exact SHA-256 of the reference protocol before authorization; execution must recompute and match it.",
+    "parent_protocol_sha256": null,
+    "parent_protocol_sha256_rule": "Bind the exact SHA-256 of the separately authorized parent real-market protocol before baseline test access; execution must recompute and match it."
+  },
+  "authorization_requirements": [
+    "parent real-market protocol is separately FROZEN_PRE_OUTCOME_AUTHORIZED",
+    "the exact authorized parent protocol SHA-256 is bound prospectively and matches the runtime parent protocol",
+    "parent normalized CSV and input receipt pass the existing hash checks",
+    "this baseline protocol is changed to FROZEN_PRE_OUTCOME_AUTHORIZED with execution_authorized=true before test evaluation",
+    "the exact reviewed pre-authorization source commit is bound prospectively",
+    "runtime HEAD equals the bound source commit or is its descendant with no changed path other than this baseline authorization protocol",
+    "the running working tree is clean before any result/plan artifact is written",
+    "the exact final-rigor reference protocol SHA-256 is bound prospectively and matches the runtime file",
+    "no candidate, family, validation rule, fold, metric, covariance convention, parent/reference protocol, or code path is changed after test-outcome access"
+  ],
+  "claim_boundary": "These baselines are controls, not trading strategies. A baseline win weakens an Eigen-JEPA forecasting claim; an Eigen-JEPA win supports only comparative forecast evidence on the frozen ETF/date design. Neither outcome establishes trading alpha, economic profitability, causality, or broad cross-asset superiority.",
+  "economic_evaluation": {
+    "trading_strategy_defined": false,
+    "transaction_costs": "not_applicable_no_trading_strategy",
+    "slippage": "not_applicable_no_trading_strategy",
+    "execution_assumptions": "not_applicable_no_trading_strategy",
+    "boundary": "This protocol evaluates covariance forecasts only. No returns, Sharpe ratio, turnover, PnL, capacity, or economic-profitability claim may be derived from this study. Any later trading study must be separately preregistered with timestamp-safe signals, executable portfolio rules, transaction costs, slippage, turnover, and latency/market-impact assumptions frozen before outcome access."
+  }
+}
