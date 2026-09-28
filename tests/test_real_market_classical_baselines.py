@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from scripts.run_real_market_classical_baselines import (
+    BASELINE_PROTOCOL_PATH,
     BASELINE_STATUS,
     EXPECTED_FAMILIES,
     ConfirmationRunnerError,
@@ -28,6 +29,7 @@ def _authorized_protocol():
     protocol["execution_authorized"] = True
     protocol["implementation"]["source_commit"] = "a" * 40
     protocol["implementation"]["reference_protocol_sha256"] = "b" * 64
+    protocol["implementation"]["parent_protocol_sha256"] = "d" * 64
     return protocol
 
 
@@ -54,14 +56,43 @@ def test_status_flip_without_source_binding_still_fails_closed():
         assert_baseline_execution_authorized(protocol)
 
 
-def test_bound_source_commit_must_match_running_checkout():
+def test_bound_source_commit_must_be_ancestor_of_authorization_head():
     protocol = _authorized_protocol()
-    with pytest.raises(ConfirmationRunnerError, match="does not match bound source_commit"):
+    with pytest.raises(ConfirmationRunnerError, match="is not the bound source_commit"):
         assert_baseline_execution_authorized(
             protocol,
             actual_source_commit="c" * 40,
             actual_git_dirty=False,
             actual_reference_protocol_sha256="b" * 64,
+            actual_parent_protocol_sha256="d" * 64,
+            actual_source_is_descendant=False,
+        )
+
+
+def test_authorization_only_descendant_is_allowed():
+    protocol = _authorized_protocol()
+    assert_baseline_execution_authorized(
+        protocol,
+        actual_source_commit="c" * 40,
+        actual_git_dirty=False,
+        actual_reference_protocol_sha256="b" * 64,
+        actual_parent_protocol_sha256="d" * 64,
+        actual_source_is_descendant=True,
+        actual_changed_paths=(BASELINE_PROTOCOL_PATH,),
+    ) is None
+
+
+def test_post_binding_code_drift_fails_closed():
+    protocol = _authorized_protocol()
+    with pytest.raises(ConfirmationRunnerError, match="post-binding source drift"):
+        assert_baseline_execution_authorized(
+            protocol,
+            actual_source_commit="c" * 40,
+            actual_git_dirty=False,
+            actual_reference_protocol_sha256="b" * 64,
+            actual_parent_protocol_sha256="d" * 64,
+            actual_source_is_descendant=True,
+            actual_changed_paths=(BASELINE_PROTOCOL_PATH, "eigen_jepa/classical_covariance.py"),
         )
 
 
@@ -73,6 +104,7 @@ def test_dirty_checkout_fails_before_test_outcome_execution():
             actual_source_commit="a" * 40,
             actual_git_dirty=True,
             actual_reference_protocol_sha256="b" * 64,
+            actual_parent_protocol_sha256="d" * 64,
         )
 
 
@@ -85,6 +117,7 @@ def test_reference_protocol_hash_must_be_bound():
             actual_source_commit="a" * 40,
             actual_git_dirty=False,
             actual_reference_protocol_sha256="b" * 64,
+            actual_parent_protocol_sha256="d" * 64,
         )
 
 
@@ -96,6 +129,7 @@ def test_reference_protocol_hash_must_match_runtime_file():
             actual_source_commit="a" * 40,
             actual_git_dirty=False,
             actual_reference_protocol_sha256="c" * 64,
+            actual_parent_protocol_sha256="d" * 64,
         )
 
 
@@ -106,7 +140,47 @@ def test_fully_bound_clean_checkout_can_pass_authority_gate():
         actual_source_commit="a" * 40,
         actual_git_dirty=False,
         actual_reference_protocol_sha256="b" * 64,
+            actual_parent_protocol_sha256="d" * 64,
     ) is None
+
+
+def test_parent_protocol_hash_must_be_bound():
+    protocol = _authorized_protocol()
+    protocol["implementation"]["parent_protocol_sha256"] = None
+    with pytest.raises(ConfirmationRunnerError, match="parent_protocol_sha256 must be"):
+        assert_baseline_execution_authorized(
+            protocol,
+            actual_source_commit="a" * 40,
+            actual_git_dirty=False,
+            actual_reference_protocol_sha256="b" * 64,
+            actual_parent_protocol_sha256="d" * 64,
+        )
+
+
+def test_parent_protocol_hash_must_match_runtime_file():
+    protocol = _authorized_protocol()
+    with pytest.raises(ConfirmationRunnerError, match="parent-protocol SHA-256"):
+        assert_baseline_execution_authorized(
+            protocol,
+            actual_source_commit="a" * 40,
+            actual_git_dirty=False,
+            actual_reference_protocol_sha256="b" * 64,
+            actual_parent_protocol_sha256="e" * 64,
+        )
+
+
+def test_candidate_grid_value_drift_is_rejected():
+    protocol = copy.deepcopy(_candidate_protocol())
+    protocol["candidate_grid"]["ewma"][1]["decay"] = 0.95
+    with pytest.raises(ConfirmationRunnerError, match="candidate grid drift"):
+        validate_baseline_protocol(protocol)
+
+
+def test_candidate_grid_reorder_is_rejected():
+    protocol = copy.deepcopy(_candidate_protocol())
+    protocol["candidate_grid"]["ewma"].reverse()
+    with pytest.raises(ConfirmationRunnerError, match="candidate grid drift"):
+        validate_baseline_protocol(protocol)
 
 
 def test_family_drift_is_rejected():
