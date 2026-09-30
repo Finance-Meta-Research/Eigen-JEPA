@@ -1,8 +1,18 @@
 # Eigen-JEPA
 
+## Current research status
+
+The current project is **closed at a retained mixed/negative synthetic-evidence boundary**. See [the September 30 closeout](FINAL_STATUS_2026-09-30.md) and [the claim-to-evidence audit](paper/SUBMISSION_CLAIM_AUDIT_20260906.md). The retained results do not establish trading alpha, real-market generalization, full-model dominance, or superiority over strong classical covariance estimators.
+
+The classical covariance baseline ladder is a **separate, optional, pre-outcome successor**. Its [candidate protocol](protocols/real_market_classical_baseline_ladder_v1_candidate_20260926.json) has `execution_authorized: false`; this README does not authorize running it or opening held-out outcomes. Closing the existing result does not require that successor.
+
+The canonical paper entrypoint is `paper/main.tex`, which delegates to `paper/conference_v2.tex`. Use the version-bound evidence tables described in the claim audit; the historical example outputs below are not interchangeable with the frozen final-rigor v2 results. Scientific closeout is separate from author approval, venue checks, licensing, or submission.
+
+## Implemented scope
+
 Eigen-JEPA is a spectral joint-embedding predictive architecture for financial world modeling. The central idea is to forecast the future geometry of a market — covariance spectra, dominant eigenspaces, eigengaps, subspace drift, and regime transitions — rather than only pointwise returns.
 
-This repository is a complete research package:
+This repository contains the following implemented research components and retained artifacts:
 
 - synthetic regime-switching market generator
 - lightweight temporal + spectral encoder
@@ -24,7 +34,9 @@ This repository is a complete research package:
 - `scripts/`: convenience wrappers for the full suite and paper build
 - `tests/`: smoke tests
 
-## Quick start
+## Exploratory quick-start examples
+
+These commands describe exploratory smoke/benchmark workflows. They are not the frozen final-rigor v2 reproduction contract and are not needed to reopen or extend the closed study. Consult the pinned protocol and claim audit before any outcome-bearing execution.
 
 ### 1) Install
 
