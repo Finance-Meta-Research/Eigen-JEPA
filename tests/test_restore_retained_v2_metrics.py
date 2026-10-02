@@ -1,7 +1,6 @@
 import hashlib
 import importlib.util
 from pathlib import Path
-import tempfile
 import zipfile
 
 import pytest
@@ -71,3 +70,15 @@ def test_symlink_destination_rejected(tmp_path, monkeypatch):
     with pytest.raises(ValueError, match="symlink"):
         module.restore(archive, target)
     assert not list(external.iterdir())
+
+
+def test_conflicting_parent_prevents_all_writes(tmp_path, monkeypatch):
+    archive = fixture_bundle(tmp_path, monkeypatch)
+    target = tmp_path / "out"
+    target.mkdir()
+    blocker = target / "seed_59"
+    blocker.write_text("keep")
+    with pytest.raises(ValueError, match="parent is not a directory"):
+        module.restore(archive, target)
+    assert blocker.read_text() == "keep"
+    assert not (target / "metrics.json").exists()

@@ -32,6 +32,8 @@ def restore(archive, destination):
             for component in [target, *target.parents]:
                 if component.is_symlink():
                     raise ValueError(f"symlink destination rejected: {component}")
+                if component != target and component.exists() and not component.is_dir():
+                    raise ValueError(f"parent is not a directory: {component}; no files restored")
             if target.exists():
                 if not target.is_file() or target.read_bytes() != content:
                     raise ValueError(f"existing destination differs: {target}; no files restored")
