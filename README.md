@@ -6,7 +6,16 @@ The current study is **closed at a mixed / negative evidence boundary**, as reco
 
 Read [the rigor gate](RIGOR_GATE.md) and [submission claim audit](paper/SUBMISSION_CLAIM_AUDIT_20260906.md) before interpreting tables. The optional classical-baseline and real-market lanes are separately gated prospective studies; the historical training commands below do not authorize successor outcome access.
 
-Checkout verification on 2 October 2026 at `cf3a1bd29c91c637c63dacf6813f801d8f76c337`: 97 tests and the submission claim checker passed, but `scripts/check_final_rigor_v2.py` failed because `results/final_rigor_v2/metrics.json` was missing. The full evidence package must be recovered from its retained artifact and verified before claiming a fresh full-gate pass. Do not substitute historical single-seed metrics or rerun a frozen study to fill this packaging gap.
+Checkout verification on 2 October 2026 at `cf3a1bd29c91c637c63dacf6813f801d8f76c337`: 97 tests and the submission claim checker passed. The checkout lacked `results/final_rigor_v2/metrics.json`; the original retained artifact was then recovered, its SHA256 matched, and its 21 metric files passed the full final-rigor gate (20 run files and 72 aggregate summaries). This verifies retained evidence, not a new scientific result.
+
+To restore metrics locally, download GitHub Actions artifact `9975833698` from run `33988159305`, then run:
+
+```bash
+python scripts/restore_retained_v2_metrics.py /path/to/artifact.zip
+python scripts/check_final_rigor_v2.py
+```
+
+The restore command checks the exact published digest, restores only the named metric files, and refuses conflicting existing files. It neither fetches data nor trains a model. Do not substitute historical single-seed metrics or rerun a frozen study to fill the checkout gap. Full figures/checkpoints remain in the original retained artifact; this command restores only the metrics needed by the gate.
 
 Eigen-JEPA is a spectral joint-embedding predictive architecture for financial world modeling. The central idea is to forecast the future geometry of a market — covariance spectra, dominant eigenspaces, eigengaps, subspace drift, and regime transitions — rather than only pointwise returns.
 
