@@ -1,8 +1,16 @@
 # Eigen-JEPA
 
+## Current research status
+
+The current study is **closed at a mixed / negative evidence boundary**, as recorded in [the final status](FINAL_STATUS_2026-09-30.md). The retained synthetic results are descriptive and do not establish full-model dominance, real-market generalization, superiority to strong classical covariance estimators or trading alpha.
+
+Read [the rigor gate](RIGOR_GATE.md) and [submission claim audit](paper/SUBMISSION_CLAIM_AUDIT_20260906.md) before interpreting tables. The optional classical-baseline and real-market lanes are separately gated prospective studies; the historical training commands below do not authorize successor outcome access.
+
+Checkout verification on 2 October 2026 at `cf3a1bd29c91c637c63dacf6813f801d8f76c337`: 97 tests and the submission claim checker passed, but `scripts/check_final_rigor_v2.py` failed because `results/final_rigor_v2/metrics.json` was missing. The full evidence package must be recovered from its retained artifact and verified before claiming a fresh full-gate pass. Do not substitute historical single-seed metrics or rerun a frozen study to fill this packaging gap.
+
 Eigen-JEPA is a spectral joint-embedding predictive architecture for financial world modeling. The central idea is to forecast the future geometry of a market — covariance spectra, dominant eigenspaces, eigengaps, subspace drift, and regime transitions — rather than only pointwise returns.
 
-This repository is a complete research package:
+This repository contains a historical research package:
 
 - synthetic regime-switching market generator
 - lightweight temporal + spectral encoder
