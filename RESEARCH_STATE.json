@@ -5,7 +5,7 @@
   "repository_base_commit": "cf3a1bd29c91c637c63dacf6813f801d8f76c337",
   "scientific_question": "Does predictive spectral representation and memory improve bounded financial spectral forecasting?",
   "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
-  "current_phase": "ENGINEERING_DEVELOPMENT_REVIEW",
+  "current_phase": "ENGINEERING_REVIEW_COMPLETE_PENDING_INTEGRATION",
   "current_hypothesis_change": false,
   "protected_evaluation_opened": false,
   "scientific_runs_this_revision": 0,
@@ -15,24 +15,46 @@
     "training_campaigns": 0,
     "protected_runs": 0
   },
-  "current_change": "Add an opt-in cohort evaluator retaining actual per-window errors, target energies and input hashes; aggregate NMSE and classification counts at cohort level; evaluate every supplied baseline window. Legacy evaluators and frozen bindings stay byte-identical.",
+  "current_change": "Prospective covariance-geometry evaluation: derive the actual spectrum and numerical-support projector of the unchanged legacy factor covariance, rather than treating merely normalized columns as an orthonormal eigensystem. Stack on PR #32; preserve legacy training, model, evaluators and frozen studies.",
+  "active_session": {
+    "id": "20261010-covariance-geometry-continuation",
+    "authorization": "Fresh user continuation requesting real GitHub research-code improvements; bounded engineering work only.",
+    "parent_commit": "7b6eae8446d85b7d281fd22979575076ccece164",
+    "opened_before_implementation": true,
+    "status": "implemented; independent agent source/test review passed; publication pending",
+    "local_targeted_test_invocations_used": 2,
+    "budget": {
+      "maximum_targeted_test_invocations": 10,
+      "maximum_generated_model_windows_per_case": 8,
+      "cpu_threads": 1,
+      "training_campaigns": 0,
+      "protected_runs": 0,
+      "paid_compute": false
+    },
+    "research_status": "No successor hypothesis or confirmatory protocol is authorized by this engineering session."
+  },
   "required_session_reads": [
     "FINAL_STATUS_2026-09-30.md",
     "protocols/final_rigor_v2_20260905.json",
     "protocols/real_market_source_freeze_candidate_20260906.json",
-    "docs/development/cohort-evaluation-v2-20261010.md"
+    "docs/development/cohort-evaluation-v2-20261010.md",
+    "docs/development/covariance-geometry-v3-20261010.md"
   ],
   "preserved_history_index": [
     "protocols/real_market_confirmation_v1_candidate_20260906.json",
     "protocols/real_market_classical_baseline_ladder_v1_candidate_20260926.json",
     "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/30",
-    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/31"
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/31",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/32",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/33"
   ],
   "history_index_scope": "Entry points to retained repository history and existing PRs; this is not a claim to have re-audited all historical evidence.",
   "pending_gates": [
     "GitHub review and integration of the independently reviewed opt-in API.",
     "A successor must explicitly source-bind v2 and frozen input tensors before protected outcomes; this patch does not execute or authorize confirmation.",
-    "Review the legacy subspace representation separately; normalized columns are not guaranteed orthonormal."
+    "The independently reviewed covariance-geometry v3 API requires GitHub integration and explicit successor opt-in; historical eigenvalue/projector report definitions remain unchanged.",
+    "Legacy model/training columns remain nonorthogonal. A training or architecture repair would be a separately versioned scientific change.",
+    "Independent covariance estimator PR #33 and purged-fold PR #31 remain separate integration work."
   ],
   "history": [
     {
@@ -40,6 +62,31 @@
       "kind": "engineering_revision",
       "record": "docs/development/cohort-evaluation-v2-20261010.md",
       "status": "implemented; 113 tests and source-freeze verification passed; independent source review passed; integration pending",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_session_opened",
+      "session_id": "20261010-covariance-geometry-continuation",
+      "record": "docs/development/covariance-geometry-v3-20261010.md",
+      "status": "Contract and finite generated-test budget recorded before implementation; remote PR #32 head unchanged; independent covariance estimator PR #33 remains separate.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_implementation_verified",
+      "session_id": "20261010-covariance-geometry-continuation",
+      "record": "docs/development/covariance-geometry-v3-20261010.md",
+      "receipt": "docs/development/covariance-geometry-v3-20261010-receipt.json",
+      "status": "59 targeted tests passed with warnings as errors; all five frozen source bindings verified; independent review pending",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "independent_engineering_review_completed",
+      "session_id": "20261010-covariance-geometry-continuation",
+      "status": "Independent agent reviewed thin-SVD covariance preservation, singular-value rank policy, untruncated eigenvalues, zero/rank-deficient/extreme cases and model state preservation; no blocking issue or source change requested.",
+      "next_action": "Publish a distinct stacked draft on PR #32, verify its complete tree and bounded hosted correctness workflow; no scientific runs.",
       "scientific_outcomes_created": false
     }
   ]

@@ -1,0 +1,48 @@
+{
+  "schema": "eigen_jepa.engineering_receipt.v1",
+  "session_id": "20261010-covariance-geometry-continuation",
+  "date": "2026-10-10",
+  "parent_commit": "7b6eae8446d85b7d281fd22979575076ccece164",
+  "scientific_evaluation_performed": false,
+  "protected_outcomes_opened": false,
+  "environment": {
+    "python": "3.12",
+    "torch": "2.14.1+cpu",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "test_invocations": [
+    {
+      "command": "python -m pytest -q tests/test_covariance_geometry_v3.py tests/test_evaluation_v2.py tests/test_sanity.py tests/test_real_market_source_freeze.py",
+      "status": "passed",
+      "raw_summary": "55 passed in 13.86s",
+      "scope": "Initial implementation, before four additional numerical/provenance regressions"
+    },
+    {
+      "command": "python -m pytest -q -W error tests/test_covariance_geometry_v3.py tests/test_evaluation_v2.py tests/test_sanity.py tests/test_real_market_source_freeze.py",
+      "status": "passed",
+      "raw_summary": "59 passed in 48.57s",
+      "new_geometry_cases": 36,
+      "existing_cases": 23
+    }
+  ],
+  "source_freeze": {
+    "command": "python scripts/verify_real_market_source_freeze.py",
+    "raw_stdout": "SOURCE_FREEZE_VERIFIED_NOT_AUTHORIZED\nSOURCE_COMMIT=057d723bdb693233ac47bcd4bd351fc8f36fc281\nCRITICAL_BINDINGS=5\n",
+    "execution_authorized": false
+  },
+  "source_sha256": {
+    "eigen_jepa/covariance_geometry_v3.py": "8c4e24a1569d7657a9befd33c31ba09a94e8f2776b8be94c5168794e6ec449dc",
+    "tests/test_covariance_geometry_v3.py": "0c70b86c75cd6887d33c5814757433e302a4bd079e86f908510515428378b9ad",
+    ".github/workflows/covariance-geometry.yml": "9ea5c22d34e76e16f5c7fe1e28de483e350ab17c10eae5ed1efca589471bdf27"
+  },
+  "unchanged_legacy_git_blobs": {
+    "eigen_jepa/model.py": "2ece2ec70293854b3a506ddb16d49453c681c579",
+    "eigen_jepa/spectral.py": "af1bb988bc918f3dbe065d913d960698269e2857",
+    "eigen_jepa/train.py": "c27be9fa19538602d0d8aaf54c1a943f3b85f4b3",
+    "eigen_jepa/losses.py": "2dc211183fc39322675b2a7cb050ff47f52a2e33",
+    "eigen_jepa/eval.py": "44d3bfe8336c1504b3aa5b48a336c7449b3013e2",
+    "eigen_jepa/evaluation_v2.py": "915699dd4bd191ac7ca842ac931c3e216663eb5c"
+  },
+  "review_status": "independent agent source and regression-test review completed; no blocking issue or source change requested"
+}
