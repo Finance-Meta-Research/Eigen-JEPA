@@ -1,0 +1,30 @@
+name: Prospective covariance geometry
+
+on:
+  pull_request:
+    paths:
+      - 'eigen_jepa/covariance_geometry_v3.py'
+      - 'eigen_jepa/evaluation_v2.py'
+      - 'tests/test_covariance_geometry_v3.py'
+      - '.github/workflows/covariance-geometry.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generated-correctness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: python -m pip install -e '.[dev]'
+      - name: Generated geometry, cohort and frozen-source checks
+        run: python -m pytest -q tests/test_covariance_geometry_v3.py tests/test_evaluation_v2.py tests/test_sanity.py tests/test_real_market_source_freeze.py
