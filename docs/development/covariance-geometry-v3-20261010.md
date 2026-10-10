@@ -143,3 +143,11 @@ rank policy, untruncated eigenvalues, numerical edge cases and the model-state
 preservation witness. No blocking issue or source change was requested. This
 is an engineering source review, not scientific peer review. Publication is a
 distinct stacked draft on #32; neither #32, #33 nor main is rewritten.
+
+Published as [draft PR #34](https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/34)
+with implementation commit `fac569f355887410649edaa871a773f21318e8d7` and tree
+`6836d4cadcb8b13cb73cc1c5b0c7aa50d107b282`. All 451 blob identities and modes
+matched the exact parent plus the six intended changes. This append records
+publication without modifying tested source; the PR retains current hosted
+verification status. The bounded engineering session is closed with integration
+pending. The scientific predecessor remains closed at its original disposition.

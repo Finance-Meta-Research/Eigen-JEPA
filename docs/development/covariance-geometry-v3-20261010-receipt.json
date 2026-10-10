@@ -44,5 +44,14 @@
     "eigen_jepa/eval.py": "44d3bfe8336c1504b3aa5b48a336c7449b3013e2",
     "eigen_jepa/evaluation_v2.py": "915699dd4bd191ac7ca842ac931c3e216663eb5c"
   },
-  "review_status": "independent agent source and regression-test review completed; no blocking issue or source change requested"
+  "review_status": "independent agent source and regression-test review completed; no blocking issue or source change requested",
+  "publication": {
+    "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/34",
+    "implementation_commit": "fac569f355887410649edaa871a773f21318e8d7",
+    "implementation_tree": "6836d4cadcb8b13cb73cc1c5b0c7aa50d107b282",
+    "verified_blobs": 451,
+    "tree_mismatches": 0,
+    "base_pull_request": 32,
+    "merged": false
+  }
 }

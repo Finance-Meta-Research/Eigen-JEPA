@@ -21,7 +21,9 @@
     "authorization": "Fresh user continuation requesting real GitHub research-code improvements; bounded engineering work only.",
     "parent_commit": "7b6eae8446d85b7d281fd22979575076ccece164",
     "opened_before_implementation": true,
-    "status": "implemented; independent agent source/test review passed; publication pending",
+    "status": "CLOSED_PUBLISHED_DRAFT; integration and scientific opt-in remain pending",
+    "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/34",
+    "implementation_commit": "fac569f355887410649edaa871a773f21318e8d7",
     "local_targeted_test_invocations_used": 2,
     "budget": {
       "maximum_targeted_test_invocations": 10,
@@ -87,6 +89,18 @@
       "session_id": "20261010-covariance-geometry-continuation",
       "status": "Independent agent reviewed thin-SVD covariance preservation, singular-value rank policy, untruncated eigenvalues, zero/rank-deficient/extreme cases and model state preservation; no blocking issue or source change requested.",
       "next_action": "Publish a distinct stacked draft on PR #32, verify its complete tree and bounded hosted correctness workflow; no scientific runs.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_draft_published",
+      "session_id": "20261010-covariance-geometry-continuation",
+      "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/34",
+      "implementation_commit": "fac569f355887410649edaa871a773f21318e8d7",
+      "parent_commit": "7b6eae8446d85b7d281fd22979575076ccece164",
+      "implementation_tree": "6836d4cadcb8b13cb73cc1c5b0c7aa50d107b282",
+      "tree_verification": "All 451 blob identities/modes equal the exact parent plus the six selected changes; no other head changed.",
+      "hosted_verification": "Bounded prospective geometry workflow and submission claim gate are attached to the PR; current hosted status is reported on GitHub, not inferred from local checks.",
       "scientific_outcomes_created": false
     }
   ]
