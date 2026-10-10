@@ -5,7 +5,7 @@
   "repository_base_commit": "cf3a1bd29c91c637c63dacf6813f801d8f76c337",
   "scientific_question": "Does predictive spectral representation and memory improve bounded financial spectral forecasting?",
   "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
-  "current_phase": "ENGINEERING_REVIEW_COMPLETE_PENDING_INTEGRATION",
+  "current_phase": "ENGINEERING_VERIFIED",
   "current_hypothesis_change": false,
   "protected_evaluation_opened": false,
   "scientific_runs_this_revision": 0,
@@ -15,25 +15,25 @@
     "training_campaigns": 0,
     "protected_runs": 0
   },
-  "current_change": "Repair finite nonnegative cohort reductions and caller-owned evidence aliasing in opt-in evaluation_v2; preserve the fresh covariance-geometry v3 implementation, which reuses these reductions, and all frozen source bindings.",
+  "current_change": "Add a distinct prospective checkpoint evaluation entrypoint that restores saved inference policy and consumes an explicit frozen development-window snapshot; preserve every existing evaluator, model, memory, training, source freeze and historical artifact.",
   "active_session": {
-    "id": "20261010-covariance-geometry-continuation",
-    "authorization": "Fresh user continuation requesting real GitHub research-code improvements; bounded engineering work only.",
-    "parent_commit": "7b6eae8446d85b7d281fd22979575076ccece164",
+    "id": "20261010-checkpoint-policy-replay",
     "opened_before_implementation": true,
-    "status": "CLOSED_PUBLISHED_DRAFT; integration and scientific opt-in remain pending",
-    "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/34",
-    "implementation_commit": "fac569f355887410649edaa871a773f21318e8d7",
-    "local_targeted_test_invocations_used": 2,
+    "status": "VERIFIED_PENDING_GITHUB_PUBLICATION",
+    "parent_commit": "0bebf465d4e66f08acd683c669396791b37d4198",
     "budget": {
-      "maximum_targeted_test_invocations": 10,
-      "maximum_generated_model_windows_per_case": 8,
+      "maximum_local_test_invocations": 16,
+      "maximum_model_windows_per_case": 8,
+      "maximum_generated_series_steps_per_case": 80,
       "cpu_threads": 1,
       "training_campaigns": 0,
       "protected_runs": 0,
       "paid_compute": false
     },
-    "research_status": "No successor hypothesis or confirmatory protocol is authorized by this engineering session."
+    "local_test_invocations_used": 7,
+    "independent_review_probes": 1,
+    "verified_test_count": 117,
+    "verification_receipt": "research/verification/checkpoint_policy_replay_20261010/receipt.json"
   },
   "required_session_reads": [
     "FINAL_STATUS_2026-09-30.md",
@@ -41,7 +41,8 @@
     "protocols/real_market_source_freeze_candidate_20260906.json",
     "docs/development/cohort-evaluation-v2-20261010.md",
     "docs/development/covariance-geometry-v3-20261010.md",
-    "docs/development/cohort-reduction-integrity-20261010.md"
+    "docs/development/cohort-reduction-integrity-20261010.md",
+    "docs/development/checkpoint-policy-replay-v3-20261010.md"
   ],
   "preserved_history_index": [
     "protocols/real_market_confirmation_v1_candidate_20260906.json",
@@ -57,7 +58,8 @@
     "A successor must explicitly source-bind v2 and frozen input tensors before protected outcomes; this patch does not execute or authorize confirmation.",
     "The independently reviewed covariance-geometry v3 API requires GitHub integration and explicit successor opt-in; historical eigenvalue/projector report definitions remain unchanged.",
     "Legacy model/training columns remain nonorthogonal. A training or architecture repair would be a separately versioned scientific change.",
-    "Independent covariance estimator PR #33 and purged-fold PR #31 remain separate integration work."
+    "Independent covariance estimator PR #33 and purged-fold PR #31 remain separate integration work.",
+    "The checkpoint replay v3 development CLI needs GitHub review/integration; any scientific use must explicitly select source, saved model/input policies, retained snapshots and a pre-outcome protocol."
   ],
   "history": [
     {
@@ -118,7 +120,46 @@
       "source_sha256": "9e26557139d7e592b713ddc0e38f83c0c06f6c862e3673da5ffe3046b7befd95",
       "independent_review": "Completed at exact source hash: additional Decimal mean/NMSE and ownership probes; no scoped blocker; not scientific validation",
       "dependency_pr": 34
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_session_opened",
+      "session_id": "20261010-checkpoint-policy-replay",
+      "parent_commit": "0bebf465d4e66f08acd683c669396791b37d4198",
+      "record": "docs/development/checkpoint-policy-replay-v3-20261010.md",
+      "status": "Preimplementation contract recorded; actual legacy CLI factory loses checkpoint memory parameters and variant overrides; bounded generated fixtures only",
+      "prior_active_session": {
+        "id": "20261010-covariance-geometry-continuation",
+        "authorization": "Fresh user continuation requesting real GitHub research-code improvements; bounded engineering work only.",
+        "parent_commit": "7b6eae8446d85b7d281fd22979575076ccece164",
+        "opened_before_implementation": true,
+        "status": "CLOSED_PUBLISHED_DRAFT; integration and scientific opt-in remain pending",
+        "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/34",
+        "implementation_commit": "fac569f355887410649edaa871a773f21318e8d7",
+        "local_targeted_test_invocations_used": 2,
+        "budget": {
+          "maximum_targeted_test_invocations": 10,
+          "maximum_generated_model_windows_per_case": 8,
+          "cpu_threads": 1,
+          "training_campaigns": 0,
+          "protected_runs": 0,
+          "paid_compute": false
+        },
+        "research_status": "No successor hypothesis or confirmatory protocol is authorized by this engineering session."
+      },
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_implementation_and_review_verified",
+      "session_id": "20261010-checkpoint-policy-replay",
+      "record": "docs/development/checkpoint-policy-replay-v3-20261010.md",
+      "receipt": "research/verification/checkpoint_policy_replay_20261010/receipt.json",
+      "parent_commit": "0bebf465d4e66f08acd683c669396791b37d4198",
+      "status": "117 bounded tests passed on hash-checked final source; independent invocation finding repaired and review passed; draft publication pending",
+      "source_sha256": "6235cf9b4fdfac7b8cc8ee5d0f0bdeb049017718647d2e593172d3db17151541",
+      "scientific_outcomes_created": false
     }
   ],
-  "latest_engineering_revision": "cohort_reduction_integrity_20261010"
+  "latest_engineering_revision": "checkpoint_policy_replay_v3_20261010"
 }

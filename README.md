@@ -98,6 +98,26 @@ Before submission, verify that you can:
 - run the ablation suite,
 - and inspect the saved metrics under `results/`.
 
+## Prospective checkpoint evaluation
+
+The opt-in `eigen_jepa.checkpoint_evaluation_v3` entry point restores the saved
+model weights, memory configuration and ablation inference policy, then evaluates
+every window in an explicitly materialized development snapshot. It uses the
+prospective covariance-geometry v3/cohort-v2 definitions and retains checkpoint,
+input and source hashes in the report.
+
+```bash
+python -m eigen_jepa.checkpoint_evaluation_v3 \
+  --checkpoint checkpoint.pt --snapshot development-windows.pt \
+  --output development-evaluation.json --batch-size 32 --device cpu
+```
+
+See [snapshot creation, artifact contracts and verification](docs/development/checkpoint-policy-replay-v3-20261010.md).
+The output path must be new. The mixed/negative predecessor remains closed;
+this development entry point does not authorize a protected evaluation or
+redefine retained scientific results. It requires complete saved policy metadata
+and the existing dense float32 checkpoint/window format.
+
 ## Citation
 
 A `CITATION.cff` file is included for convenience.
