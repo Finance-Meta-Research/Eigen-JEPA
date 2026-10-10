@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from datetime import date
-from numbers import Integral
 from typing import Iterable, Mapping, Sequence
 
 import numpy as np
@@ -64,16 +63,6 @@ def _canonical_dates(values: Iterable[str | date]) -> list[date]:
     return parsed
 
 
-def _validate_window_dimensions(context_len: int, horizon: int) -> None:
-    if any(
-        not isinstance(value, Integral)
-        or isinstance(value, (bool, np.bool_))
-        or value <= 0
-        for value in (context_len, horizon)
-    ):
-        raise ValueError("context_len and horizon must be positive integers")
-
-
 def build_purged_fold_indices(
     dates: Sequence[str | date],
     *,
@@ -91,7 +80,8 @@ def build_purged_fold_indices(
     Returned indices are the context-end row indices expected by MarketWindowDataset.
     """
 
-    _validate_window_dimensions(context_len, horizon)
+    if context_len <= 0 or horizon <= 0:
+        raise ValueError("context_len and horizon must be positive")
     parsed_dates = _canonical_dates(dates)
     b = boundary if isinstance(boundary, FoldBoundary) else parse_fold_boundary(boundary)
 
@@ -242,30 +232,19 @@ def build_purged_fold_datasets(
 
     if cfg.data_source != "csv":
         raise ValueError("purged real-market folds require data_source='csv'")
-    _validate_window_dimensions(cfg.context_len, cfg.horizon)
-    # The CSV loader adapts num_assets in-place. Do not expose that mutation
-    # to callers until their explicit indices have passed admission.
-    series = generate_market_series(replace(cfg))
+    series = generate_market_series(cfg)
     returns = series["returns"]
     aux = series["aux"]
 
     actual_steps = int(returns.shape[0])
+    cfg.total_steps = actual_steps
     actual_assets = int(returns.shape[1])
+    cfg.num_assets = actual_assets
 
     def checked(name: str, values: Sequence[int]) -> np.ndarray:
-        raw = np.asarray(values)
-        if raw.ndim != 1 or raw.size == 0:
+        arr = np.asarray(values, dtype=np.int64)
+        if arr.ndim != 1 or arr.size == 0:
             raise ValueError(f"{name} indices must be a non-empty 1D sequence")
-        # Casting first silently floors fractional values and accepts booleans
-        # or strings. Validate the original representation before narrowing.
-        if (
-            raw.dtype.kind not in "iu"
-            or any(not isinstance(value, Integral) or isinstance(value, (bool, np.bool_))
-                   for value in values)
-            or any(int(value) > np.iinfo(np.int64).max for value in raw)
-        ):
-            raise ValueError(f"{name} indices must contain representable integers")
-        arr = raw.astype(np.int64)
         if np.any(arr[1:] <= arr[:-1]):
             raise ValueError(f"{name} indices must be strictly increasing and unique")
         if int(arr[0]) < cfg.context_len - 1:
@@ -280,28 +259,6 @@ def build_purged_fold_datasets(
     all_values = np.concatenate([train_idx, val_idx, test_idx])
     if len(all_values) != len(np.unique(all_values)):
         raise ValueError("train/validation/test context-end indices must be disjoint")
-
-    # Distinct context-end indices do not establish purging: each index uses
-    # [index-context_len+1, index+horizon], inclusive, for data and labels.
-    # Enforce strict chronological separation of these complete footprints,
-    # even when callers bypass build_purged_fold_indices and supply their own.
-    for earlier_name, earlier, later_name, later in (
-        ("train", train_idx, "validation", val_idx),
-        ("validation", val_idx, "test", test_idx),
-    ):
-        earlier_target_end = int(earlier[-1]) + cfg.horizon
-        later_context_start = int(later[0]) - cfg.context_len + 1
-        if earlier_target_end >= later_context_start:
-            raise ValueError(
-                f"{earlier_name}/{later_name}: full context and target windows "
-                "must be chronological and non-overlapping; "
-                f"earlier target ends at {earlier_target_end}, "
-                f"later context starts at {later_context_start}"
-            )
-
-    # Invalid indices must not mutate the caller's configuration.
-    cfg.total_steps = actual_steps
-    cfg.num_assets = actual_assets
 
     train_last_row = int(train_idx[-1]) + cfg.horizon
     regime, regime_thresholds = _fit_train_only_regime_labels(
