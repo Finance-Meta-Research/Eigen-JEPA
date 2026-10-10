@@ -31,6 +31,28 @@ def _array(value: torch.Tensor, name: str) -> np.ndarray:
     return array
 
 
+def _nonnegative_mean(array: np.ndarray, name: str) -> float:
+    """Average finite nonnegative statistics without overflowing their sum."""
+    scale = float(array.max())
+    if scale == 0.0:
+        return 0.0
+    result = float((array / scale).mean()) * scale
+    if result == 0.0:
+        raise ValueError(f"nonzero {name} mean underflow; no finite report")
+    if not math.isfinite(result):
+        raise ValueError(f"{name} mean exceeds the finite float64 domain")
+    return result
+
+
+def _nmse(squared_error: np.ndarray, energy: np.ndarray) -> float:
+    error_mean = _nonnegative_mean(squared_error, "eigenvalue squared error")
+    energy_mean = _nonnegative_mean(energy, "eigenvalue target energy")
+    value = error_mean / (energy_mean + EPS)
+    if not math.isfinite(value) or (error_mean > 0.0 and value == 0.0):
+        raise ValueError("NMSE exceeds the representable finite nonzero domain")
+    return value
+
+
 def window_records(
     batch: Mapping, prediction: Mapping, *, latent_target=None
 ) -> list[dict]:
@@ -198,19 +220,21 @@ def reduce_records(
     squared_error = values("eig_squared_error")
     if np.any(energy < 0) or np.any(squared_error < 0):
         raise ValueError("eigenvalue energies and squared errors must be nonnegative")
-    out = {name: float(values(name).mean()) for name in MSE_FIELDS}
     if any(
         np.any(values(name) < 0)
         for name in (*MSE_FIELDS, "gap_mse", "lat_align")
         if name in keys
     ):
         raise ValueError("squared-error statistics must be nonnegative")
-    out["eig_nmse"] = float(squared_error.mean() / (energy.mean() + EPS))
+    out = {name: _nonnegative_mean(values(name), name) for name in MSE_FIELDS}
+    out["eig_nmse"] = _nmse(squared_error, energy)
     out["gap_rmse"] = (
-        float(np.sqrt(values("gap_mse").mean() + EPS)) if "gap_mse" in keys else None
+        math.sqrt(_nonnegative_mean(values("gap_mse"), "gap MSE") + EPS)
+        if "gap_mse" in keys
+        else None
     )
     if "lat_align" in keys:
-        out["lat_align"] = float(values("lat_align").mean())
+        out["lat_align"] = _nonnegative_mean(values("lat_align"), "latent alignment")
     event, gate = values("event_true"), values("gate")
     regime, prediction = values("regime_true"), values("pred_regime")
     if (
@@ -245,15 +269,13 @@ def reduce_records(
             "tail_f1": 2 * tp / (2 * tp + fp + fn) if (2 * tp + fp + fn) else 0.0,
             "tail_confusion": {"tp": tp, "fp": fp, "fn": fn},
             "rare_window_count": int(actual.sum()),
-            "rare_eig_nmse": float(
-                squared_error[actual].mean() / (energy[actual].mean() + EPS)
-            )
+            "rare_eig_nmse": _nmse(squared_error[actual], energy[actual])
             if actual.any()
             else None,
-            "rare_drift_mse": float(values("drift_mse")[actual].mean())
+            "rare_drift_mse": _nonnegative_mean(values("drift_mse")[actual], "rare drift MSE")
             if actual.any()
             else None,
-            "rare_cov_mse": float(values("cov_mse")[actual].mean())
+            "rare_cov_mse": _nonnegative_mean(values("cov_mse")[actual], "rare covariance MSE")
             if actual.any()
             else None,
         }
@@ -264,6 +286,9 @@ def reduce_records(
 def evaluation_report(
     records: Sequence[Mapping], *, event_threshold: float = 0.45
 ) -> dict:
+    # Admitted row values are scalars. Own the row dictionaries so a caller's
+    # later edits cannot silently invalidate this report's metrics and digest.
+    records = [dict(row) for row in records]
     metrics = reduce_records(records, event_threshold=event_threshold)
     payload = {
         "schema": SCHEMA,

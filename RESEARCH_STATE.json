@@ -15,7 +15,7 @@
     "training_campaigns": 0,
     "protected_runs": 0
   },
-  "current_change": "Prospective covariance-geometry evaluation: derive the actual spectrum and numerical-support projector of the unchanged legacy factor covariance, rather than treating merely normalized columns as an orthonormal eigensystem. Stack on PR #32; preserve legacy training, model, evaluators and frozen studies.",
+  "current_change": "Repair finite nonnegative cohort reductions and caller-owned evidence aliasing in opt-in evaluation_v2; preserve the fresh covariance-geometry v3 implementation, which reuses these reductions, and all frozen source bindings.",
   "active_session": {
     "id": "20261010-covariance-geometry-continuation",
     "authorization": "Fresh user continuation requesting real GitHub research-code improvements; bounded engineering work only.",
@@ -40,7 +40,8 @@
     "protocols/final_rigor_v2_20260905.json",
     "protocols/real_market_source_freeze_candidate_20260906.json",
     "docs/development/cohort-evaluation-v2-20261010.md",
-    "docs/development/covariance-geometry-v3-20261010.md"
+    "docs/development/covariance-geometry-v3-20261010.md",
+    "docs/development/cohort-reduction-integrity-20261010.md"
   ],
   "preserved_history_index": [
     "protocols/real_market_confirmation_v1_candidate_20260906.json",
@@ -102,6 +103,22 @@
       "tree_verification": "All 451 blob identities/modes equal the exact parent plus the six selected changes; no other head changed.",
       "hosted_verification": "Bounded prospective geometry workflow and submission claim gate are attached to the PR; current hosted status is reported on GitHub, not inferred from local checks.",
       "scientific_outcomes_created": false
+    },
+    {
+      "id": "cohort_reduction_integrity_20261010",
+      "date": "2026-10-10",
+      "kind": "engineering_revision",
+      "parent_commit": "a3896fe974e4517149444f8bc6bb12d3c5bdd85b",
+      "additional_parent_commits": [],
+      "record": "docs/development/cohort-reduction-integrity-20261010.md",
+      "verification_receipt": "research/verification/cohort_reduction_integrity_20261010/receipt.json",
+      "status": "implemented; 69 bounded tests passed with warnings as errors; independent source review completed; stacked draft integration pending",
+      "prior_session_current_change": "Prospective covariance-geometry evaluation: derive the actual spectrum and numerical-support projector of the unchanged legacy factor covariance, rather than treating merely normalized columns as an orthonormal eigensystem. Stack on PR #32; preserve legacy training, model, evaluators and frozen studies.",
+      "scientific_outcomes_created": false,
+      "source_sha256": "9e26557139d7e592b713ddc0e38f83c0c06f6c862e3673da5ffe3046b7befd95",
+      "independent_review": "Completed at exact source hash: additional Decimal mean/NMSE and ownership probes; no scoped blocker; not scientific validation",
+      "dependency_pr": 34
     }
-  ]
+  ],
+  "latest_engineering_revision": "cohort_reduction_integrity_20261010"
 }
