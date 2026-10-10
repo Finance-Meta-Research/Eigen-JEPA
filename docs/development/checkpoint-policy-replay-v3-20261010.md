@@ -205,3 +205,27 @@ invocations and one independent review probe, below the predeclared limit of 16.
 All new fixtures use five model windows and a generated 60-step series; existing
 checks use at most the predeclared 80-step bound. No optimizer campaign or
 protected evaluation was introduced by these corrections.
+
+### GitHub publication and hosted evidence
+
+Published draft: https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/36 .
+Implementation commit `5077684e7b03bbaadd2122c317a3497ed95fe008`, tree
+`f15582a652525bd026410efba3c440a127b0aa40`. Every one of the 472 implementation
+leaf paths/modes matched the exact parent plus the 12 declared changes; all
+460 other parent files remained identical. The draft stacks on #35 and preserves
+the separate #31/#33 proposals and every earlier recorded scientific boundary.
+
+Both workflows verified an explicit checkout of the implementation head:
+
+- Development checkpoint replay run **38030239548**, job **114149452905**:
+  **117 passed in 7.09 seconds**; Python 3.11.17, PyTorch 2.14.1+cpu,
+  NumPy 2.4.6 and pytest 9.1.1.
+- Submission claim gate run **38030239556**, job **114149453102**: existing
+  frozen synthetic-v2 identity, mixed/negative claim boundary and no-outcome/
+  no-self-authorization verification passed; **6 regressions passed** with
+  pytest 8.4.2.
+
+The durable hosted receipt is `github_5077684_receipt.json` alongside the local
+evidence. This follow-up changes only state, this record and verification receipts;
+reviewed source, tests and workflow remain unchanged. The draft awaits GitHub
+review/integration. No scientific conclusion or authorization changes.

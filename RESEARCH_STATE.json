@@ -5,7 +5,7 @@
   "repository_base_commit": "cf3a1bd29c91c637c63dacf6813f801d8f76c337",
   "scientific_question": "Does predictive spectral representation and memory improve bounded financial spectral forecasting?",
   "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
-  "current_phase": "ENGINEERING_VERIFIED",
+  "current_phase": "ENGINEERING_PUBLISHED_DRAFT",
   "current_hypothesis_change": false,
   "protected_evaluation_opened": false,
   "scientific_runs_this_revision": 0,
@@ -19,7 +19,7 @@
   "active_session": {
     "id": "20261010-checkpoint-policy-replay",
     "opened_before_implementation": true,
-    "status": "VERIFIED_PENDING_GITHUB_PUBLICATION",
+    "status": "CLOSED_PUBLISHED_DRAFT; integration and scientific opt-in remain pending",
     "parent_commit": "0bebf465d4e66f08acd683c669396791b37d4198",
     "budget": {
       "maximum_local_test_invocations": 16,
@@ -33,7 +33,11 @@
     "local_test_invocations_used": 7,
     "independent_review_probes": 1,
     "verified_test_count": 117,
-    "verification_receipt": "research/verification/checkpoint_policy_replay_20261010/receipt.json"
+    "verification_receipt": "research/verification/checkpoint_policy_replay_20261010/receipt.json",
+    "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/36",
+    "implementation_commit": "5077684e7b03bbaadd2122c317a3497ed95fe008",
+    "implementation_tree": "f15582a652525bd026410efba3c440a127b0aa40",
+    "hosted_verification_receipt": "research/verification/checkpoint_policy_replay_20261010/github_5077684_receipt.json"
   },
   "required_session_reads": [
     "FINAL_STATUS_2026-09-30.md",
@@ -50,7 +54,10 @@
     "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/30",
     "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/31",
     "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/32",
-    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/33"
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/33",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/34",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/35",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/36"
   ],
   "history_index_scope": "Entry points to retained repository history and existing PRs; this is not a claim to have re-audited all historical evidence.",
   "pending_gates": [
@@ -158,6 +165,18 @@
       "parent_commit": "0bebf465d4e66f08acd683c669396791b37d4198",
       "status": "117 bounded tests passed on hash-checked final source; independent invocation finding repaired and review passed; draft publication pending",
       "source_sha256": "6235cf9b4fdfac7b8cc8ee5d0f0bdeb049017718647d2e593172d3db17151541",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "recorded_utc": "2026-10-10T06:19:53.720121+00:00",
+      "kind": "engineering_draft_published_and_hosted_verified",
+      "session_id": "20261010-checkpoint-policy-replay",
+      "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/36",
+      "implementation_commit": "5077684e7b03bbaadd2122c317a3497ed95fe008",
+      "implementation_tree": "f15582a652525bd026410efba3c440a127b0aa40",
+      "verification_receipt": "research/verification/checkpoint_policy_replay_20261010/github_5077684_receipt.json",
+      "status": "Exact-head hosted replay117 and claim-boundary6 checks passed; full implementation tree verified; canonical receipt-only follow-up preserves executable/test/workflow bytes",
       "scientific_outcomes_created": false
     }
   ],

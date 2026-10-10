@@ -11,7 +11,13 @@
     "training_campaigns": 0
   },
   "hosted_verification": {
-    "status": "pending publication"
+    "claim_boundary_tests_passed": 6,
+    "claim_run": "https://github.com/Finance-Meta-Research/Eigen-JEPA/actions/runs/38030239556",
+    "receipt": "github_5077684_receipt.json",
+    "replay_run": "https://github.com/Finance-Meta-Research/Eigen-JEPA/actions/runs/38030239548",
+    "replay_tests_passed": 117,
+    "status": "success",
+    "tested_commit": "5077684e7b03bbaadd2122c317a3497ed95fe008"
   },
   "implementation": "eigen_jepa/checkpoint_evaluation_v3.py",
   "independent_review": {
