@@ -98,3 +98,31 @@ The protocol/source manifest for that new study must bind
 `eigen_jepa/purged_folds_v2.py` as well as its retained dependencies. Existing
 frozen runners continue to use the old source identity and must not be silently
 redirected to v2.
+
+## Second pass: consume the admitted CSV snapshot
+
+At reviewed head `d55b0d62615ee99adf8fd50d64098a1cf6f51097`, v2 checked a CSV's
+calendar and then the legacy builder reopened its original path. A concurrent
+replacement could therefore supply different observations after admission. A
+regression replaces the original file between these operations and demonstrates
+that the unmodified builder consumes the replacement without revalidation.
+
+V2 now reads the original bytes once, validates those bytes, and gives the
+unchanged legacy path-based loader a private temporary copy of exactly that
+snapshot. Returned metadata includes its SHA-256 and byte count. The caller's
+CSV path is preserved, and temporary files are removed after construction.
+No global loader is patched and no original CSV is rewritten.
+
+Admission also checks unique existing numeric column selections, at least two
+assets required by the retained regime formula, finite float32 values, and an
+integer spectral rank between one and the observed asset count before threshold
+construction. Thirteen new generated-CSV cases all fail on the reviewed source
+and pass after repair. The focused suite includes source-freeze verification,
+legacy/v2 tensor and threshold equivalence, existing purged-window tests, and
+these new admission/snapshot cases. The ordinary CI now checks out the exact PR
+revision for unambiguous execution evidence.
+
+The five frozen source bindings, historical implementation, confirmation
+runner, protected gates and original mixed/negative closeout are unchanged.
+The prospective protocol must bind this updated v2 source and the returned input
+identity before any future study; no protected outcomes are produced here.
