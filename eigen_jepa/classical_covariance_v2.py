@@ -42,11 +42,22 @@ def oas_covariance(returns: np.ndarray) -> np.ndarray:
     if np.iscomplexobj(returns):
         raise ValueError("returns must be real")
     x = legacy._as_2d_returns(returns)
-    scale = float(np.max(np.abs(x)))
+    # Remove a per-asset reference before choosing the common arithmetic scale.
+    # Otherwise a large *constant* asset offset can erase another asset's
+    # dispersion from the quartic shrinkage terms and change the estimator.
+    # Opposite near-limit values can overflow this subtraction; normalize those
+    # first and retain the original physical scale for the final restoration.
+    with np.errstate(over="ignore", invalid="ignore"):
+        shifted = x - x[0]
+    if np.isfinite(shifted).all():
+        scale = float(np.max(np.abs(shifted)))
+        normalized = shifted / scale if scale else shifted
+    else:
+        scale = float(np.max(np.abs(x)))
+        normalized = x / scale
     if scale == 0:
         return np.zeros((x.shape[1], x.shape[1]), dtype=np.float64)
-    x = x / scale
-    centered = x - x.mean(axis=0, keepdims=True)
+    centered = normalized - normalized.mean(axis=0, keepdims=True)
     n, p = centered.shape
     empirical = centered.T @ centered / n
     mu = float(np.trace(empirical) / p)

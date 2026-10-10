@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-10",
+  "kind": "ENGINEERING_CORRECTNESS_REVISION",
+  "repository": "Finance-Meta-Research/Eigen-JEPA",
+  "parent_commit": "77e730d8bb5096890027b552a9177c1e3f865b52",
+  "existing_draft_pr": 33,
+  "title": "Preserve OAS shrinkage when constant asset offsets dominate scale",
+  "observation": "Adding a constant 1e150 value to a zero-variance asset changes OAS covariance from diag(2,3) to diag(2.5,2.5) in the existing v2 implementation.",
+  "cause": "Normalization by uncentered absolute levels lets an irrelevant constant asset erase the quartic dispersion terms used for shrinkage intensity.",
+  "severity": "incorrect arithmetic, state or evidence admission on valid/ambiguous boundary inputs",
+  "implemented_change": "Subtract a per-asset reference before selecting the common scale, with a normalized fallback for genuinely overflowing differences. Preserve explicit rejection of unrepresentable final covariance.",
+  "predicted_consequence": "New constructed regressions fail on the recorded parent and pass after the repair while the existing bounded suite passes.",
+  "evidence": {
+    "pre_fix_new_tests_failed": 4,
+    "pre_fix_control_tests_passed": 2,
+    "post_fix_suite_tests_passed": 35,
+    "command": "PYTHONPATH=. OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 python -m pytest -q tests/test_oas_translation_v2.py tests/test_classical_covariance_v2.py tests/test_classical_covariance.py",
+    "environment": {
+      "python": "3.12.14",
+      "numpy": "2.3.5",
+      "torch": "2.14.1+cpu",
+      "pytest": "9.1.1",
+      "device": "CPU"
+    },
+    "critical_static_checks": "Ruff E9,F821,F822,F823 passed for all changed Python files",
+    "compilation": "All changed Python sources compiled",
+    "whitespace": "git diff --check passed"
+  },
+  "changed_python_sha256": {
+    "eigen_jepa/classical_covariance_v2.py": "7ff5d0b4841c6f4ec5a89714bb7c592c3ff222ca64f6d816e7a3c6edfe481ad2",
+    "tests/test_oas_translation_v2.py": "5af1ff0872b43d61ce74a5cfad12fd10bbbf92db5ce11f5f66a4f6d65cb59766"
+  },
+  "scientific_runs": 0,
+  "scientific_result_changed": false,
+  "scientific_disposition": "BOUNDARY; retained mixed/negative study CLOSED",
+  "protected_boundary": "Only explicit prospective classical_covariance_v2 changes; frozen v1 estimator, outcome artifacts, source bindings and real-market approval gates remain unchanged.",
+  "research_complete": false,
+  "independent_review": "pending",
+  "integration": "draft pull request; not merged",
+  "release_gate": "Review/integrate the implementation and retain source identities; scientific successors remain separately gated."
+}
