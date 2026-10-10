@@ -22,7 +22,7 @@
     "recorded_utc": "2026-10-10 09:57:23 UTC",
     "parent_commit": "e0f71481524e2af88029106bde7476fd95a34b27",
     "additional_parent_commit": "a20efd8ad82e188a4803072b74c6d95a5cb09186",
-    "status": "ENGINEERING_CLOSED_VERIFIED_PENDING_DRAFT_PUBLICATION",
+    "status": "ENGINEERING_CLOSED_PUBLISHED_DRAFT",
     "contract": "docs/development/query-retrieval-v2-20261010.md",
     "budget": {
       "local_test_or_probe_commands": 5,
@@ -85,8 +85,13 @@
     "publication": {
       "branch": "codex/query-gradient-v2-20261010-0945",
       "base_branch": "codex/checkpoint-policy-replay-v3-20261010-5077684",
-      "status": "PREPARED_AFTER_INDEPENDENT_REVIEW",
-      "hosted_verification": "Not yet observed; no hosted pass asserted by this state."
+      "status": "PUBLISHED_DRAFT",
+      "hosted_verification": "Pending at this metadata-only closure; current-head observations are recorded in the PR body and coordinator receipt.",
+      "pull_request": 37,
+      "url": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/37",
+      "implementation_commit": "5a59b0f050977444cced94498ca34adf10413a69",
+      "implementation_tree": "278040c71fc306169c6c80e31593287967f058ba",
+      "head_reference": "refs/heads/codex/query-gradient-v2-20261010-0945"
     }
   },
   "required_session_reads": [
@@ -332,6 +337,22 @@
       "unused_execution_budget_closed": true,
       "scientific_completion": false,
       "remaining_scientific_boundary": "Any scientific successor requires a separately versioned frozen study; historical closed adverse findings and protected outcomes remain preserved."
+    },
+    {
+      "event": "reviewed_development_draft_published",
+      "session_id": "20261010-0945-query-gradient-v2",
+      "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/37",
+      "implementation_commit": "5a59b0f050977444cced94498ca34adf10413a69",
+      "implementation_tree": "278040c71fc306169c6c80e31593287967f058ba",
+      "ordered_parents": [
+        "e0f71481524e2af88029106bde7476fd95a34b27",
+        "a20efd8ad82e188a4803072b74c6d95a5cb09186"
+      ],
+      "all_tree_leaves_verified": 508,
+      "changed_files_verified": 36,
+      "metadata_only_closure": true,
+      "execution_budget_stays_closed": true,
+      "scientific_completion": false
     }
   ],
   "latest_engineering_revision": "20261010-0945-query-gradient-v2",
