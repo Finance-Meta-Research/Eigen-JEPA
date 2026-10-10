@@ -121,3 +121,78 @@ def test_admitted_v2_windows_preserve_existing_dataset_values_and_train_threshol
         np.testing.assert_array_equal(original["series"][key].numpy(), corrected["series"][key].numpy())
     for key in ["train", "validation", "test"]:
         np.testing.assert_array_equal(original["split_indices"][key], corrected["split_indices"][key])
+
+
+@pytest.mark.parametrize("case", [
+    "reversed", "duplicate", "invalid", "noncanonical", "missing_date_header",
+    "duplicate_header", "short_row", "long_row", "empty_observations",
+])
+def test_csv_calendar_and_shape_are_admitted_before_threshold_fitting(tmp_path, monkeypatch, case):
+    from eigen_jepa import purged_folds_v2
+
+    path = tmp_path / "returns.csv"
+    _write_returns(path)
+    with path.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.reader(handle))
+    if case == "reversed":
+        # Swap across the train/validation footprints: positional purging alone
+        # would admit a January 16 training row and January 9 validation row.
+        rows[9], rows[16] = rows[16], rows[9]
+    elif case == "duplicate":
+        rows[10][0] = rows[9][0]
+    elif case == "invalid":
+        rows[10][0] = "2026-02-30"
+    elif case == "noncanonical":
+        rows[10][0] = "20260110"
+    elif case == "missing_date_header":
+        rows[0][0] = "unknown"
+    elif case == "duplicate_header":
+        rows[0][2] = rows[0][1]
+    elif case == "short_row":
+        rows[10].pop()
+    elif case == "long_row":
+        rows[10].append("unexpected")
+    else:
+        rows = rows[:1]
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        csv.writer(handle).writerows(rows)
+    cfg = _explicit_cfg(path)
+    before = vars(cfg).copy()
+
+    def unexpected_load(*args, **kwargs):
+        pytest.fail("invalid CSV reached the historical label/threshold builder")
+
+    monkeypatch.setattr(purged_folds_v2.legacy, "build_purged_fold_datasets", unexpected_load)
+    with pytest.raises(ValueError, match="CSV|date_col"):
+        build_purged_fold_datasets(
+            cfg, train_indices=[8], validation_indices=[14], test_indices=[20], k=2,
+        )
+    assert vars(cfg) == before
+
+
+def test_undated_csv_cannot_claim_chronological_fold_admission(tmp_path):
+    path = tmp_path / "returns.csv"
+    _write_returns(path)
+    cfg = _explicit_cfg(path)
+    cfg.date_col = None
+    with pytest.raises(ValueError, match="explicit date_col"):
+        build_purged_fold_datasets(
+            cfg, train_indices=[8], validation_indices=[14], test_indices=[20], k=2,
+        )
+
+
+def test_out_of_bounds_target_is_rejected_before_loading_observations(tmp_path, monkeypatch):
+    from eigen_jepa import purged_folds_v2
+
+    path = tmp_path / "returns.csv"
+    _write_returns(path)
+
+    def unexpected_load(*args, **kwargs):
+        pytest.fail("out-of-bounds indices reached the historical threshold builder")
+
+    monkeypatch.setattr(purged_folds_v2.legacy, "build_purged_fold_datasets", unexpected_load)
+    with pytest.raises(ValueError, match="target exceeds the CSV"):
+        build_purged_fold_datasets(
+            _explicit_cfg(path), train_indices=[8], validation_indices=[14],
+            test_indices=[28], k=2,
+        )

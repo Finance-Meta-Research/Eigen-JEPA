@@ -7,6 +7,32 @@ The existing Eigen-JEPA result remains closed at the mixed/negative boundary in
 No saved evidence, frozen protocol, manuscript, threshold,
 seed, or result is changed, and no protected or training run was executed.
 
+## Follow-up: bind positional chronology to the actual CSV calendar
+
+The v2 positional checks previously assumed the observations were ordered. The
+retained CSV loader ignores date values, so swapping two rows or duplicating a
+date could pass the v2 fold guard even though its claimed chronology was false.
+V2 now requires an explicit `date_col` containing unique, strictly increasing
+canonical ISO calendar dates in the actual CSV. Missing/duplicate headers,
+malformed row widths and empty observations are also rejected before the
+legacy loader fits thresholds. The last target must fit within the validated
+row count. Rejection leaves the caller's configuration unchanged.
+
+This stricter admission is confined to the prospective v2 API. Valid dated CSVs
+use the same legacy numerical implementation and retain identical tensors,
+regime thresholds and event thresholds; the existing equivalence regression
+continues to enforce this. The historical source-bound implementation, its
+five critical bindings, and all protected-run gates remain unchanged.
+
+Eleven additional generated-CSV cases exercise malformed timelines, ambiguous
+headers/rows, undated input, and target bounds. Every rejection is checked
+before the historical threshold builder is invoked. The local focused suite
+passed 40 tests across both purged-fold APIs and the source-freeze verifier
+with CPU PyTorch 2.14.1, including tensor/threshold equivalence. The source
+freeze verifier separately passed all five critical bindings, with outcome
+access and execution still unauthorized. Existing bounded CI provides the
+full-repository integration check after publication.
+
 ## Defect and corrected invariant
 
 The date-based splitter already purges full windows, but the dataset builder
