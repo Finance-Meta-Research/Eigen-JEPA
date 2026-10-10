@@ -198,3 +198,64 @@ def test_dataset_builder_rejects_non_csv_and_overlapping_indices():
             validation_indices=[20],
             test_indices=[30],
         )
+
+
+def _explicit_cfg(path):
+    return MarketConfig(
+        context_len=4, horizon=2, data_source="csv", csv_path=str(path),
+        return_cols=("A", "B", "C"), date_col="date",
+    )
+
+
+@pytest.mark.parametrize("train,validation,test", [
+    ([8], [9], [24]),       # Distinct endpoints; training targets overlap validation.
+    ([8], [13], [24]),      # One row of context/target contact is still leakage.
+    ([3], [15], [20]),      # Validation targets overlap test context.
+    ([15], [3], [24]),      # Disjoint windows in reversed calendar order.
+    ([3], [24], [15]),      # Test precedes validation.
+])
+def test_dataset_builder_rejects_disjoint_endpoints_with_unpurged_footprints(
+    tmp_path, train, validation, test
+):
+    path = tmp_path / "returns.csv"
+    _write_returns(path)
+    cfg = _explicit_cfg(path)
+    original_shape = (cfg.total_steps, cfg.num_assets)
+    with pytest.raises(ValueError, match="full context.*target"):
+        build_purged_fold_datasets(
+            cfg, train_indices=train, validation_indices=validation,
+            test_indices=test, k=2,
+        )
+    assert (cfg.total_steps, cfg.num_assets) == original_shape
+
+
+@pytest.mark.parametrize("bad", [[3.9], [True], ["3"], [np.nan], [np.inf], [2**70]])
+def test_dataset_builder_rejects_indices_that_require_lossy_integer_coercion(tmp_path, bad):
+    path = tmp_path / "returns.csv"
+    _write_returns(path)
+    with pytest.raises(ValueError, match="integer"):
+        build_purged_fold_datasets(
+            _explicit_cfg(path), train_indices=bad,
+            validation_indices=[14], test_indices=[24], k=2,
+        )
+
+
+def test_adjacent_nonoverlapping_full_windows_remain_admissible(tmp_path):
+    path = tmp_path / "returns.csv"
+    _write_returns(path)
+    datasets = build_purged_fold_datasets(
+        _explicit_cfg(path), train_indices=[8], validation_indices=[14],
+        test_indices=[20], k=2,
+    )
+    # Train footprint [5,10], validation [11,16], test [17,22].
+    assert datasets["regime_fit_last_row"] == 10
+    for name in ["train", "val", "test"]:
+        assert len(datasets[name]) == 1
+
+
+@pytest.mark.parametrize("context_len,horizon", [(True, 2), (4, False), (4.5, 2), (4, 1.2)])
+def test_window_dimensions_are_positive_integers(context_len, horizon):
+    with pytest.raises(ValueError, match="positive integer"):
+        build_purged_fold_indices(
+            _dates(30), context_len=context_len, horizon=horizon, boundary=_boundary()
+        )
