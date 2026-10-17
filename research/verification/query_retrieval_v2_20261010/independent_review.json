@@ -1,0 +1,20 @@
+{
+  "reviewer": "/root/atg_ngmt_olympus",
+  "outcome": "PASS_NO_BLOCKER",
+  "scope": "Source-only review of runtime, tests, prospective contract, legacy boundary; no independent execution.",
+  "reviewed_source_sha256": {
+    "eigen_jepa/query_retrieval_v2.py": "561d5f49ffabf4b72f51c6027d06e2cf579c971c90d05b17f4ca1e4d4f964dd0",
+    "tests/test_query_retrieval_v2.py": "5d1e2d7f9cd2bc8bddd651d17f4b102233fc35d9ef322e0ff51ccf009f1e0583",
+    "eigen_jepa/model.py": "8bc5136c8bb9eb432b76d96c1752da3901b20ea5704977f0b17e8b9fda824af5",
+    "eigen_jepa/memory.py": "d206ea802a933edfb0a1c3757aba2a228461b173bcc7f701b799bce8dc83e8c8",
+    "eigen_jepa/losses.py": "59d7ba63dda6c8bfa7ba11395f35e62ad5f43c87d7f5149fc59ce8b9f97e896c",
+    "tests/test_sanity.py": "13cfbb43d1524c000b36ba36e65fc9a9cfcc3b809c8da4ea39e41cb92f78f1d7",
+    "tests/test_checkpoint_evaluation_v3.py": "cdebb9f58530e23ad06df32e965e35475c6866c438066b3360b30a00c127e3c9",
+    "tests/test_research_evidence_integrity.py": "0150161fdd0a0bc71ac1ea918e25a12c82a34826fcf88b75db5360fbc7980a07"
+  },
+  "execution_commands": 0,
+  "repair_cycles": 0,
+  "session_id": "20261010-0945-query-gradient-v2",
+  "recorder_sha256": "4890dca1e6c0d2d79992c0a70601850eb653c553708073e544d9078a95eacdde",
+  "scope_limit": "Engineering review only; source hashes identify checkout files, not secure execution attestation."
+}
