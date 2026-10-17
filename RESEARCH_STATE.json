@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "project": "Eigen-JEPA",
-  "updated_utc": "2026-10-10",
+  "updated_utc": "2026-10-17",
   "repository_base_commit": "cf3a1bd29c91c637c63dacf6813f801d8f76c337",
   "scientific_question": "Does predictive spectral representation and memory improve bounded financial spectral forecasting?",
   "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
@@ -15,12 +15,15 @@
     "training_campaigns": 0,
     "protected_runs": 0
   },
-  "current_change": "Add an opt-in cohort evaluator retaining actual per-window errors, target energies and input hashes; aggregate NMSE and classification counts at cohort level; evaluate every supplied baseline window. Legacy evaluators and frozen bindings stay byte-identical.",
+  "current_change": "Reconcile the independently developed opt-in cohort evaluator with main containing the reviewed covariance-v2 and purged-window corrections. Preserve both canonical state histories, all frozen bindings, and unchanged implementation bytes from their respective parent commits.",
   "required_session_reads": [
     "FINAL_STATUS_2026-09-30.md",
     "protocols/final_rigor_v2_20260905.json",
     "protocols/real_market_source_freeze_candidate_20260906.json",
-    "docs/development/cohort-evaluation-v2-20261010.md"
+    "docs/development/cohort-evaluation-v2-20261010.md",
+    "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md",
+    "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json",
+    "docs/development/integration-reconciliation-20261017.json"
   ],
   "preserved_history_index": [
     "protocols/real_market_confirmation_v1_candidate_20260906.json",
@@ -32,7 +35,9 @@
   "pending_gates": [
     "GitHub review and integration of the independently reviewed opt-in API.",
     "A successor must explicitly source-bind v2 and frozen input tensors before protected outcomes; this patch does not execute or authorize confirmation.",
-    "Review the legacy subspace representation separately; normalized columns are not guaranteed orthonormal."
+    "Review the legacy subspace representation separately; normalized columns are not guaranteed orthonormal.",
+    "Independent review and GitHub integration.",
+    "Scientific hypothesis/specification/methodology/freeze/evidence/release gates remain governed by the retained study contracts."
   ],
   "history": [
     {
@@ -41,6 +46,28 @@
       "record": "docs/development/cohort-evaluation-v2-20261010.md",
       "status": "implemented; 113 tests and source-freeze verification passed; independent source review passed; integration pending",
       "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_revision",
+      "record": "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json",
+      "status": "implemented; 35 bounded tests passed; integration pending",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-17",
+      "kind": "engineering_integration_review",
+      "record": "docs/development/integration-reconciliation-20261017.json",
+      "status": "Source and state reconciliation reviewed; source-freeze, submission claim gate, compilation and whitespace checks passed; exact integrated-head CI required before merge.",
+      "scientific_outcomes_created": false
     }
-  ]
+  ],
+  "scientific_scope_authority": [
+    "FINAL_STATUS_2026-09-30.md",
+    "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md"
+  ],
+  "engineering_question": "Preserve OAS shrinkage when constant asset offsets dominate scale",
+  "protected_boundary": "Only the reviewed opt-in engineering APIs are integrated. Frozen v1 estimators and evaluators, outcome artifacts, source bindings, closed-study decisions, and all pre-outcome approval gates remain unchanged.",
+  "research_complete": false,
+  "integration_base_commit": "c28ce3862efb99d91b9d35b0e72fb37f3df074f1"
 }
