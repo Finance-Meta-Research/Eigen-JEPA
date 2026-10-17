@@ -1,0 +1,295 @@
+FFF..FFFFF...........................................................    [100%]
+=================================== FAILURES ===================================
+__ test_repeated_large_finite_statistics_have_the_same_representable_mean[2] ___
+
+count = 2
+
+    @pytest.mark.parametrize("count", [2, 3, 17])
+    def test_repeated_large_finite_statistics_have_the_same_representable_mean(count):
+>       report = evaluation_report([row(i, 1e308) for i in range(count)])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cohort_reduction_integrity.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+eigen_jepa/evaluation_v2.py:267: in evaluation_report
+    metrics = reduce_records(records, event_threshold=event_threshold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+eigen_jepa/evaluation_v2.py:201: in reduce_records
+    out = {name: float(values(name).mean()) for name in MSE_FIELDS}
+                       ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = array([1.e+308, 1.e+308]), axis = None, dtype = None, out = None
+keepdims = False, where = True
+
+    def _mean(a, axis=None, dtype=None, out=None, keepdims=False, *, where=True):
+        arr = asanyarray(a)
+    
+        is_float16_result = False
+    
+        rcount = _count_reduce_items(arr, axis, keepdims=keepdims, where=where)
+        if rcount == 0 if where is True else umr_any(rcount == 0, axis=None):
+            warnings.warn("Mean of empty slice.", RuntimeWarning, stacklevel=2)
+    
+        # Cast bool, unsigned int, and int to float64 by default
+        if dtype is None:
+            if issubclass(arr.dtype.type, (nt.integer, nt.bool)):
+                dtype = mu.dtype('f8')
+            elif issubclass(arr.dtype.type, nt.float16):
+                dtype = mu.dtype('f4')
+                is_float16_result = True
+    
+>       ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeWarning: overflow encountered in reduce
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/_methods.py:134: RuntimeWarning
+__ test_repeated_large_finite_statistics_have_the_same_representable_mean[3] ___
+
+count = 3
+
+    @pytest.mark.parametrize("count", [2, 3, 17])
+    def test_repeated_large_finite_statistics_have_the_same_representable_mean(count):
+>       report = evaluation_report([row(i, 1e308) for i in range(count)])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cohort_reduction_integrity.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+eigen_jepa/evaluation_v2.py:267: in evaluation_report
+    metrics = reduce_records(records, event_threshold=event_threshold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+eigen_jepa/evaluation_v2.py:201: in reduce_records
+    out = {name: float(values(name).mean()) for name in MSE_FIELDS}
+                       ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = array([1.e+308, 1.e+308, 1.e+308]), axis = None, dtype = None, out = None
+keepdims = False, where = True
+
+    def _mean(a, axis=None, dtype=None, out=None, keepdims=False, *, where=True):
+        arr = asanyarray(a)
+    
+        is_float16_result = False
+    
+        rcount = _count_reduce_items(arr, axis, keepdims=keepdims, where=where)
+        if rcount == 0 if where is True else umr_any(rcount == 0, axis=None):
+            warnings.warn("Mean of empty slice.", RuntimeWarning, stacklevel=2)
+    
+        # Cast bool, unsigned int, and int to float64 by default
+        if dtype is None:
+            if issubclass(arr.dtype.type, (nt.integer, nt.bool)):
+                dtype = mu.dtype('f8')
+            elif issubclass(arr.dtype.type, nt.float16):
+                dtype = mu.dtype('f4')
+                is_float16_result = True
+    
+>       ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeWarning: overflow encountered in reduce
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/_methods.py:134: RuntimeWarning
+__ test_repeated_large_finite_statistics_have_the_same_representable_mean[17] __
+
+count = 17
+
+    @pytest.mark.parametrize("count", [2, 3, 17])
+    def test_repeated_large_finite_statistics_have_the_same_representable_mean(count):
+>       report = evaluation_report([row(i, 1e308) for i in range(count)])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cohort_reduction_integrity.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+eigen_jepa/evaluation_v2.py:267: in evaluation_report
+    metrics = reduce_records(records, event_threshold=event_threshold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+eigen_jepa/evaluation_v2.py:201: in reduce_records
+    out = {name: float(values(name).mean()) for name in MSE_FIELDS}
+                       ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = array([1.e+308, 1.e+308, 1.e+308, 1.e+308, 1.e+308, 1.e+308, 1.e+308,
+       1.e+308, 1.e+308, 1.e+308, 1.e+308, 1.e+308, 1.e+308, 1.e+308,
+       1.e+308, 1.e+308, 1.e+308])
+axis = None, dtype = None, out = None, keepdims = False, where = True
+
+    def _mean(a, axis=None, dtype=None, out=None, keepdims=False, *, where=True):
+        arr = asanyarray(a)
+    
+        is_float16_result = False
+    
+        rcount = _count_reduce_items(arr, axis, keepdims=keepdims, where=where)
+        if rcount == 0 if where is True else umr_any(rcount == 0, axis=None):
+            warnings.warn("Mean of empty slice.", RuntimeWarning, stacklevel=2)
+    
+        # Cast bool, unsigned int, and int to float64 by default
+        if dtype is None:
+            if issubclass(arr.dtype.type, (nt.integer, nt.bool)):
+                dtype = mu.dtype('f8')
+            elif issubclass(arr.dtype.type, nt.float16):
+                dtype = mu.dtype('f4')
+                is_float16_result = True
+    
+>       ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeWarning: overflow encountered in reduce
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/_methods.py:134: RuntimeWarning
+______ test_unrepresentable_nonzero_nmse_is_an_explicit_error[1e+308-0.0] ______
+
+error = 1e+308, energy = 0.0
+
+    @pytest.mark.parametrize("error,energy", [(1e308, 0.), (np.nextafter(0., 1.), 1e308)])
+    def test_unrepresentable_nonzero_nmse_is_an_explicit_error(error, energy):
+        with pytest.raises(ValueError, match="NMSE"):
+>           reduce_records([row(1, error, energy=energy)])
+
+tests/test_cohort_reduction_integrity.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+records = [{'window_index': 1, 'eigenvalue_count': 2, 'input_sha256': '0000000000000000000000000000000000000000000000000000000000000000', 'eig_squared_error': 1e+308, ...}]
+event_threshold = 0.45
+
+    def reduce_records(
+        records: Sequence[Mapping], *, event_threshold: float = 0.45
+    ) -> dict:
+        """Reduce once over the cohort, never over averages of batch ratios or F1s."""
+        if not records:
+            raise ValueError("evaluation requires at least one window")
+        if not math.isfinite(event_threshold) or not 0 <= event_threshold <= 1:
+            raise ValueError("event_threshold must lie in [0, 1]")
+        indices = [r["window_index"] for r in records]
+        if any(
+            isinstance(i, bool) or not isinstance(i, (int, np.integer)) for i in indices
+        ):
+            raise ValueError("window identities must be integers")
+        if len(set(indices)) != len(indices):
+            raise ValueError("duplicate window identities cannot be counted twice")
+        records = sorted(records, key=lambda r: r["window_index"])
+        if len({r["eigenvalue_count"] for r in records}) != 1:
+            raise ValueError("all windows must use the same eigenvalue count")
+        keys = set(records[0])
+        required = {
+            "window_index",
+            "input_sha256",
+            "eigenvalue_count",
+            "eig_squared_error",
+            "eig_target_energy",
+            "event_true",
+            "gate",
+            "regime_true",
+            "pred_regime",
+            *MSE_FIELDS,
+        }
+        if not required.issubset(keys):
+            raise ValueError(
+                f"missing required per-window fields: {sorted(required - keys)}"
+            )
+        count = records[0]["eigenvalue_count"]
+        if isinstance(count, bool) or not isinstance(count, (int, np.integer)) or count < 1:
+            raise ValueError("eigenvalue_count must be a positive integer")
+        if (count > 1) != ("gap_mse" in keys):
+            raise ValueError(
+                "gap_mse is required exactly when eigenvalue_count exceeds one"
+            )
+        if any(set(row) != keys for row in records):
+            raise ValueError("window statistic schemas must match")
+    
+        def values(name):
+            if any(
+                isinstance(row[name], bool)
+                or not isinstance(row[name], (int, float, np.number))
+                for row in records
+            ):
+                raise ValueError(f"per-window statistic must be numeric: {name}")
+            array = np.asarray([row[name] for row in records], dtype=np.float64)
+            if not np.isfinite(array).all():
+                raise ValueError(f"nonfinite per-window statistic: {name}")
+            return array
+    
+        # Verify all retained fields, including ones not used by this reduction.
+        for name in keys:
+            if name == "input_sha256":
+                if any(
+                    not isinstance(row[name], str)
+                    or re.fullmatch(r"[a-f0-9]{64}", row[name]) is None
+                    for row in records
+                ):
+                    raise ValueError(
+                        "input_sha256 must bind the exact supplied window tensors"
+                    )
+            else:
+                values(name)
+        energy = values("eig_target_energy")
+        squared_error = values("eig_squared_error")
+        if np.any(energy < 0) or np.any(squared_error < 0):
+            raise ValueError("eigenvalue energies and squared errors must be nonnegative")
+        out = {name: float(values(name).mean()) for name in MSE_FIELDS}
+        if any(
+            np.any(values(name) < 0)
+            for name in (*MSE_FIELDS, "gap_mse", "lat_align")
+            if name in keys
+        ):
+            raise ValueError("squared-error statistics must be nonnegative")
+>       out["eig_nmse"] = float(squared_error.mean() / (energy.mean() + EPS))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeWarning: overflow encountered in scalar divide
+
+eigen_jepa/evaluation_v2.py:208: RuntimeWarning
+____ test_unrepresentable_nonzero_nmse_is_an_explicit_error[5e-324-1e+308] _____
+
+error = np.float64(5e-324), energy = 1e+308
+
+    @pytest.mark.parametrize("error,energy", [(1e308, 0.), (np.nextafter(0., 1.), 1e308)])
+    def test_unrepresentable_nonzero_nmse_is_an_explicit_error(error, energy):
+>       with pytest.raises(ValueError, match="NMSE"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_cohort_reduction_integrity.py:58: Failed
+_______________ test_nonzero_mean_underflow_is_an_explicit_error _______________
+
+    def test_nonzero_mean_underflow_is_an_explicit_error():
+>       with pytest.raises(ValueError, match="underflow"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_cohort_reduction_integrity.py:63: Failed
+___________ test_report_retains_its_own_validated_records_and_digest ___________
+
+    def test_report_retains_its_own_validated_records_and_digest():
+        supplied = [row(2, 2.), row(1, 1.)]
+        report = evaluation_report(supplied)
+        retained = json.loads(json.dumps(report))
+        supplied[0]["cov_mse"] = 999.
+        supplied[1].clear()
+        supplied.reverse()
+>       assert report == retained
+E       AssertionError: assert {'schema': 'e....5, ...}, ...} == {'schema': 'e....5, ...}, ...}
+E         
+E         Omitting 5 identical items, use -vv to show
+E         Differing items:
+E         {'records': [{}, {'window_index': 2, 'eigenvalue_count': 2, 'input_sha256': '0000000000000000000000000000000000000000000000000000000000000000', 'eig_squared_error': 2.0, ...}]} != {'records': [{'window_index': 1, 'eigenvalue_count': 2, 'input_sha256': '000000000000000000000000000000000000000000000...2, 'input_sha256': '0000000000000000000000000000000000000000000000000000000000000000', 'eig_squared_error': 2.0, ...}]}
+E         Use -v to get more diff
+
+tests/test_cohort_reduction_integrity.py:74: AssertionError
+_________ test_reports_built_from_shared_rows_do_not_alias_each_other __________
+
+    def test_reports_built_from_shared_rows_do_not_alias_each_other():
+        supplied = [row(1, 1.)]
+        first = evaluation_report(supplied)
+        second = evaluation_report(supplied)
+        first["records"][0]["cov_mse"] = 99.
+>       assert second["records"][0]["cov_mse"] == 1.
+E       assert 99.0 == 1.0
+
+tests/test_cohort_reduction_integrity.py:85: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[2]
+FAILED tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[3]
+FAILED tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[17]
+FAILED tests/test_cohort_reduction_integrity.py::test_unrepresentable_nonzero_nmse_is_an_explicit_error[1e+308-0.0]
+FAILED tests/test_cohort_reduction_integrity.py::test_unrepresentable_nonzero_nmse_is_an_explicit_error[5e-324-1e+308]
+FAILED tests/test_cohort_reduction_integrity.py::test_nonzero_mean_underflow_is_an_explicit_error
+FAILED tests/test_cohort_reduction_integrity.py::test_report_retains_its_own_validated_records_and_digest
+FAILED tests/test_cohort_reduction_integrity.py::test_reports_built_from_shared_rows_do_not_alias_each_other
+8 failed, 61 passed in 15.05s

@@ -1,0 +1,77 @@
+{
+  "budget_used": {
+    "independent_review_probes": 1,
+    "maximum_allowed_total": 16,
+    "maximum_existing_series_steps": 80,
+    "new_fixture_windows": 5,
+    "new_series_steps": 60,
+    "paid_compute": false,
+    "protected_runs": 0,
+    "root_test_and_reproduction_invocations": 7,
+    "training_campaigns": 0
+  },
+  "hosted_verification": {
+    "claim_boundary_tests_passed": 6,
+    "claim_run": "https://github.com/Finance-Meta-Research/Eigen-JEPA/actions/runs/38030239556",
+    "receipt": "github_5077684_receipt.json",
+    "replay_run": "https://github.com/Finance-Meta-Research/Eigen-JEPA/actions/runs/38030239548",
+    "replay_tests_passed": 117,
+    "status": "success",
+    "tested_commit": "5077684e7b03bbaadd2122c317a3497ed95fe008"
+  },
+  "implementation": "eigen_jepa/checkpoint_evaluation_v3.py",
+  "independent_review": {
+    "finding": "DataLoader iterator seed inherited caller meta default; actual CPU evaluator raised Tensor.item() cannot be called on meta tensors.",
+    "resolution": "Explicit CPU factory context covers construction and iteration; full report equals ordinary-default report while preserving float64/meta caller defaults.",
+    "review_probe_count": 1,
+    "reviewed_production_sha256": "6235cf9b4fdfac7b8cc8ee5d0f0bdeb049017718647d2e593172d3db17151541",
+    "status": "passed after correction"
+  },
+  "local_final": {
+    "duration_seconds": 30.36,
+    "existing_cases": 69,
+    "log": "local_117_final_tests.txt",
+    "new_cases": 48,
+    "receipt": "local_117_final_receipt.json",
+    "tests_passed": 117
+  },
+  "parent_commit": "0bebf465d4e66f08acd683c669396791b37d4198",
+  "preservation": {
+    "all_five_critical_source_bindings_unchanged": true,
+    "historical_outcomes_reopened": false,
+    "includes_all_existing_runtime_sources": true,
+    "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
+    "unchanged_hydrated_parent_files": 41
+  },
+  "previous_verification": [
+    {
+      "full_max_latent_difference": 0.35594671964645386,
+      "no_gate_max_latent_difference": 3.9660000801086426,
+      "no_memory_empty_state_latent_difference": 0.0,
+      "scope": "actual legacy CLI factory reproduction before implementation"
+    },
+    {
+      "duration_seconds": 27.28,
+      "scope": "initial focused candidate",
+      "tests_passed": 47
+    },
+    {
+      "duration_seconds": 16.03,
+      "log": "local_116_tests.txt",
+      "scope": "initial combined candidate",
+      "tests_passed": 116
+    },
+    {
+      "duration_seconds": 16.69,
+      "log": "local_117_factory_tests.txt",
+      "receipt": "local_117_factory_receipt.json",
+      "scope": "factory-default hardening before complete iterator regression",
+      "tests_passed": 117
+    }
+  ],
+  "recorded_utc": "2026-10-10T06:12:02.181597+00:00",
+  "schema": "eigen_jepa.checkpoint_replay_engineering.v1",
+  "session_id": "20261010-checkpoint-policy-replay",
+  "source_sha256": "6235cf9b4fdfac7b8cc8ee5d0f0bdeb049017718647d2e593172d3db17151541",
+  "test_sha256": "cdebb9f58530e23ad06df32e965e35475c6866c438066b3360b30a00c127e3c9"
+}

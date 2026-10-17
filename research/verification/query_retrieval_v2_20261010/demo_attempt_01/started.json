@@ -1,0 +1,31 @@
+{
+  "command": [
+    "python",
+    "scripts/demo_query_retrieval_v2.py",
+    "--output",
+    "research/verification/query_retrieval_v2_20261010/demo"
+  ],
+  "cwd": "/workspace/scratch/2a0c1e6ddd92/finance-worktrees-20261010-0945/Eigen-JEPA",
+  "timeout_seconds": 60.0,
+  "python": "3.12.14",
+  "started_utc": "2026-10-10T10:14:32Z",
+  "environment": {
+    "PYTHONPATH": "/workspace/scratch/2a0c1e6ddd92/torch-deps:.",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "source_sha256_before": {
+    "scripts/demo_query_retrieval_v2.py": "036e0206de6c547fc3e196ea89450ba3beb3f9abb7c0dee23e72b4266705b2f8",
+    "research/verification/query_retrieval_v2_20261010/bounded_command.py": "4890dca1e6c0d2d79992c0a70601850eb653c553708073e544d9078a95eacdde",
+    "eigen_jepa/__init__.py": "643a8509efa6e2982000975173387f8a33a7f7ed5002ce8237a2008134d4eee4",
+    "eigen_jepa/query_retrieval_v2.py": "561d5f49ffabf4b72f51c6027d06e2cf579c971c90d05b17f4ca1e4d4f964dd0",
+    "eigen_jepa/model.py": "8bc5136c8bb9eb432b76d96c1752da3901b20ea5704977f0b17e8b9fda824af5",
+    "eigen_jepa/memory.py": "d206ea802a933edfb0a1c3757aba2a228461b173bcc7f701b799bce8dc83e8c8",
+    "eigen_jepa/losses.py": "59d7ba63dda6c8bfa7ba11395f35e62ad5f43c87d7f5149fc59ce8b9f97e896c",
+    "eigen_jepa/data.py": "b73aa29f5a70b18c33e10e2e0a2e320f1f1951653029887451ed79e706b17d3a",
+    "eigen_jepa/spectral.py": "6b4adc7ee7363b9a4f39e4f61383d65de6f987c876aa4b6ac0443bd44c06614a"
+  },
+  "scientific_outcomes": false
+}

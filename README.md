@@ -1,8 +1,18 @@
 # Eigen-JEPA
 
+## Current research status
+
+The current project is **closed at a retained mixed/negative synthetic-evidence boundary**. See [the September 30 closeout](FINAL_STATUS_2026-09-30.md) and [the claim-to-evidence audit](paper/SUBMISSION_CLAIM_AUDIT_20260906.md). The retained results do not establish trading alpha, real-market generalization, full-model dominance, or superiority over strong classical covariance estimators.
+
+The classical covariance baseline ladder is a **separate, optional, pre-outcome successor**. Its [candidate protocol](protocols/real_market_classical_baseline_ladder_v1_candidate_20260926.json) has `execution_authorized: false`; this README does not authorize running it or opening held-out outcomes. Closing the existing result does not require that successor.
+
+The canonical paper entrypoint is `paper/main.tex`, which delegates to `paper/conference_v2.tex`. Use the version-bound evidence tables described in the claim audit; the historical example outputs below are not interchangeable with the frozen final-rigor v2 results. Scientific closeout is separate from author approval, venue checks, licensing, or submission.
+
+## Implemented scope
+
 Eigen-JEPA is a spectral joint-embedding predictive architecture for financial world modeling. The central idea is to forecast the future geometry of a market — covariance spectra, dominant eigenspaces, eigengaps, subspace drift, and regime transitions — rather than only pointwise returns.
 
-This repository is a complete research package:
+This repository contains the following implemented research components and retained artifacts:
 
 - synthetic regime-switching market generator
 - lightweight temporal + spectral encoder
@@ -24,7 +34,9 @@ This repository is a complete research package:
 - `scripts/`: convenience wrappers for the full suite and paper build
 - `tests/`: smoke tests
 
-## Quick start
+## Exploratory quick-start examples
+
+These commands describe exploratory smoke/benchmark workflows. They are not the frozen final-rigor v2 reproduction contract and are not needed to reopen or extend the closed study. Consult the pinned protocol and claim audit before any outcome-bearing execution.
 
 ### 1) Install
 
@@ -83,6 +95,14 @@ The suite runner additionally writes:
 
 ## Reproducibility notes
 
+### Opt-in development panel API
+
+New studies can use `eigen_jepa.purged_folds_v2.build_purged_fold_indices` and
+`build_purged_fold_datasets` to enforce complete context/target separation even
+for caller-supplied indices. See the [v2 usage and regression record](docs/development/purged-window-admission-20261010.md).
+The original source-bound module, frozen runners, and retained mixed/negative
+study are unchanged. A future study must explicitly bind the v2 source identity.
+
 - The packaged experiments use deterministic seeds.
 - Train/test splits are chronological.
 - Evaluation includes robustness and walk-forward slices.
@@ -97,6 +117,26 @@ Before submission, verify that you can:
 - reproduce the benchmark tables and figures,
 - run the ablation suite,
 - and inspect the saved metrics under `results/`.
+
+## Prospective checkpoint evaluation
+
+The opt-in `eigen_jepa.checkpoint_evaluation_v3` entry point restores the saved
+model weights, memory configuration and ablation inference policy, then evaluates
+every window in an explicitly materialized development snapshot. It uses the
+prospective covariance-geometry v3/cohort-v2 definitions and retains checkpoint,
+input and source hashes in the report.
+
+```bash
+python -m eigen_jepa.checkpoint_evaluation_v3 \
+  --checkpoint checkpoint.pt --snapshot development-windows.pt \
+  --output development-evaluation.json --batch-size 32 --device cpu
+```
+
+See [snapshot creation, artifact contracts and verification](docs/development/checkpoint-policy-replay-v3-20261010.md).
+The output path must be new. The mixed/negative predecessor remains closed;
+this development entry point does not authorize a protected evaluation or
+redefine retained scientific results. It requires complete saved policy metadata
+and the existing dense float32 checkpoint/window format.
 
 ## Citation
 
