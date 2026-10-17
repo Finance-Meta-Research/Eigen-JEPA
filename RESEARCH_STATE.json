@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "project": "Eigen-JEPA",
-  "updated_utc": "2026-10-10",
+  "updated_utc": "2026-10-17",
   "repository_base_commit": "cf3a1bd29c91c637c63dacf6813f801d8f76c337",
   "scientific_question": "Does predictive spectral representation and memory improve bounded financial spectral forecasting?",
   "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
-  "current_phase": "SUCCESSOR_ENGINEERING_CLOSED_PENDING_DRAFT_REVIEW",
-  "current_hypothesis_change": true,
+  "current_phase": "ENGINEERING_INTEGRATION_REVIEW",
+  "current_hypothesis_change": false,
   "protected_evaluation_opened": false,
   "scientific_runs_this_revision": 0,
   "execution_budget": {
@@ -15,7 +15,7 @@
     "training_campaigns": 0,
     "protected_runs": 0
   },
-  "current_change": "New explicit v2 model/config/checkpoint identity with query-differentiable selected-neighbor memory retrieval; legacy model, loss, memory, training and historical evaluation semantics stay preserved.",
+  "current_change": "Integrate the reviewed geometry, cohort-reduction, checkpoint replay and query-retrieval development stack with the separately reviewed covariance-v2 and purged-window corrections. Preserve both complete canonical histories and all implementation, test, retained-artifact and frozen-source identities from their respective parents.",
   "active_session": {
     "id": "20261010-0945-query-gradient-v2",
     "opened_before_implementation": true,
@@ -103,7 +103,11 @@
     "docs/development/cohort-reduction-integrity-20261010.md",
     "docs/development/checkpoint-policy-replay-v3-20261010.md",
     "docs/development/query-retrieval-v2-20261010.md",
-    "docs/development/query-retrieval-v2-usage.md"
+    "docs/development/query-retrieval-v2-usage.md",
+    "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md",
+    "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json",
+    "docs/development/integration-reconciliation-20261017.json",
+    "docs/development/stack-integration-reconciliation-20261017.json"
   ],
   "preserved_history_index": [
     "protocols/real_market_confirmation_v1_candidate_20260906.json",
@@ -118,12 +122,9 @@
   ],
   "history_index_scope": "Entry points to retained repository history and existing PRs; this is not a claim to have re-audited all historical evidence.",
   "pending_gates": [
-    "GitHub review and integration of the independently reviewed opt-in API.",
-    "A successor must explicitly source-bind v2 and frozen input tensors before protected outcomes; this patch does not execute or authorize confirmation.",
-    "The independently reviewed covariance-geometry v3 API requires GitHub integration and explicit successor opt-in; historical eigenvalue/projector report definitions remain unchanged.",
+    "Publish this history-preserving integration commit and require its current-head hosted engineering and submission-claim checks before merging the #37 through #32 stack.",
     "Legacy model/training columns remain nonorthogonal. A training or architecture repair would be a separately versioned scientific change.",
-    "Independent covariance estimator PR #33 and purged-fold PR #31 remain separate integration work.",
-    "The checkpoint replay v3 development CLI needs GitHub review/integration; any scientific use must explicitly select source, saved model/input policies, retained snapshots and a pre-outcome protocol."
+    "Any scientific use of the prospective APIs requires explicit source and input identities, a separately versioned hypothesis/specification/methodology and a pre-outcome confirmatory freeze; no forecasting utility or scientific completion is inferred."
   ],
   "history": [
     {
@@ -353,6 +354,27 @@
       "metadata_only_closure": true,
       "execution_budget_stays_closed": true,
       "scientific_completion": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_revision",
+      "record": "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json",
+      "status": "implemented; 35 bounded tests passed; integration pending",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-17",
+      "kind": "engineering_integration_review",
+      "record": "docs/development/integration-reconciliation-20261017.json",
+      "status": "Source and state reconciliation reviewed; source-freeze, submission claim gate, compilation and whitespace checks passed; exact integrated-head CI required before merge.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-17",
+      "kind": "engineering_stack_integration_review",
+      "record": "docs/development/stack-integration-reconciliation-20261017.json",
+      "status": "Reviewed runtime and generated-fixture tests of PRs #34-#37; reconciled canonical state with the reviewed #32 integration without changing implementation or test bytes. Local immutable-source and claim-boundary checks passed; new-head hosted CI remains required.",
+      "scientific_outcomes_created": false
     }
   ],
   "latest_engineering_revision": "20261010-0945-query-gradient-v2",
@@ -362,5 +384,13 @@
     "status": "ALGORITHMIC_GRADIENT_WITNESS_VERIFIED_ONLY",
     "statement": "With at least two distinct selected neighbors, query-differentiable retrieval supplies the derivative of the retained selected-neighbor forward map to the query head; no financial benefit is inferred.",
     "scientific_utility": "UNTESTED; no forecasting evaluation authorized or performed."
-  }
+  },
+  "scientific_scope_authority": [
+    "FINAL_STATUS_2026-09-30.md",
+    "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md"
+  ],
+  "engineering_question": "Reconcile independently reviewed prospective engineering branches while preserving their existing behavior and scientific boundaries.",
+  "protected_boundary": "Integration only. The retained mixed/negative predecessor remains CLOSED; all frozen protocols, source bindings, scientific outcomes and protected pre-outcome gates remain unchanged. No scientific, training, paid or protected execution is authorized by this record.",
+  "research_complete": false,
+  "integration_base_commit": "476d2fa4dd7b23bdd57e92ec7d6814fa6abe07c6"
 }
