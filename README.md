@@ -95,6 +95,14 @@ The suite runner additionally writes:
 
 ## Reproducibility notes
 
+### Opt-in development panel API
+
+New studies can use `eigen_jepa.purged_folds_v2.build_purged_fold_indices` and
+`build_purged_fold_datasets` to enforce complete context/target separation even
+for caller-supplied indices. See the [v2 usage and regression record](docs/development/purged-window-admission-20261010.md).
+The original source-bound module, frozen runners, and retained mixed/negative
+study are unchanged. A future study must explicitly bind the v2 source identity.
+
 - The packaged experiments use deterministic seeds.
 - Train/test splits are chronological.
 - Evaluation includes robustness and walk-forward slices.
