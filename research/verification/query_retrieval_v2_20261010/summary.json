@@ -1,0 +1,63 @@
+{
+  "schema": "bounded_finance_engineering_summary.v1",
+  "session_id": "20261010-0945-query-gradient-v2",
+  "scope": "Engineering correctness only; historical scientific outcomes and protected boundaries unchanged.",
+  "local_candidate": "research/verification/query_retrieval_v2_20261010/attempt_02_candidate/receipt.json",
+  "demo": {
+    "number": 1,
+    "status": "PASSED",
+    "command_receipt": "research/verification/query_retrieval_v2_20261010/demo_attempt_01/receipt.json",
+    "max_wall_seconds": 60,
+    "output_directory": "research/verification/query_retrieval_v2_20261010/demo",
+    "wall_seconds": 6.506398980985978,
+    "exit_code": 0,
+    "report": "research/verification/query_retrieval_v2_20261010/demo/report.json"
+  },
+  "budget": {
+    "local_test_or_probe_commands": 5,
+    "cumulative_test_command_wall_seconds": 240,
+    "review_repair_cycles": 2,
+    "independent_review_commands": 1,
+    "independent_review_wall_seconds": 90,
+    "retained_demo_attempts": 1,
+    "retained_demo_wall_seconds": 60,
+    "cpu_threads": 1,
+    "protected_runs": 0,
+    "paid_compute": 0,
+    "scientific_campaigns": 0
+  },
+  "consumed": {
+    "local_test_or_probe_commands": 2,
+    "cumulative_test_command_wall_seconds": 46.215956717016525,
+    "retained_demo_attempts": 1,
+    "review_repair_cycles": 0,
+    "retained_demo_wall_seconds": 6.506398980985978
+  },
+  "independent_review": "independent_review.json",
+  "fresh_interpreter_unchanged_checkout_precondition": true,
+  "secure_execution_attestation": false,
+  "demo_artifacts": {
+    "legacy_final_tensors.pt": "d642bc80e28a11be3bf4e2046048123bad2f2e4e236a10670aff6246f5ccf999",
+    "legacy_gradients_step_0.pt": "b36c2b88fd92f47cd21ee40a6555c175d09a7790bc5c6f304051e57178832ec1",
+    "legacy_gradients_step_1.pt": "8fd03137dd4b19cb625369cc0c578ad8346c1971a8ca62ef6b2b6c98c158e52b",
+    "model_configs.json": "3a61cef2b95fcf0850da1244c07077155620ad1fd2179defe385e3ba6df606ff",
+    "query_v2_checkpoint.pt": "033488b121b03dde420220f2c7cb0490c6757a21ff4b1b88f34bae716c488b05",
+    "query_v2_gradients_step_0.pt": "f851c9c2d74a3f4f992c35ad02feee5ddd788531c64d19fe1ea0e8338bf3b132",
+    "query_v2_gradients_step_1.pt": "9b7e76092ba686df8d6a1cf0d7ee0bf58a1819411ea4b993887dca185abe5d75",
+    "shared_generated_inputs.pt": "506a38e0d02ca1424f786eb090ce30ac89f75bc9dd603d153a2b05b9941418a7",
+    "shared_initial_memory.pt": "af8b39b6bdcdf337c3a90fd0b9bb895b32d638da8b8b5cb6722e8566dbd5225e",
+    "shared_initial_model.pt": "e3802152fe55345e1b45a92a2d5649df238865cec0f94ba18bd38f5651422740"
+  },
+  "local_final_gate": "research/verification/query_retrieval_v2_20261010/attempt_02_candidate/receipt.json",
+  "final_local_tests_passed": 93,
+  "engineering_execution_closed": true,
+  "unused_budget_closed": true,
+  "publication_parent": "e0f71481524e2af88029106bde7476fd95a34b27",
+  "additional_parent": "a20efd8ad82e188a4803072b74c6d95a5cb09186",
+  "scope_boundaries": {
+    "id": "eigen-jepa-query-learning-v2-20261010",
+    "status": "ALGORITHMIC_GRADIENT_WITNESS_VERIFIED_ONLY",
+    "statement": "With at least two distinct selected neighbors, query-differentiable retrieval supplies the derivative of the retained selected-neighbor forward map to the query head; no financial benefit is inferred.",
+    "scientific_utility": "UNTESTED; no forecasting evaluation authorized or performed."
+  }
+}

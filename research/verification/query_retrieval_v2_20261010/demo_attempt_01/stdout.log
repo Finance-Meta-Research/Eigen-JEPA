@@ -1,0 +1,101 @@
+{
+  "schema": "eigen_jepa.generated_query_gradient_demo.v2",
+  "scope": "Paired algorithmic gradient witness; no forecasting utility or predecessor reclassification",
+  "torch": "2.14.1+cpu",
+  "initialization_seed": 94501,
+  "per_step_dropout_seeds": [
+    94520,
+    94521
+  ],
+  "threads": 1,
+  "examples": 2,
+  "context_length": 6,
+  "latent_dim": 8,
+  "updates_per_arm": 2,
+  "shared_initial_model_tensor_sha256": "45d815b135f9d1ccbc498bc8dfcf197a07f439264abbafdb03cbb74ee963ff75",
+  "shared_initial_memory_tensor_sha256": "b6294e5d151b1232c349d8edea98eb879f3604162fe03b303dfccbac9bca3a1d",
+  "shared_input_tensor_sha256": "6c52e1a6061a27fd6c5c48f9d3de60841f46a23883a278147cc8d7b56d4d1109",
+  "first_forward_exact": true,
+  "steps": [
+    {
+      "step": 0,
+      "arms": {
+        "legacy": {
+          "loss": 4.376469612121582,
+          "paired_rng_sha256": "5da82a0bd503d635b3a92df7b4cfb66acabaf5239c8f0fa4299edd898425faf4",
+          "query_gradient_norms": {
+            "0.weight": null,
+            "0.bias": null,
+            "2.weight": null,
+            "2.bias": null
+          },
+          "query_before_sha256": "7c1b2f9d6ee534acf02e6f2c850e9d6776f002b1e67476aa6b2ea4283a879d8f",
+          "query_after_sha256": "7c1b2f9d6ee534acf02e6f2c850e9d6776f002b1e67476aa6b2ea4283a879d8f",
+          "gradient_tensor_sha256": "00db4639b97b4d09369ab6fe0975f80bc53e67f641a698a256265b4f78f23c71",
+          "memory_items": 5
+        },
+        "query_v2": {
+          "loss": 4.376469612121582,
+          "paired_rng_sha256": "5da82a0bd503d635b3a92df7b4cfb66acabaf5239c8f0fa4299edd898425faf4",
+          "query_gradient_norms": {
+            "0.weight": 0.07091913372278214,
+            "0.bias": 0.02539765276014805,
+            "2.weight": 0.04155793786048889,
+            "2.bias": 0.1204814463853836
+          },
+          "query_before_sha256": "7c1b2f9d6ee534acf02e6f2c850e9d6776f002b1e67476aa6b2ea4283a879d8f",
+          "query_after_sha256": "4b7800f4695c9d6af01d1f6223753d7a5b430d603f1d4d08041a138371cc835c",
+          "gradient_tensor_sha256": "7ec47372af73cc799d84005dcc8b26bc3b666f1a199a64a68446c0a979ee88e1",
+          "memory_items": 5
+        }
+      }
+    },
+    {
+      "step": 1,
+      "arms": {
+        "legacy": {
+          "loss": 3.7981250286102295,
+          "paired_rng_sha256": "0f43ce61c67386bd688b26d74e159d09614c0e3ddabe10ec59038c2554bb4d6e",
+          "query_gradient_norms": {
+            "0.weight": null,
+            "0.bias": null,
+            "2.weight": null,
+            "2.bias": null
+          },
+          "query_before_sha256": "7c1b2f9d6ee534acf02e6f2c850e9d6776f002b1e67476aa6b2ea4283a879d8f",
+          "query_after_sha256": "7c1b2f9d6ee534acf02e6f2c850e9d6776f002b1e67476aa6b2ea4283a879d8f",
+          "gradient_tensor_sha256": "06aeb55780ef5f032a6241f118835de7c27497d4ad33359a5119f864d283d72b",
+          "memory_items": 5
+        },
+        "query_v2": {
+          "loss": 3.7981650829315186,
+          "paired_rng_sha256": "0f43ce61c67386bd688b26d74e159d09614c0e3ddabe10ec59038c2554bb4d6e",
+          "query_gradient_norms": {
+            "0.weight": 0.0006804699078202248,
+            "0.bias": 0.00024505716282874346,
+            "2.weight": 0.0002242926275357604,
+            "2.bias": 0.000645801133941859
+          },
+          "query_before_sha256": "4b7800f4695c9d6af01d1f6223753d7a5b430d603f1d4d08041a138371cc835c",
+          "query_after_sha256": "82e8efe51ceed26906d75c733562b2895694bb75d3ebdd318c52a7380dc4ac0a",
+          "gradient_tensor_sha256": "b0ae2909a36e2c515a34886d27bc053f2ddee5e2039405c9298eaa89162718f9",
+          "memory_items": 5
+        }
+      }
+    }
+  ],
+  "v2_checkpoint_sha256": "033488b121b03dde420220f2c7cb0490c6757a21ff4b1b88f34bae716c488b05",
+  "v2_checkpoint_replay_exact": true,
+  "artifact_sha256": {
+    "legacy_final_tensors.pt": "d642bc80e28a11be3bf4e2046048123bad2f2e4e236a10670aff6246f5ccf999",
+    "legacy_gradients_step_0.pt": "b36c2b88fd92f47cd21ee40a6555c175d09a7790bc5c6f304051e57178832ec1",
+    "legacy_gradients_step_1.pt": "8fd03137dd4b19cb625369cc0c578ad8346c1971a8ca62ef6b2b6c98c158e52b",
+    "model_configs.json": "3a61cef2b95fcf0850da1244c07077155620ad1fd2179defe385e3ba6df606ff",
+    "query_v2_checkpoint.pt": "033488b121b03dde420220f2c7cb0490c6757a21ff4b1b88f34bae716c488b05",
+    "query_v2_gradients_step_0.pt": "f851c9c2d74a3f4f992c35ad02feee5ddd788531c64d19fe1ea0e8338bf3b132",
+    "query_v2_gradients_step_1.pt": "9b7e76092ba686df8d6a1cf0d7ee0bf58a1819411ea4b993887dca185abe5d75",
+    "shared_generated_inputs.pt": "506a38e0d02ca1424f786eb090ce30ac89f75bc9dd603d153a2b05b9941418a7",
+    "shared_initial_memory.pt": "af8b39b6bdcdf337c3a90fd0b9bb895b32d638da8b8b5cb6722e8566dbd5225e",
+    "shared_initial_model.pt": "e3802152fe55345e1b45a92a2d5649df238865cec0f94ba18bd38f5651422740"
+  }
+}

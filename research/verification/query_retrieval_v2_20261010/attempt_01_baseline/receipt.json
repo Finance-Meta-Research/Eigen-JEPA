@@ -1,0 +1,39 @@
+{
+  "command": [
+    "python",
+    "research/verification/query_retrieval_v2_20261010/baseline_probe.py"
+  ],
+  "cwd": "/workspace/scratch/2a0c1e6ddd92/finance-worktrees-20261010-0945/Eigen-JEPA",
+  "timeout_seconds": 45.0,
+  "python": "3.12.14",
+  "started_utc": "2026-10-10T09:59:58Z",
+  "environment": {
+    "PYTHONPATH": "/workspace/scratch/2a0c1e6ddd92/torch-deps:.",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "source_sha256_before": {
+    "eigen_jepa/memory.py": "d206ea802a933edfb0a1c3757aba2a228461b173bcc7f701b799bce8dc83e8c8",
+    "eigen_jepa/model.py": "8bc5136c8bb9eb432b76d96c1752da3901b20ea5704977f0b17e8b9fda824af5",
+    "eigen_jepa/losses.py": "59d7ba63dda6c8bfa7ba11395f35e62ad5f43c87d7f5149fc59ce8b9f97e896c",
+    "research/verification/query_retrieval_v2_20261010/baseline_probe.py": "54785446992275aa144ccf9d6d3aa07c8719ca22c21f41f0d4f431173fbbfb3d"
+  },
+  "scientific_outcomes": false,
+  "wall_seconds": 5.746266373011167,
+  "exit_code": 1,
+  "timed_out": false,
+  "source_sha256_after": {
+    "eigen_jepa/memory.py": "d206ea802a933edfb0a1c3757aba2a228461b173bcc7f701b799bce8dc83e8c8",
+    "eigen_jepa/model.py": "8bc5136c8bb9eb432b76d96c1752da3901b20ea5704977f0b17e8b9fda824af5",
+    "eigen_jepa/losses.py": "59d7ba63dda6c8bfa7ba11395f35e62ad5f43c87d7f5149fc59ce8b9f97e896c",
+    "research/verification/query_retrieval_v2_20261010/baseline_probe.py": "54785446992275aa144ccf9d6d3aa07c8719ca22c21f41f0d4f431173fbbfb3d"
+  },
+  "child_peak_rss_bytes": 253169664,
+  "source_unchanged": true,
+  "output_sha256": {
+    "stdout.log": "618cf9b7732c82af15f8793dd2dd0d6fc3b8155175c758c8adc8e695eedca499",
+    "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
