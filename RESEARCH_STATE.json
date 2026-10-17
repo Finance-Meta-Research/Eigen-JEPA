@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "project": "Eigen-JEPA",
+  "updated_utc": "2026-10-10",
+  "current_phase": "ENGINEERING_DEVELOPMENT_REVIEW",
+  "scientific_disposition": "BOUNDARY; retained mixed/negative study CLOSED",
+  "scientific_scope_authority": [
+    "FINAL_STATUS_2026-09-30.md",
+    "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md"
+  ],
+  "engineering_question": "Preserve OAS shrinkage when constant asset offsets dominate scale",
+  "current_change": "Subtract a per-asset reference before selecting the common scale, with a normalized fallback for genuinely overflowing differences. Preserve explicit rejection of unrepresentable final covariance.",
+  "required_session_reads": [
+    "FINAL_STATUS_2026-09-30.md",
+    "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md",
+    "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json"
+  ],
+  "protected_boundary": "Only explicit prospective classical_covariance_v2 changes; frozen v1 estimator, outcome artifacts, source bindings and real-market approval gates remain unchanged.",
+  "protected_evaluation_opened": false,
+  "scientific_runs_this_revision": 0,
+  "research_complete": false,
+  "execution_budget": {
+    "scope": "bounded constructed regressions and existing correctness tests only",
+    "paid_compute": false,
+    "training_campaigns": 0,
+    "protected_runs": 0
+  },
+  "pending_gates": [
+    "Independent review and GitHub integration.",
+    "Scientific hypothesis/specification/methodology/freeze/evidence/release gates remain governed by the retained study contracts."
+  ],
+  "history": [
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_revision",
+      "record": "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json",
+      "status": "implemented; 35 bounded tests passed; integration pending",
+      "scientific_outcomes_created": false
+    }
+  ],
+  "history_index_scope": "Index to retained project records and this revision; not a reconstruction or replacement of the complete git/artifact history."
+}

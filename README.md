@@ -2,9 +2,13 @@
 
 ## Current research status
 
-The current study is **closed at a mixed / negative evidence boundary**, as recorded in [the final status](FINAL_STATUS_2026-09-30.md). The retained synthetic results are descriptive and do not establish full-model dominance, real-market generalization, superiority to strong classical covariance estimators or trading alpha.
+The current project is **closed at a retained mixed/negative synthetic-evidence boundary**. See [the September 30 closeout](FINAL_STATUS_2026-09-30.md) and [the claim-to-evidence audit](paper/SUBMISSION_CLAIM_AUDIT_20260906.md). The retained results do not establish trading alpha, real-market generalization, full-model dominance, or superiority over strong classical covariance estimators.
 
-Read [the rigor gate](RIGOR_GATE.md) and [submission claim audit](paper/SUBMISSION_CLAIM_AUDIT_20260906.md) before interpreting tables. The optional classical-baseline and real-market lanes are separately gated prospective studies; the historical training commands below do not authorize successor outcome access.
+The classical covariance baseline ladder is a **separate, optional, pre-outcome successor**. Its [candidate protocol](protocols/real_market_classical_baseline_ladder_v1_candidate_20260926.json) has `execution_authorized: false`; this README does not authorize running it or opening held-out outcomes. Closing the existing result does not require that successor.
+
+The canonical paper entrypoint is `paper/main.tex`, which delegates to `paper/conference_v2.tex`. Use the version-bound evidence tables described in the claim audit; the historical example outputs below are not interchangeable with the frozen final-rigor v2 results. Scientific closeout is separate from author approval, venue checks, licensing, or submission.
+
+## Retained metric restoration
 
 Checkout verification on 2 October 2026 at `cf3a1bd29c91c637c63dacf6813f801d8f76c337`: 97 tests and the submission claim checker passed. The checkout lacked `results/final_rigor_v2/metrics.json`; the original retained artifact was then recovered, its SHA256 matched, and its 21 metric files passed the full final-rigor gate (20 run files and 72 aggregate summaries). This verifies retained evidence, not a new scientific result.
 
@@ -17,9 +21,11 @@ python scripts/check_final_rigor_v2.py
 
 The restore command checks the exact published digest, restores only the named metric files, and refuses conflicting existing files. It neither fetches data nor trains a model. Do not substitute historical single-seed metrics or rerun a frozen study to fill the checkout gap. Full figures/checkpoints remain in the original retained artifact; this command restores only the metrics needed by the gate.
 
+## Implemented scope
+
 Eigen-JEPA is a spectral joint-embedding predictive architecture for financial world modeling. The central idea is to forecast the future geometry of a market — covariance spectra, dominant eigenspaces, eigengaps, subspace drift, and regime transitions — rather than only pointwise returns.
 
-This repository contains a historical research package:
+This repository contains the following implemented research components and retained artifacts:
 
 - synthetic regime-switching market generator
 - lightweight temporal + spectral encoder
@@ -41,7 +47,9 @@ This repository contains a historical research package:
 - `scripts/`: convenience wrappers for the full suite and paper build
 - `tests/`: smoke tests
 
-## Quick start
+## Exploratory quick-start examples
+
+These commands describe exploratory smoke/benchmark workflows. They are not the frozen final-rigor v2 reproduction contract and are not needed to reopen or extend the closed study. Consult the pinned protocol and claim audit before any outcome-bearing execution.
 
 ### 1) Install
 
@@ -99,6 +107,14 @@ The suite runner additionally writes:
 - `ablation_styles.png`
 
 ## Reproducibility notes
+
+### Opt-in development panel API
+
+New studies can use `eigen_jepa.purged_folds_v2.build_purged_fold_indices` and
+`build_purged_fold_datasets` to enforce complete context/target separation even
+for caller-supplied indices. See the [v2 usage and regression record](docs/development/purged-window-admission-20261010.md).
+The original source-bound module, frozen runners, and retained mixed/negative
+study are unchanged. A future study must explicitly bind the v2 source identity.
 
 - The packaged experiments use deterministic seeds.
 - Train/test splits are chronological.
