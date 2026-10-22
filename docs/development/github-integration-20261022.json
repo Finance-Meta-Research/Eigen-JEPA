@@ -14,11 +14,21 @@
   "integration_plan": "Retarget #35 to main, run the current full and bounded CI, merge only after passing, then reconcile incorporated ancestor PRs. Preserve the original stack order as historical context; no runtime or evidence bytes change in this metadata update.",
   "validation": {
     "local": "Source review; no new model, benchmark, training or protected-data execution.",
-    "hosted": "Full main-targeted CI plus existing bounded geometry, checkpoint, query-gradient and claim checks must pass for the new candidate before merge."
+    "hosted": "The retargeted PR now requests the complete main-targeted CI suite in addition to bounded geometry, checkpoint, query-gradient and claim checks. All required checks must pass at the final commit before merge."
   },
   "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
   "scientific_runs": 0,
   "protected_evaluation_opened": false,
   "paid_compute": false,
-  "scientific_result_changed": false
+  "scientific_result_changed": false,
+  "integration_target": "main",
+  "integration_target_verified": true,
+  "retained_prior_candidate_checks": {
+    "candidate": "e0df05cb1d61031d6d43990212221ee347b2ee7c",
+    "claim_gate": 39767287057,
+    "query_gradient": 39767286987,
+    "covariance_geometry": 39767287042,
+    "checkpoint_replay": 39767287041,
+    "reason_for_followup": "The earlier synchronize event preceded retargeting; this metadata follow-up requests the main-branch CI gate without changing runtime or research artifacts."
+  }
 }
