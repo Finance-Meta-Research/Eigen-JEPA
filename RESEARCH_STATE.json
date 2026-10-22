@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "project": "Eigen-JEPA",
-  "updated_utc": "2026-10-17",
+  "updated_utc": "2026-10-22",
   "repository_base_commit": "cf3a1bd29c91c637c63dacf6813f801d8f76c337",
   "scientific_question": "Does predictive spectral representation and memory improve bounded financial spectral forecasting?",
   "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
@@ -107,7 +107,8 @@
     "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md",
     "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json",
     "docs/development/integration-reconciliation-20261017.json",
-    "docs/development/stack-integration-reconciliation-20261017.json"
+    "docs/development/stack-integration-reconciliation-20261017.json",
+    "docs/development/github-integration-20261022.json"
   ],
   "preserved_history_index": [
     "protocols/real_market_confirmation_v1_candidate_20260906.json",
@@ -374,6 +375,13 @@
       "kind": "engineering_stack_integration_review",
       "record": "docs/development/stack-integration-reconciliation-20261017.json",
       "status": "Reviewed runtime and generated-fixture tests of PRs #34-#37; reconciled canonical state with the reviewed #32 integration without changing implementation or test bytes. Local immutable-source and claim-boundary checks passed; new-head hosted CI remains required.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-22",
+      "kind": "ENGINEERING_STACK_INTEGRATION_REVIEW",
+      "record": "docs/development/github-integration-20261022.json",
+      "status": "Complete-descendant ancestry and source review verified; main-targeted exact-head CI required before merge.",
       "scientific_outcomes_created": false
     }
   ],
