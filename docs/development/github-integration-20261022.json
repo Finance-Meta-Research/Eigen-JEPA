@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-22",
+  "kind": "ENGINEERING_STACK_INTEGRATION_REVIEW",
+  "repository": "Finance-Meta-Research/Eigen-JEPA",
+  "candidate": "7d41a74625eb25356fb0f1a806d9be45785b1c68",
+  "default_base": "c28ce3862efb99d91b9d35b0e72fb37f3df074f1",
+  "included_open_pr_heads": {
+    "32": "476d2fa4dd7b23bdd57e92ec7d6814fa6abe07c6",
+    "34": "a3896fe974e4517149444f8bc6bb12d3c5bdd85b"
+  },
+  "ancestry": "GitHub comparisons show zero commits behind main and each included open PR head. The complete descendant can target main without dropping any ancestor commit.",
+  "review": "Reviewed the opt-in cohort reductions and row ownership, covariance SVD and numerical support, checkpoint policy/snapshot admission, and query-gradient/checkpoint implementation against the retained prospective contracts and independent review receipts.",
+  "integration_plan": "Retarget #35 to main, run the current full and bounded CI, merge only after passing, then reconcile incorporated ancestor PRs. Preserve the original stack order as historical context; no runtime or evidence bytes change in this metadata update.",
+  "validation": {
+    "local": "Source review; no new model, benchmark, training or protected-data execution.",
+    "hosted": "The retargeted PR now requests the complete main-targeted CI suite in addition to bounded geometry, checkpoint, query-gradient and claim checks. All required checks must pass at the final commit before merge."
+  },
+  "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
+  "scientific_runs": 0,
+  "protected_evaluation_opened": false,
+  "paid_compute": false,
+  "scientific_result_changed": false,
+  "integration_target": "main",
+  "integration_target_verified": true,
+  "retained_prior_candidate_checks": {
+    "candidate": "e0df05cb1d61031d6d43990212221ee347b2ee7c",
+    "claim_gate": 39767287057,
+    "query_gradient": 39767286987,
+    "covariance_geometry": 39767287042,
+    "checkpoint_replay": 39767287041,
+    "reason_for_followup": "The earlier synchronize event preceded retargeting; this metadata follow-up requests the main-branch CI gate without changing runtime or research artifacts."
+  }
+}

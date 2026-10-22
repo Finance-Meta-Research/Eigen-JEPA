@@ -1,0 +1,19 @@
+{
+  "expected_source_sha256": "9e26557139d7e592b713ddc0e38f83c0c06f6c862e3673da5ffe3046b7befd95",
+  "before_source_sha256": "9e26557139d7e592b713ddc0e38f83c0c06f6c862e3673da5ffe3046b7befd95",
+  "after_source_sha256": "e6314cc80d2157ed96d9f895e3d7c461e607963ef3f379a9115a66ea4894905a",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_cohort_reduction_integrity.py",
+    "tests/test_covariance_geometry_v3.py",
+    "tests/test_evaluation_v2.py",
+    "tests/test_sanity.py",
+    "tests/test_real_market_source_freeze.py",
+    "-q",
+    "-W",
+    "error"
+  ],
+  "exit_code": 1
+}

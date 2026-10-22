@@ -1,0 +1,35 @@
+[
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "--isolated",
+      "--select",
+      "E4,E7,E9,F",
+      "eigen_jepa/evaluation_v2.py",
+      "tests/test_cohort_reduction_integrity.py"
+    ],
+    "exit_code": 0,
+    "output": "All checks passed!\n"
+  },
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "scripts/verify_real_market_source_freeze.py"
+    ],
+    "exit_code": 0,
+    "output": "SOURCE_FREEZE_VERIFIED_NOT_AUTHORIZED\nSOURCE_COMMIT=057d723bdb693233ac47bcd4bd351fc8f36fc281\nCRITICAL_BINDINGS=5\n"
+  },
+  {
+    "command": "compile(source_text, path, exec) for changed Python files",
+    "exit_code": 0,
+    "output": "Compiled without writing bytecode."
+  },
+  {
+    "command": "Compare current scientific gates/history/geometry against exact #34 parent",
+    "exit_code": 0,
+    "output": "All prior history entries and selected scientific gates unchanged; geometry source byte-identical."
+  }
+]

@@ -1,0 +1,49 @@
+{
+  "schema": "eigen_jepa.github_engineering_verification.v1",
+  "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/36",
+  "tested_commit": "5077684e7b03bbaadd2122c317a3497ed95fe008",
+  "tested_tree": "f15582a652525bd026410efba3c440a127b0aa40",
+  "source_sha256": "6235cf9b4fdfac7b8cc8ee5d0f0bdeb049017718647d2e593172d3db17151541",
+  "source_checkout": "Both jobs explicitly checked out and asserted the PR head SHA.",
+  "replay": {
+    "run_id": 38030239548,
+    "url": "https://github.com/Finance-Meta-Research/Eigen-JEPA/actions/runs/38030239548",
+    "job_id": 114149452905,
+    "conclusion": "success",
+    "tests_passed": 117,
+    "duration_seconds": 7.09,
+    "python": "3.11.17",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.4.6",
+    "pytest": "9.1.1",
+    "verified_log_excerpt": [
+      "2026-10-10T06:14:29.6075872Z Successfully set up CPython (3.11.17)",
+      "2026-10-10T06:14:47.6249588Z Successfully installed MarkupSafe-3.0.3 filelock-3.32.3 fsspec-2026.7.0 jinja2-3.1.6 mpmath-1.3.0 networkx-3.6.1 sympy-1.14.0 torch-2.14.1+cpu typing-extensions-4.16.0",
+      "2026-10-10T06:14:56.8522072Z Successfully installed contourpy-1.3.3 cycler-0.12.1 eigen-jepa-0.4.1 fonttools-4.66.1 iniconfig-2.3.1 kiwisolver-1.5.1 matplotlib-3.11.2 numpy-2.4.6 packaging-26.3 pillow-12.3.0 pluggy-1.6.0 pygments-2.21.0 pyparsing-3.3.3 pytest-9.1.1 python-dateutil-2.9.0.post0 six-1.17.0",
+      "2026-10-10T06:15:04.7015633Z 117 passed in 7.09s"
+    ]
+  },
+  "claim_boundary": {
+    "run_id": 38030239556,
+    "url": "https://github.com/Finance-Meta-Research/Eigen-JEPA/actions/runs/38030239556",
+    "job_id": 114149453102,
+    "conclusion": "success",
+    "tests_passed": 6,
+    "pytest": "8.4.2",
+    "verified_log_excerpt": [
+      "2026-10-10T06:14:29.2774299Z Successfully set up CPython (3.11.17)",
+      "2026-10-10T06:14:33.3407947Z Successfully installed iniconfig-2.3.1 packaging-26.3 pluggy-1.6.0 pygments-2.21.0 pytest-8.4.2",
+      "2026-10-10T06:14:33.4142036Z EIGEN_SUBMISSION_CLAIM_GATE_PASS: frozen synthetic-v2 identities, mixed/negative claim boundary, canonical manuscript surface, and no-outcome/no-self-authorization controls verified.",
+      "2026-10-10T06:14:33.8023455Z 6 passed in 0.01s"
+    ]
+  },
+  "full_tree_verification": {
+    "sha": "f15582a652525bd026410efba3c440a127b0aa40",
+    "leaf_count": 472,
+    "unchanged_parent_leaves": 460,
+    "changed_files": 12
+  },
+  "scientific_campaign": false,
+  "protected_outcome_access": false,
+  "paid_compute": false
+}

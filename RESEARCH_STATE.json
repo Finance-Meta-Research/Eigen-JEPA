@@ -1,42 +1,404 @@
 {
   "schema_version": 1,
   "project": "Eigen-JEPA",
-  "updated_utc": "2026-10-10",
-  "current_phase": "ENGINEERING_DEVELOPMENT_REVIEW",
-  "scientific_disposition": "BOUNDARY; retained mixed/negative study CLOSED",
-  "scientific_scope_authority": [
-    "FINAL_STATUS_2026-09-30.md",
-    "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md"
-  ],
-  "engineering_question": "Preserve OAS shrinkage when constant asset offsets dominate scale",
-  "current_change": "Subtract a per-asset reference before selecting the common scale, with a normalized fallback for genuinely overflowing differences. Preserve explicit rejection of unrepresentable final covariance.",
-  "required_session_reads": [
-    "FINAL_STATUS_2026-09-30.md",
-    "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md",
-    "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json"
-  ],
-  "protected_boundary": "Only explicit prospective classical_covariance_v2 changes; frozen v1 estimator, outcome artifacts, source bindings and real-market approval gates remain unchanged.",
+  "updated_utc": "2026-10-22",
+  "repository_base_commit": "cf3a1bd29c91c637c63dacf6813f801d8f76c337",
+  "scientific_question": "Does predictive spectral representation and memory improve bounded financial spectral forecasting?",
+  "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
+  "current_phase": "ENGINEERING_INTEGRATION_REVIEW",
+  "current_hypothesis_change": false,
   "protected_evaluation_opened": false,
   "scientific_runs_this_revision": 0,
-  "research_complete": false,
   "execution_budget": {
-    "scope": "bounded constructed regressions and existing correctness tests only",
+    "scope": "Bounded generated-data regression and existing correctness tests only",
     "paid_compute": false,
     "training_campaigns": 0,
     "protected_runs": 0
   },
+  "current_change": "Integrate the reviewed geometry, cohort-reduction, checkpoint replay and query-retrieval development stack with the separately reviewed covariance-v2 and purged-window corrections. Preserve both complete canonical histories and all implementation, test, retained-artifact and frozen-source identities from their respective parents.",
+  "active_session": {
+    "id": "20261010-0945-query-gradient-v2",
+    "opened_before_implementation": true,
+    "recorded_utc": "2026-10-10 09:57:23 UTC",
+    "parent_commit": "e0f71481524e2af88029106bde7476fd95a34b27",
+    "additional_parent_commit": "a20efd8ad82e188a4803072b74c6d95a5cb09186",
+    "status": "ENGINEERING_CLOSED_PUBLISHED_DRAFT",
+    "contract": "docs/development/query-retrieval-v2-20261010.md",
+    "budget": {
+      "local_test_or_probe_commands": 5,
+      "cumulative_test_command_wall_seconds": 240,
+      "review_repair_cycles": 2,
+      "independent_review_commands": 1,
+      "independent_review_wall_seconds": 90,
+      "retained_demo_attempts": 1,
+      "retained_demo_wall_seconds": 60,
+      "cpu_threads": 1,
+      "protected_runs": 0,
+      "paid_compute": 0,
+      "scientific_campaigns": 0
+    },
+    "consumed": {
+      "local_test_or_probe_commands": 2,
+      "cumulative_test_command_wall_seconds": 46.215956717016525,
+      "retained_demo_attempts": 1,
+      "review_repair_cycles": 0,
+      "retained_demo_wall_seconds": 6.506398980985978
+    },
+    "verification_receipts": [
+      "research/verification/query_retrieval_v2_20261010/attempt_01_baseline/receipt.json",
+      "research/verification/query_retrieval_v2_20261010/attempt_02_candidate/receipt.json",
+      "research/verification/query_retrieval_v2_20261010/demo_attempt_01/receipt.json"
+    ],
+    "independent_review": {
+      "reviewer": "/root/atg_ngmt_olympus",
+      "outcome": "PASS_NO_BLOCKER",
+      "scope": "Source-only review of runtime, tests, prospective contract, legacy boundary; no independent execution.",
+      "reviewed_source_sha256": {
+        "eigen_jepa/query_retrieval_v2.py": "561d5f49ffabf4b72f51c6027d06e2cf579c971c90d05b17f4ca1e4d4f964dd0",
+        "tests/test_query_retrieval_v2.py": "5d1e2d7f9cd2bc8bddd651d17f4b102233fc35d9ef322e0ff51ccf009f1e0583",
+        "eigen_jepa/model.py": "8bc5136c8bb9eb432b76d96c1752da3901b20ea5704977f0b17e8b9fda824af5",
+        "eigen_jepa/memory.py": "d206ea802a933edfb0a1c3757aba2a228461b173bcc7f701b799bce8dc83e8c8",
+        "eigen_jepa/losses.py": "59d7ba63dda6c8bfa7ba11395f35e62ad5f43c87d7f5149fc59ce8b9f97e896c",
+        "tests/test_sanity.py": "13cfbb43d1524c000b36ba36e65fc9a9cfcc3b809c8da4ea39e41cb92f78f1d7",
+        "tests/test_checkpoint_evaluation_v3.py": "cdebb9f58530e23ad06df32e965e35475c6866c438066b3360b30a00c127e3c9",
+        "tests/test_research_evidence_integrity.py": "0150161fdd0a0bc71ac1ea918e25a12c82a34826fcf88b75db5360fbc7980a07"
+      },
+      "execution_commands": 0,
+      "repair_cycles": 0
+    },
+    "demo_attempt": {
+      "number": 1,
+      "status": "PASSED",
+      "command_receipt": "research/verification/query_retrieval_v2_20261010/demo_attempt_01/receipt.json",
+      "max_wall_seconds": 60,
+      "output_directory": "research/verification/query_retrieval_v2_20261010/demo",
+      "wall_seconds": 6.506398980985978,
+      "exit_code": 0,
+      "report": "research/verification/query_retrieval_v2_20261010/demo/report.json"
+    },
+    "closed_utc": "2026-10-10T10:20:50.981622+00:00",
+    "unused_execution_budget_closed": true,
+    "final_local_tests_passed": 93,
+    "protected_runs": 0,
+    "scientific_campaigns": 0,
+    "paid_compute": 0,
+    "publication": {
+      "branch": "codex/query-gradient-v2-20261010-0945",
+      "base_branch": "codex/checkpoint-policy-replay-v3-20261010-5077684",
+      "status": "PUBLISHED_DRAFT",
+      "hosted_verification": "Pending at this metadata-only closure; current-head observations are recorded in the PR body and coordinator receipt.",
+      "pull_request": 37,
+      "url": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/37",
+      "implementation_commit": "5a59b0f050977444cced94498ca34adf10413a69",
+      "implementation_tree": "278040c71fc306169c6c80e31593287967f058ba",
+      "head_reference": "refs/heads/codex/query-gradient-v2-20261010-0945"
+    }
+  },
+  "required_session_reads": [
+    "FINAL_STATUS_2026-09-30.md",
+    "protocols/final_rigor_v2_20260905.json",
+    "protocols/real_market_source_freeze_candidate_20260906.json",
+    "docs/development/cohort-evaluation-v2-20261010.md",
+    "docs/development/covariance-geometry-v3-20261010.md",
+    "docs/development/cohort-reduction-integrity-20261010.md",
+    "docs/development/checkpoint-policy-replay-v3-20261010.md",
+    "docs/development/query-retrieval-v2-20261010.md",
+    "docs/development/query-retrieval-v2-usage.md",
+    "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md",
+    "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json",
+    "docs/development/integration-reconciliation-20261017.json",
+    "docs/development/stack-integration-reconciliation-20261017.json",
+    "docs/development/github-integration-20261022.json"
+  ],
+  "preserved_history_index": [
+    "protocols/real_market_confirmation_v1_candidate_20260906.json",
+    "protocols/real_market_classical_baseline_ladder_v1_candidate_20260926.json",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/30",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/31",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/32",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/33",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/34",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/35",
+    "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/36"
+  ],
+  "history_index_scope": "Entry points to retained repository history and existing PRs; this is not a claim to have re-audited all historical evidence.",
   "pending_gates": [
-    "Independent review and GitHub integration.",
-    "Scientific hypothesis/specification/methodology/freeze/evidence/release gates remain governed by the retained study contracts."
+    "Publish this history-preserving integration commit and require its current-head hosted engineering and submission-claim checks before merging the #37 through #32 stack.",
+    "Legacy model/training columns remain nonorthogonal. A training or architecture repair would be a separately versioned scientific change.",
+    "Any scientific use of the prospective APIs requires explicit source and input identities, a separately versioned hypothesis/specification/methodology and a pre-outcome confirmatory freeze; no forecasting utility or scientific completion is inferred."
   ],
   "history": [
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_revision",
+      "record": "docs/development/cohort-evaluation-v2-20261010.md",
+      "status": "implemented; 113 tests and source-freeze verification passed; independent source review passed; integration pending",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_session_opened",
+      "session_id": "20261010-covariance-geometry-continuation",
+      "record": "docs/development/covariance-geometry-v3-20261010.md",
+      "status": "Contract and finite generated-test budget recorded before implementation; remote PR #32 head unchanged; independent covariance estimator PR #33 remains separate.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_implementation_verified",
+      "session_id": "20261010-covariance-geometry-continuation",
+      "record": "docs/development/covariance-geometry-v3-20261010.md",
+      "receipt": "docs/development/covariance-geometry-v3-20261010-receipt.json",
+      "status": "59 targeted tests passed with warnings as errors; all five frozen source bindings verified; independent review pending",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "independent_engineering_review_completed",
+      "session_id": "20261010-covariance-geometry-continuation",
+      "status": "Independent agent reviewed thin-SVD covariance preservation, singular-value rank policy, untruncated eigenvalues, zero/rank-deficient/extreme cases and model state preservation; no blocking issue or source change requested.",
+      "next_action": "Publish a distinct stacked draft on PR #32, verify its complete tree and bounded hosted correctness workflow; no scientific runs.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_draft_published",
+      "session_id": "20261010-covariance-geometry-continuation",
+      "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/34",
+      "implementation_commit": "fac569f355887410649edaa871a773f21318e8d7",
+      "parent_commit": "7b6eae8446d85b7d281fd22979575076ccece164",
+      "implementation_tree": "6836d4cadcb8b13cb73cc1c5b0c7aa50d107b282",
+      "tree_verification": "All 451 blob identities/modes equal the exact parent plus the six selected changes; no other head changed.",
+      "hosted_verification": "Bounded prospective geometry workflow and submission claim gate are attached to the PR; current hosted status is reported on GitHub, not inferred from local checks.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "id": "cohort_reduction_integrity_20261010",
+      "date": "2026-10-10",
+      "kind": "engineering_revision",
+      "parent_commit": "a3896fe974e4517149444f8bc6bb12d3c5bdd85b",
+      "additional_parent_commits": [],
+      "record": "docs/development/cohort-reduction-integrity-20261010.md",
+      "verification_receipt": "research/verification/cohort_reduction_integrity_20261010/receipt.json",
+      "status": "implemented; 69 bounded tests passed with warnings as errors; independent source review completed; stacked draft integration pending",
+      "prior_session_current_change": "Prospective covariance-geometry evaluation: derive the actual spectrum and numerical-support projector of the unchanged legacy factor covariance, rather than treating merely normalized columns as an orthonormal eigensystem. Stack on PR #32; preserve legacy training, model, evaluators and frozen studies.",
+      "scientific_outcomes_created": false,
+      "source_sha256": "9e26557139d7e592b713ddc0e38f83c0c06f6c862e3673da5ffe3046b7befd95",
+      "independent_review": "Completed at exact source hash: additional Decimal mean/NMSE and ownership probes; no scoped blocker; not scientific validation",
+      "dependency_pr": 34
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_session_opened",
+      "session_id": "20261010-checkpoint-policy-replay",
+      "parent_commit": "0bebf465d4e66f08acd683c669396791b37d4198",
+      "record": "docs/development/checkpoint-policy-replay-v3-20261010.md",
+      "status": "Preimplementation contract recorded; actual legacy CLI factory loses checkpoint memory parameters and variant overrides; bounded generated fixtures only",
+      "prior_active_session": {
+        "id": "20261010-covariance-geometry-continuation",
+        "authorization": "Fresh user continuation requesting real GitHub research-code improvements; bounded engineering work only.",
+        "parent_commit": "7b6eae8446d85b7d281fd22979575076ccece164",
+        "opened_before_implementation": true,
+        "status": "CLOSED_PUBLISHED_DRAFT; integration and scientific opt-in remain pending",
+        "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/34",
+        "implementation_commit": "fac569f355887410649edaa871a773f21318e8d7",
+        "local_targeted_test_invocations_used": 2,
+        "budget": {
+          "maximum_targeted_test_invocations": 10,
+          "maximum_generated_model_windows_per_case": 8,
+          "cpu_threads": 1,
+          "training_campaigns": 0,
+          "protected_runs": 0,
+          "paid_compute": false
+        },
+        "research_status": "No successor hypothesis or confirmatory protocol is authorized by this engineering session."
+      },
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "kind": "engineering_implementation_and_review_verified",
+      "session_id": "20261010-checkpoint-policy-replay",
+      "record": "docs/development/checkpoint-policy-replay-v3-20261010.md",
+      "receipt": "research/verification/checkpoint_policy_replay_20261010/receipt.json",
+      "parent_commit": "0bebf465d4e66f08acd683c669396791b37d4198",
+      "status": "117 bounded tests passed on hash-checked final source; independent invocation finding repaired and review passed; draft publication pending",
+      "source_sha256": "6235cf9b4fdfac7b8cc8ee5d0f0bdeb049017718647d2e593172d3db17151541",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "recorded_utc": "2026-10-10T06:19:53.720121+00:00",
+      "kind": "engineering_draft_published_and_hosted_verified",
+      "session_id": "20261010-checkpoint-policy-replay",
+      "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/36",
+      "implementation_commit": "5077684e7b03bbaadd2122c317a3497ed95fe008",
+      "implementation_tree": "f15582a652525bd026410efba3c440a127b0aa40",
+      "verification_receipt": "research/verification/checkpoint_policy_replay_20261010/github_5077684_receipt.json",
+      "status": "Exact-head hosted replay117 and claim-boundary6 checks passed; full implementation tree verified; canonical receipt-only follow-up preserves executable/test/workflow bytes",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-10",
+      "recorded_utc": "2026-10-10 09:57:23 UTC",
+      "kind": "new_successor_development_session_opened",
+      "session_id": "20261010-0945-query-gradient-v2",
+      "record": "docs/development/query-retrieval-v2-20261010.md",
+      "prior_active_session": {
+        "id": "20261010-checkpoint-policy-replay",
+        "opened_before_implementation": true,
+        "status": "CLOSED_PUBLISHED_DRAFT; integration and scientific opt-in remain pending",
+        "parent_commit": "0bebf465d4e66f08acd683c669396791b37d4198",
+        "budget": {
+          "maximum_local_test_invocations": 16,
+          "maximum_model_windows_per_case": 8,
+          "maximum_generated_series_steps_per_case": 80,
+          "cpu_threads": 1,
+          "training_campaigns": 0,
+          "protected_runs": 0,
+          "paid_compute": false
+        },
+        "local_test_invocations_used": 7,
+        "independent_review_probes": 1,
+        "verified_test_count": 117,
+        "verification_receipt": "research/verification/checkpoint_policy_replay_20261010/receipt.json",
+        "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/36",
+        "implementation_commit": "5077684e7b03bbaadd2122c317a3497ed95fe008",
+        "implementation_tree": "f15582a652525bd026410efba3c440a127b0aa40",
+        "hosted_verification_receipt": "research/verification/checkpoint_policy_replay_20261010/github_5077684_receipt.json"
+      },
+      "prior_current_change": "Add a distinct prospective checkpoint evaluation entrypoint that restores saved inference policy and consumes an explicit frozen development-window snapshot; preserve every existing evaluator, model, memory, training, source freeze and historical artifact.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "event": "bounded_baseline_defect_reproduced",
+      "session_id": "20261010-0945-query-gradient-v2",
+      "recorded_utc": "2026-10-10T09:59:58Z",
+      "receipt": "research/verification/query_retrieval_v2_20261010/attempt_01_baseline/receipt.json",
+      "expected_exit_code": 1,
+      "actual_exit_code": 1,
+      "wall_seconds": 5.746266373011167,
+      "scope": "Generated engineering witnesses only; no scientific outcome or predecessor reclassification.",
+      "observation": "Legacy actual model and spectral loss yield finite backbone gradients and no gradients for any query-head parameter.",
+      "budget_consumed": {
+        "local_test_or_probe_commands": 1,
+        "cumulative_test_command_wall_seconds": 5.746266373011167,
+        "retained_demo_attempts": 0,
+        "review_repair_cycles": 0
+      }
+    },
+    {
+      "event": "bounded_candidate_and_independent_review_passed",
+      "recorded_utc": "2026-10-10T10:14:16.702215+00:00",
+      "session_id": "20261010-0945-query-gradient-v2",
+      "candidate_receipt": "research/verification/query_retrieval_v2_20261010/attempt_02_candidate/receipt.json",
+      "tests_passed": 93,
+      "new_tests_passed": 37,
+      "reviewer": "/root/atg_ngmt_olympus",
+      "review_commands": 0,
+      "demo_attempt_reserved": 1,
+      "budget_consumed": {
+        "local_test_or_probe_commands": 2,
+        "cumulative_test_command_wall_seconds": 46.215956717016525,
+        "retained_demo_attempts": 1,
+        "review_repair_cycles": 0
+      },
+      "scientific_completion": false
+    },
+    {
+      "event": "single_retained_demo_completed",
+      "recorded_utc": "2026-10-10T10:14:32Z",
+      "session_id": "20261010-0945-query-gradient-v2",
+      "receipt": "research/verification/query_retrieval_v2_20261010/demo_attempt_01/receipt.json",
+      "report": "research/verification/query_retrieval_v2_20261010/demo/report.json",
+      "wall_seconds": 6.506398980985978,
+      "attempts": 1,
+      "new_scientific_evidence": false,
+      "conclusion": "Identical first paired forward and model/bank initialization; v2 has finite nonzero query gradients and query updates, legacy has none; v2 saved checkpoint exactly replays.",
+      "budget_consumed": {
+        "local_test_or_probe_commands": 2,
+        "cumulative_test_command_wall_seconds": 46.215956717016525,
+        "retained_demo_attempts": 1,
+        "review_repair_cycles": 0,
+        "retained_demo_wall_seconds": 6.506398980985978
+      }
+    },
+    {
+      "event": "engineering_execution_budget_closed",
+      "recorded_utc": "2026-10-10T10:20:50.981622+00:00",
+      "session_id": "20261010-0945-query-gradient-v2",
+      "final_gate_receipt": "research/verification/query_retrieval_v2_20261010/attempt_02_candidate/receipt.json",
+      "final_local_tests_passed": 93,
+      "budget_consumed": {
+        "local_test_or_probe_commands": 2,
+        "cumulative_test_command_wall_seconds": 46.215956717016525,
+        "retained_demo_attempts": 1,
+        "review_repair_cycles": 0,
+        "retained_demo_wall_seconds": 6.506398980985978
+      },
+      "unused_execution_budget_closed": true,
+      "scientific_completion": false,
+      "remaining_scientific_boundary": "Any scientific successor requires a separately versioned frozen study; historical closed adverse findings and protected outcomes remain preserved."
+    },
+    {
+      "event": "reviewed_development_draft_published",
+      "session_id": "20261010-0945-query-gradient-v2",
+      "pull_request": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/37",
+      "implementation_commit": "5a59b0f050977444cced94498ca34adf10413a69",
+      "implementation_tree": "278040c71fc306169c6c80e31593287967f058ba",
+      "ordered_parents": [
+        "e0f71481524e2af88029106bde7476fd95a34b27",
+        "a20efd8ad82e188a4803072b74c6d95a5cb09186"
+      ],
+      "all_tree_leaves_verified": 508,
+      "changed_files_verified": 36,
+      "metadata_only_closure": true,
+      "execution_budget_stays_closed": true,
+      "scientific_completion": false
+    },
     {
       "date": "2026-10-10",
       "kind": "engineering_revision",
       "record": "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json",
       "status": "implemented; 35 bounded tests passed; integration pending",
       "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-17",
+      "kind": "engineering_integration_review",
+      "record": "docs/development/integration-reconciliation-20261017.json",
+      "status": "Source and state reconciliation reviewed; source-freeze, submission claim gate, compilation and whitespace checks passed; exact integrated-head CI required before merge.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-17",
+      "kind": "engineering_stack_integration_review",
+      "record": "docs/development/stack-integration-reconciliation-20261017.json",
+      "status": "Reviewed runtime and generated-fixture tests of PRs #34-#37; reconciled canonical state with the reviewed #32 integration without changing implementation or test bytes. Local immutable-source and claim-boundary checks passed; new-head hosted CI remains required.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-10-22",
+      "kind": "ENGINEERING_STACK_INTEGRATION_REVIEW",
+      "record": "docs/development/github-integration-20261022.json",
+      "status": "Complete-descendant ancestry and source review verified; main-targeted exact-head CI required before merge.",
+      "scientific_outcomes_created": false
     }
   ],
-  "history_index_scope": "Index to retained project records and this revision; not a reconstruction or replacement of the complete git/artifact history."
+  "latest_engineering_revision": "20261010-0945-query-gradient-v2",
+  "current_hypothesis_change_scope": "New opt-in successor development hypothesis only; closed predecessor disposition and source-bound evidence unchanged.",
+  "successor_development_hypothesis": {
+    "id": "eigen-jepa-query-learning-v2-20261010",
+    "status": "ALGORITHMIC_GRADIENT_WITNESS_VERIFIED_ONLY",
+    "statement": "With at least two distinct selected neighbors, query-differentiable retrieval supplies the derivative of the retained selected-neighbor forward map to the query head; no financial benefit is inferred.",
+    "scientific_utility": "UNTESTED; no forecasting evaluation authorized or performed."
+  },
+  "scientific_scope_authority": [
+    "FINAL_STATUS_2026-09-30.md",
+    "protocols/COVARIANCE_V2_DEVELOPMENT_20261010.md"
+  ],
+  "engineering_question": "Reconcile independently reviewed prospective engineering branches while preserving their existing behavior and scientific boundaries.",
+  "protected_boundary": "Integration only. The retained mixed/negative predecessor remains CLOSED; all frozen protocols, source bindings, scientific outcomes and protected pre-outcome gates remain unchanged. No scientific, training, paid or protected execution is authorized by this record.",
+  "research_complete": false,
+  "integration_base_commit": "476d2fa4dd7b23bdd57e92ec7d6814fa6abe07c6"
 }

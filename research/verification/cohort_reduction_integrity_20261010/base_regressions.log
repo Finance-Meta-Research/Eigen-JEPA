@@ -1,0 +1,348 @@
+FFF..FFFFF                                                               [100%]
+=================================== FAILURES ===================================
+__ test_repeated_large_finite_statistics_have_the_same_representable_mean[2] ___
+
+count = 2
+
+    @pytest.mark.parametrize("count", [2, 3, 17])
+    def test_repeated_large_finite_statistics_have_the_same_representable_mean(count):
+>       report = evaluation_report([row(i, 1e308) for i in range(count)])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cohort_reduction_integrity.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+eigen_jepa/evaluation_v2.py:276: in evaluation_report
+    json.dumps(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py:200: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.encoder.JSONEncoder object at 0x7f16eb82d2b0>
+o = {'schema': 'eigen_jepa.evaluation.v2', 'event_threshold': 0.45, 'reduction': 'cohort_ratio_of_means_and_pooled_confusion; equal_window_weight', 'metrics': {'proj_mse': inf, 'drift_mse': inf, 'cov_mse': inf, 'risk_mse': inf, ...}, ...}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if (_one_shot and c_make_encoder is not None
+                and self.indent is None):
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, self.indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, self.indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+>       return _iterencode(o, 0)
+               ^^^^^^^^^^^^^^^^^
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py:258: ValueError
+__ test_repeated_large_finite_statistics_have_the_same_representable_mean[3] ___
+
+count = 3
+
+    @pytest.mark.parametrize("count", [2, 3, 17])
+    def test_repeated_large_finite_statistics_have_the_same_representable_mean(count):
+>       report = evaluation_report([row(i, 1e308) for i in range(count)])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cohort_reduction_integrity.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+eigen_jepa/evaluation_v2.py:276: in evaluation_report
+    json.dumps(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py:200: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.encoder.JSONEncoder object at 0x7f16eb1a67b0>
+o = {'schema': 'eigen_jepa.evaluation.v2', 'event_threshold': 0.45, 'reduction': 'cohort_ratio_of_means_and_pooled_confusion; equal_window_weight', 'metrics': {'proj_mse': inf, 'drift_mse': inf, 'cov_mse': inf, 'risk_mse': inf, ...}, ...}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if (_one_shot and c_make_encoder is not None
+                and self.indent is None):
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, self.indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, self.indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+>       return _iterencode(o, 0)
+               ^^^^^^^^^^^^^^^^^
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py:258: ValueError
+__ test_repeated_large_finite_statistics_have_the_same_representable_mean[17] __
+
+count = 17
+
+    @pytest.mark.parametrize("count", [2, 3, 17])
+    def test_repeated_large_finite_statistics_have_the_same_representable_mean(count):
+>       report = evaluation_report([row(i, 1e308) for i in range(count)])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cohort_reduction_integrity.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+eigen_jepa/evaluation_v2.py:276: in evaluation_report
+    json.dumps(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py:200: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.encoder.JSONEncoder object at 0x7f16eb0b4d40>
+o = {'schema': 'eigen_jepa.evaluation.v2', 'event_threshold': 0.45, 'reduction': 'cohort_ratio_of_means_and_pooled_confusion; equal_window_weight', 'metrics': {'proj_mse': inf, 'drift_mse': inf, 'cov_mse': inf, 'risk_mse': inf, ...}, ...}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if (_one_shot and c_make_encoder is not None
+                and self.indent is None):
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, self.indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, self.indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+>       return _iterencode(o, 0)
+               ^^^^^^^^^^^^^^^^^
+E       ValueError: Out of range float values are not JSON compliant: inf
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/encoder.py:258: ValueError
+______ test_unrepresentable_nonzero_nmse_is_an_explicit_error[1e+308-0.0] ______
+
+error = 1e+308, energy = 0.0
+
+    @pytest.mark.parametrize("error,energy", [(1e308, 0.), (np.nextafter(0., 1.), 1e308)])
+    def test_unrepresentable_nonzero_nmse_is_an_explicit_error(error, energy):
+>       with pytest.raises(ValueError, match="NMSE"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_cohort_reduction_integrity.py:58: Failed
+____ test_unrepresentable_nonzero_nmse_is_an_explicit_error[5e-324-1e+308] _____
+
+error = np.float64(5e-324), energy = 1e+308
+
+    @pytest.mark.parametrize("error,energy", [(1e308, 0.), (np.nextafter(0., 1.), 1e308)])
+    def test_unrepresentable_nonzero_nmse_is_an_explicit_error(error, energy):
+>       with pytest.raises(ValueError, match="NMSE"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_cohort_reduction_integrity.py:58: Failed
+_______________ test_nonzero_mean_underflow_is_an_explicit_error _______________
+
+    def test_nonzero_mean_underflow_is_an_explicit_error():
+>       with pytest.raises(ValueError, match="underflow"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_cohort_reduction_integrity.py:63: Failed
+___________ test_report_retains_its_own_validated_records_and_digest ___________
+
+    def test_report_retains_its_own_validated_records_and_digest():
+        supplied = [row(2, 2.), row(1, 1.)]
+        report = evaluation_report(supplied)
+        retained = json.loads(json.dumps(report))
+        supplied[0]["cov_mse"] = 999.
+        supplied[1].clear()
+        supplied.reverse()
+>       assert report == retained
+E       AssertionError: assert {'schema': 'e....5, ...}, ...} == {'schema': 'e....5, ...}, ...}
+E         
+E         Omitting 5 identical items, use -vv to show
+E         Differing items:
+E         {'records': [{}, {'window_index': 2, 'eigenvalue_count': 2, 'input_sha256': '0000000000000000000000000000000000000000000000000000000000000000', 'eig_squared_error': 2.0, ...}]} != {'records': [{'window_index': 1, 'eigenvalue_count': 2, 'input_sha256': '000000000000000000000000000000000000000000000...2, 'input_sha256': '0000000000000000000000000000000000000000000000000000000000000000', 'eig_squared_error': 2.0, ...}]}
+E         Use -v to get more diff
+
+tests/test_cohort_reduction_integrity.py:74: AssertionError
+_________ test_reports_built_from_shared_rows_do_not_alias_each_other __________
+
+    def test_reports_built_from_shared_rows_do_not_alias_each_other():
+        supplied = [row(1, 1.)]
+        first = evaluation_report(supplied)
+        second = evaluation_report(supplied)
+        first["records"][0]["cov_mse"] = 99.
+>       assert second["records"][0]["cov_mse"] == 1.
+E       assert 99.0 == 1.0
+
+tests/test_cohort_reduction_integrity.py:85: AssertionError
+=============================== warnings summary ===============================
+tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[2]
+tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[3]
+tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[17]
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/numpy/_core/_methods.py:134: RuntimeWarning: overflow encountered in reduce
+    ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+
+tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[2]
+tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[3]
+tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[17]
+  /workspace/scratch/24ae2474e899/research_jepa/Eigen-JEPA/eigen_jepa/evaluation_v2.py:208: RuntimeWarning: invalid value encountered in scalar divide
+    out["eig_nmse"] = float(squared_error.mean() / (energy.mean() + EPS))
+
+tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[2]
+tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[3]
+tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[17]
+  /workspace/scratch/24ae2474e899/research_jepa/Eigen-JEPA/eigen_jepa/evaluation_v2.py:249: RuntimeWarning: invalid value encountered in scalar divide
+    squared_error[actual].mean() / (energy[actual].mean() + EPS)
+
+tests/test_cohort_reduction_integrity.py::test_unrepresentable_nonzero_nmse_is_an_explicit_error[1e+308-0.0]
+  /workspace/scratch/24ae2474e899/research_jepa/Eigen-JEPA/eigen_jepa/evaluation_v2.py:208: RuntimeWarning: overflow encountered in scalar divide
+    out["eig_nmse"] = float(squared_error.mean() / (energy.mean() + EPS))
+
+tests/test_cohort_reduction_integrity.py::test_unrepresentable_nonzero_nmse_is_an_explicit_error[1e+308-0.0]
+  /workspace/scratch/24ae2474e899/research_jepa/Eigen-JEPA/eigen_jepa/evaluation_v2.py:249: RuntimeWarning: overflow encountered in scalar divide
+    squared_error[actual].mean() / (energy[actual].mean() + EPS)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[2]
+FAILED tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[3]
+FAILED tests/test_cohort_reduction_integrity.py::test_repeated_large_finite_statistics_have_the_same_representable_mean[17]
+FAILED tests/test_cohort_reduction_integrity.py::test_unrepresentable_nonzero_nmse_is_an_explicit_error[1e+308-0.0]
+FAILED tests/test_cohort_reduction_integrity.py::test_unrepresentable_nonzero_nmse_is_an_explicit_error[5e-324-1e+308]
+FAILED tests/test_cohort_reduction_integrity.py::test_nonzero_mean_underflow_is_an_explicit_error
+FAILED tests/test_cohort_reduction_integrity.py::test_report_retains_its_own_validated_records_and_digest
+FAILED tests/test_cohort_reduction_integrity.py::test_reports_built_from_shared_rows_do_not_alias_each_other
+8 failed, 2 passed, 11 warnings in 5.90s

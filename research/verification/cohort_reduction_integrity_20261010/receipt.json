@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-10",
+  "repository": "Finance-Meta-Research/Eigen-JEPA",
+  "scope": "Bounded engineering correctness/integration; no scientific efficacy result",
+  "parent_commit": "a3896fe974e4517149444f8bc6bb12d3c5bdd85b",
+  "parent_tree": "a8e064118f89cb1b02fd56e1c84f5d9690294480",
+  "additional_parent_commits": [],
+  "dependent_pr": 34,
+  "updated_pr": null,
+  "branch": "codex/cohort-reduction-integrity-v3-20261010",
+  "baseline": {
+    "failed": 8,
+    "passed": 2,
+    "exit_code": 1,
+    "source_sha256": {
+      "eigen_jepa/evaluation_v2.py": "e6314cc80d2157ed96d9f895e3d7c461e607963ef3f379a9115a66ea4894905a"
+    },
+    "log": "research/verification/cohort_reduction_integrity_20261010/base_regressions.log",
+    "parent_commit": "7b6eae8446d85b7d281fd22979575076ccece164",
+    "same_source_in_publication_parent": true
+  },
+  "fixed": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_cohort_reduction_integrity.py",
+      "tests/test_covariance_geometry_v3.py",
+      "tests/test_evaluation_v2.py",
+      "tests/test_sanity.py",
+      "tests/test_real_market_source_freeze.py",
+      "-q",
+      "-W",
+      "error"
+    ],
+    "passed": 69,
+    "subtests_passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "log": "research/verification/cohort_reduction_integrity_20261010/pytest.log",
+    "duration_seconds": 6.26
+  },
+  "environment": {
+    "versions": {
+      "numpy": "2.3.5",
+      "torch": "2.14.1+cpu",
+      "pytest": "9.1.1",
+      "scikit-learn": "1.8.0",
+      "python": "3.12.14"
+    },
+    "device": "CPU",
+    "numeric_threads": 1,
+    "PYTHONPATH": "."
+  },
+  "artifact_sha256": {
+    "RESEARCH_STATE.json": "7cb14b9a57de9a20e752a99ad27b9c8046ebe6b604026c84136ae053a6a01bdf",
+    "eigen_jepa/evaluation_v2.py": "9e26557139d7e592b713ddc0e38f83c0c06f6c862e3673da5ffe3046b7befd95",
+    "tests/test_cohort_reduction_integrity.py": "3c5b07d9fb66c349fb1bfea4f20165630ce0e467054aa6028432e2cca3a47414",
+    "docs/development/cohort-reduction-integrity-20261010.md": "addf86e041da274a3d0ecabe434c6c926a9c07348eba6a7158edc79268ba4008",
+    "research/verification/cohort_reduction_integrity_20261010/base_regressions.log": "452ab820b599f4776cc411c561a9b372347cc484ad9e8dc1d2284b1de996f407",
+    "research/verification/cohort_reduction_integrity_20261010/parent_source_hash_guard_attempt.json": "8c4c32bc488aa72df02838dce88bd09bb4d31198f3e68d41d382917c546a05ba",
+    "research/verification/cohort_reduction_integrity_20261010/parent_source_hash_guard_attempt.log": "e16444ab66c070feba4efe5f7df641968a9ab33732ce3df18fc836503ed02cca",
+    "research/verification/cohort_reduction_integrity_20261010/parent_source_integration_attempt.log": "8a817fbcfbbb324b109300405b4348f56ec34178ab24e23552ae8f471096045e",
+    "research/verification/cohort_reduction_integrity_20261010/pre_geometry_stack_pytest.log": "02ca4d7065878c27c8f3f1401e71078738a7087933a19eb7a9f9495961f39e55",
+    "research/verification/cohort_reduction_integrity_20261010/pytest.log": "af44f5a115aabcb794cbd2938358bf1fd1cd4e0c09a2139933e49afe31011e60",
+    "research/verification/cohort_reduction_integrity_20261010/source_binding_test_run.json": "94ef516f7247441b2d56d829fde422fbde78ae90e21e5e67f25f383219bbc114",
+    "research/verification/cohort_reduction_integrity_20261010/static_checks.json": "c570644b2262bb2afe82333183079c637dc1abafd3379b26543a6d07efcb9cf7"
+  },
+  "independent_review": {
+    "status": "COMPLETED",
+    "date": "2026-10-10",
+    "scope": "Independent agent source review at exact recorded source hash; eight additional Decimal mean/NMSE cases and row-ownership probes passed.",
+    "result": "No blocking correctness issue in the stated engineering scope; no independent scientific validation claimed."
+  },
+  "scientific_runs": 0,
+  "protected_outcome_accesses": 0,
+  "paid_compute": 0,
+  "hosted_ci": "Not run for this exact revision; publishing commit will skip automatic hosted research workflows.",
+  "retained_intermediate_runs": [
+    {
+      "scope": "original #32 parent plus correction",
+      "passed": 31,
+      "failed": 0,
+      "log": "research/verification/cohort_reduction_integrity_20261010/pre_geometry_stack_pytest.log"
+    },
+    {
+      "scope": "first #34 integration loaded parent evaluator bytes, not the proposed source",
+      "passed": 61,
+      "failed": 8,
+      "log": "research/verification/cohort_reduction_integrity_20261010/parent_source_integration_attempt.log"
+    },
+    {
+      "scope": "second #34 integration loaded parent evaluator bytes; before/after hash mismatch detected",
+      "passed": 61,
+      "failed": 8,
+      "log": "research/verification/cohort_reduction_integrity_20261010/parent_source_hash_guard_attempt.log",
+      "source_identity_record": "research/verification/cohort_reduction_integrity_20261010/parent_source_hash_guard_attempt.json"
+    }
+  ],
+  "source_binding_record": "research/verification/cohort_reduction_integrity_20261010/source_binding_test_run.json",
+  "scientific_gates": "Closed mixed/negative predecessor; protected evaluation and hypothesis changes false; five frozen code bindings verified; geometry-v3 source and prior history retained exactly."
+}

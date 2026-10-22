@@ -1,0 +1,30 @@
+{
+  "scope": "generated actual-model/loss derivative witness",
+  "torch": "2.14.1+cpu",
+  "seed": 94501,
+  "config": {
+    "input_dim": 7,
+    "num_assets": 3,
+    "context_len": 6,
+    "k": 2,
+    "d_model": 8,
+    "n_heads": 2,
+    "n_layers": 1,
+    "dropout": 0.0,
+    "latent_dim": 8,
+    "memory_dim": 8
+  },
+  "memory_items": 3,
+  "top_k": 2,
+  "temperature": 0.7,
+  "query_parameter_gradient_norms": {
+    "0.weight": null,
+    "0.bias": null,
+    "2.weight": null,
+    "2.bias": null
+  },
+  "backbone_gradient_norm": 0.23355889320373535,
+  "finite_loss": true,
+  "loss": 6.7356038093566895,
+  "contract_passed": false
+}
