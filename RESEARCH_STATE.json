@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "project": "Eigen-JEPA",
-  "updated_utc": "2026-10-22",
+  "updated_utc": "2026-11-08",
   "repository_base_commit": "cf3a1bd29c91c637c63dacf6813f801d8f76c337",
   "scientific_question": "Does predictive spectral representation and memory improve bounded financial spectral forecasting?",
   "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
-  "current_phase": "ENGINEERING_INTEGRATION_REVIEW",
+  "current_phase": "SAVED_EVIDENCE_REPORTING_REVIEW",
   "current_hypothesis_change": false,
   "protected_evaluation_opened": false,
   "scientific_runs_this_revision": 0,
@@ -15,84 +15,16 @@
     "training_campaigns": 0,
     "protected_runs": 0
   },
-  "current_change": "Integrate the reviewed geometry, cohort-reduction, checkpoint replay and query-retrieval development stack with the separately reviewed covariance-v2 and purged-window corrections. Preserve both complete canonical histories and all implementation, test, retained-artifact and frozen-source identities from their respective parents.",
+  "current_change": "Add a separate stdlib reader pinned to the seed-ledger SHA256; check all20 raw hashes, exact 5x4x18 metric surface, numeric types, eight epochs and all100 aggregate means/population SDs. Keep historical gates and scientific sources byte-identical.",
   "active_session": {
-    "id": "20261010-0945-query-gradient-v2",
-    "opened_before_implementation": true,
-    "recorded_utc": "2026-10-10 09:57:23 UTC",
-    "parent_commit": "e0f71481524e2af88029106bde7476fd95a34b27",
-    "additional_parent_commit": "a20efd8ad82e188a4803072b74c6d95a5cb09186",
-    "status": "ENGINEERING_CLOSED_PUBLISHED_DRAFT",
-    "contract": "docs/development/query-retrieval-v2-20261010.md",
-    "budget": {
-      "local_test_or_probe_commands": 5,
-      "cumulative_test_command_wall_seconds": 240,
-      "review_repair_cycles": 2,
-      "independent_review_commands": 1,
-      "independent_review_wall_seconds": 90,
-      "retained_demo_attempts": 1,
-      "retained_demo_wall_seconds": 60,
-      "cpu_threads": 1,
-      "protected_runs": 0,
-      "paid_compute": 0,
-      "scientific_campaigns": 0
-    },
-    "consumed": {
-      "local_test_or_probe_commands": 2,
-      "cumulative_test_command_wall_seconds": 46.215956717016525,
-      "retained_demo_attempts": 1,
-      "review_repair_cycles": 0,
-      "retained_demo_wall_seconds": 6.506398980985978
-    },
-    "verification_receipts": [
-      "research/verification/query_retrieval_v2_20261010/attempt_01_baseline/receipt.json",
-      "research/verification/query_retrieval_v2_20261010/attempt_02_candidate/receipt.json",
-      "research/verification/query_retrieval_v2_20261010/demo_attempt_01/receipt.json"
-    ],
-    "independent_review": {
-      "reviewer": "/root/atg_ngmt_olympus",
-      "outcome": "PASS_NO_BLOCKER",
-      "scope": "Source-only review of runtime, tests, prospective contract, legacy boundary; no independent execution.",
-      "reviewed_source_sha256": {
-        "eigen_jepa/query_retrieval_v2.py": "561d5f49ffabf4b72f51c6027d06e2cf579c971c90d05b17f4ca1e4d4f964dd0",
-        "tests/test_query_retrieval_v2.py": "5d1e2d7f9cd2bc8bddd651d17f4b102233fc35d9ef322e0ff51ccf009f1e0583",
-        "eigen_jepa/model.py": "8bc5136c8bb9eb432b76d96c1752da3901b20ea5704977f0b17e8b9fda824af5",
-        "eigen_jepa/memory.py": "d206ea802a933edfb0a1c3757aba2a228461b173bcc7f701b799bce8dc83e8c8",
-        "eigen_jepa/losses.py": "59d7ba63dda6c8bfa7ba11395f35e62ad5f43c87d7f5149fc59ce8b9f97e896c",
-        "tests/test_sanity.py": "13cfbb43d1524c000b36ba36e65fc9a9cfcc3b809c8da4ea39e41cb92f78f1d7",
-        "tests/test_checkpoint_evaluation_v3.py": "cdebb9f58530e23ad06df32e965e35475c6866c438066b3360b30a00c127e3c9",
-        "tests/test_research_evidence_integrity.py": "0150161fdd0a0bc71ac1ea918e25a12c82a34826fcf88b75db5360fbc7980a07"
-      },
-      "execution_commands": 0,
-      "repair_cycles": 0
-    },
-    "demo_attempt": {
-      "number": 1,
-      "status": "PASSED",
-      "command_receipt": "research/verification/query_retrieval_v2_20261010/demo_attempt_01/receipt.json",
-      "max_wall_seconds": 60,
-      "output_directory": "research/verification/query_retrieval_v2_20261010/demo",
-      "wall_seconds": 6.506398980985978,
-      "exit_code": 0,
-      "report": "research/verification/query_retrieval_v2_20261010/demo/report.json"
-    },
-    "closed_utc": "2026-10-10T10:20:50.981622+00:00",
-    "unused_execution_budget_closed": true,
-    "final_local_tests_passed": 93,
-    "protected_runs": 0,
-    "scientific_campaigns": 0,
-    "paid_compute": 0,
-    "publication": {
-      "branch": "codex/query-gradient-v2-20261010-0945",
-      "base_branch": "codex/checkpoint-policy-replay-v3-20261010-5077684",
-      "status": "PUBLISHED_DRAFT",
-      "hosted_verification": "Pending at this metadata-only closure; current-head observations are recorded in the PR body and coordinator receipt.",
-      "pull_request": 37,
-      "url": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/37",
-      "implementation_commit": "5a59b0f050977444cced94498ca34adf10413a69",
-      "implementation_tree": "278040c71fc306169c6c80e31593287967f058ba",
-      "head_reference": "refs/heads/codex/query-gradient-v2-20261010-0945"
-    }
+    "id": "20261108-saved-evidence-reporting",
+    "parent_commit": "3e62ec8d02dda1d6926d6724ba5fc271edea403d",
+    "status": "LOCAL_VERIFICATION_PASSED_DRAFT_PENDING",
+    "record": "docs/development/retained-package-reader-20261108.json",
+    "scientific_runs": 0,
+    "paid_compute": false,
+    "protected_evaluation_opened": false,
+    "previous_session_preserved_in": "docs/development/retained-package-reader-20261108.json"
   },
   "required_session_reads": [
     "FINAL_STATUS_2026-09-30.md",
@@ -108,7 +40,8 @@
     "research/ENGINEERING_NUMERICAL_INTEGRITY_20261010.json",
     "docs/development/integration-reconciliation-20261017.json",
     "docs/development/stack-integration-reconciliation-20261017.json",
-    "docs/development/github-integration-20261022.json"
+    "docs/development/github-integration-20261022.json",
+    "docs/development/retained-package-reader-20261108.json"
   ],
   "preserved_history_index": [
     "protocols/real_market_confirmation_v1_candidate_20260906.json",
@@ -123,7 +56,7 @@
   ],
   "history_index_scope": "Entry points to retained repository history and existing PRs; this is not a claim to have re-audited all historical evidence.",
   "pending_gates": [
-    "Publish this history-preserving integration commit and require its current-head hosted engineering and submission-claim checks before merging the #37 through #32 stack.",
+    "Review and integrate the additive retained-package reader draft after current-head hosted checks.",
     "Legacy model/training columns remain nonorthogonal. A training or architecture repair would be a separately versioned scientific change.",
     "Any scientific use of the prospective APIs requires explicit source and input identities, a separately versioned hypothesis/specification/methodology and a pre-outcome confirmatory freeze; no forecasting utility or scientific completion is inferred."
   ],
@@ -382,6 +315,13 @@
       "kind": "ENGINEERING_STACK_INTEGRATION_REVIEW",
       "record": "docs/development/github-integration-20261022.json",
       "status": "Complete-descendant ancestry and source review verified; main-targeted exact-head CI required before merge.",
+      "scientific_outcomes_created": false
+    },
+    {
+      "date": "2026-11-08",
+      "kind": "saved_evidence_reporting_repair",
+      "record": "docs/development/retained-package-reader-20261108.json",
+      "status": "Local saved-evidence and PDF checks passed; draft review and hosted verification pending.",
       "scientific_outcomes_created": false
     }
   ],
