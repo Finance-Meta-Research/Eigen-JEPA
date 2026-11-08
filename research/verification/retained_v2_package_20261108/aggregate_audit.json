@@ -1,0 +1,1369 @@
+{
+  "absolute_tolerance": 1e-12,
+  "aggregate_checks": [
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/cov_mse",
+      "recomputed": {
+        "mean": 0.09164243824779987,
+        "std": 0.04865604267098693
+      },
+      "recorded": {
+        "mean": 0.09164243824779987,
+        "std": 0.04865604267098693
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/drift_mse",
+      "recomputed": {
+        "mean": 0.02299543988580505,
+        "std": 0.012829706353414978
+      },
+      "recorded": {
+        "mean": 0.02299543988580505,
+        "std": 0.012829706353414978
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/eig_nmse",
+      "recomputed": {
+        "mean": 0.30509522929787636,
+        "std": 0.07634160925041349
+      },
+      "recorded": {
+        "mean": 0.30509522929787636,
+        "std": 0.07634160925041349
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/entropy_mse",
+      "recomputed": {
+        "mean": 0.020397678157314657,
+        "std": 0.01108841574976901
+      },
+      "recorded": {
+        "mean": 0.020397678157314657,
+        "std": 0.01108841574976901
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/event_rate",
+      "recomputed": {
+        "mean": 0.45,
+        "std": 0.17608788840929535
+      },
+      "recorded": {
+        "mean": 0.45,
+        "std": 0.17608788840929535
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/gap_rmse",
+      "recomputed": {
+        "mean": 0.9181169092655181,
+        "std": 0.40319059368899307
+      },
+      "recorded": {
+        "mean": 0.9181169092655181,
+        "std": 0.40319059368899307
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/gate_cal",
+      "recomputed": {
+        "mean": 0.5002565979957581,
+        "std": 0.03572267818760646
+      },
+      "recorded": {
+        "mean": 0.5002565979957581,
+        "std": 0.03572267818760646
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/gate_mean",
+      "recomputed": {
+        "mean": 0.6398908217748006,
+        "std": 0.05624951720839097
+      },
+      "recorded": {
+        "mean": 0.6398908217748006,
+        "std": 0.05624951720839097
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/lat_align",
+      "recomputed": {
+        "mean": 0.002478714508470148,
+        "std": 0.0020272253204455352
+      },
+      "recorded": {
+        "mean": 0.002478714508470148,
+        "std": 0.0020272253204455352
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/proj_mse",
+      "recomputed": {
+        "mean": 0.02680867227415244,
+        "std": 0.0012190383357262786
+      },
+      "recorded": {
+        "mean": 0.02680867227415244,
+        "std": 0.0012190383357262786
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/rank_mse",
+      "recomputed": {
+        "mean": 2.460163958867391,
+        "std": 0.7528528694062759
+      },
+      "recorded": {
+        "mean": 2.460163958867391,
+        "std": 0.7528528694062759
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/rare_cov_mse",
+      "recomputed": {
+        "mean": 0.1394720934331417,
+        "std": 0.06588470945874503
+      },
+      "recorded": {
+        "mean": 0.1394720934331417,
+        "std": 0.06588470945874503
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/rare_drift_mse",
+      "recomputed": {
+        "mean": 0.028017158216486374,
+        "std": 0.01874236868336305
+      },
+      "recorded": {
+        "mean": 0.028017158216486374,
+        "std": 0.01874236868336305
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/rare_eig_nmse",
+      "recomputed": {
+        "mean": 0.372357173760732,
+        "std": 0.16287924705110376
+      },
+      "recorded": {
+        "mean": 0.372357173760732,
+        "std": 0.16287924705110376
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/regime_acc",
+      "recomputed": {
+        "mean": 0.6166666666666667,
+        "std": 0.21188636891818535
+      },
+      "recorded": {
+        "mean": 0.6166666666666667,
+        "std": 0.21188636891818535
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/regime_bal_acc",
+      "recomputed": {
+        "mean": 0.4111111111111111,
+        "std": 0.18790593916986403
+      },
+      "recorded": {
+        "mean": 0.4111111111111111,
+        "std": 0.18790593916986403
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/risk_mse",
+      "recomputed": {
+        "mean": 0.1361025129755338,
+        "std": 0.07081404825837645
+      },
+      "recorded": {
+        "mean": 0.1361025129755338,
+        "std": 0.07081404825837645
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/full/tail_f1",
+      "recomputed": {
+        "mean": 0.5539317512162669,
+        "std": 0.19126704627626054
+      },
+      "recorded": {
+        "mean": 0.5539317512162669,
+        "std": 0.19126704627626054
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/cov_mse",
+      "recomputed": {
+        "mean": 0.09204494506120682,
+        "std": 0.04654434948648592
+      },
+      "recorded": {
+        "mean": 0.09204494506120682,
+        "std": 0.04654434948648592
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/drift_mse",
+      "recomputed": {
+        "mean": 0.029289797817667326,
+        "std": 0.009450429620198425
+      },
+      "recorded": {
+        "mean": 0.029289797817667326,
+        "std": 0.009450429620198425
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/eig_nmse",
+      "recomputed": {
+        "mean": 0.34519054790337883,
+        "std": 0.0358899534433878
+      },
+      "recorded": {
+        "mean": 0.34519054790337883,
+        "std": 0.0358899534433878
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/entropy_mse",
+      "recomputed": {
+        "mean": 0.01834882632441198,
+        "std": 0.009456975479651769
+      },
+      "recorded": {
+        "mean": 0.01834882632441198,
+        "std": 0.009456975479651769
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/event_rate",
+      "recomputed": {
+        "mean": 0.45,
+        "std": 0.17608788840929535
+      },
+      "recorded": {
+        "mean": 0.45,
+        "std": 0.17608788840929535
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/gap_rmse",
+      "recomputed": {
+        "mean": 0.9655691862106323,
+        "std": 0.3864952138083263
+      },
+      "recorded": {
+        "mean": 0.9655691862106323,
+        "std": 0.3864952138083263
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/gate_cal",
+      "recomputed": {
+        "mean": 0.5217843314011892,
+        "std": 0.048303938748600395
+      },
+      "recorded": {
+        "mean": 0.5217843314011892,
+        "std": 0.048303938748600395
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/gate_mean",
+      "recomputed": {
+        "mean": 0.6446990251541138,
+        "std": 0.0157352692011197
+      },
+      "recorded": {
+        "mean": 0.6446990251541138,
+        "std": 0.0157352692011197
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/lat_align",
+      "recomputed": {
+        "mean": 0.0020494545771119494,
+        "std": 0.001773712059829657
+      },
+      "recorded": {
+        "mean": 0.0020494545771119494,
+        "std": 0.001773712059829657
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/proj_mse",
+      "recomputed": {
+        "mean": 0.026703259845574697,
+        "std": 0.001023083622269461
+      },
+      "recorded": {
+        "mean": 0.026703259845574697,
+        "std": 0.001023083622269461
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/rank_mse",
+      "recomputed": {
+        "mean": 2.423500974973043,
+        "std": 0.7731013751596761
+      },
+      "recorded": {
+        "mean": 2.423500974973043,
+        "std": 0.7731013751596761
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/rare_cov_mse",
+      "recomputed": {
+        "mean": 0.14008945561945438,
+        "std": 0.06390059185682191
+      },
+      "recorded": {
+        "mean": 0.14008945561945438,
+        "std": 0.06390059185682191
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/rare_drift_mse",
+      "recomputed": {
+        "mean": 0.03338518794625998,
+        "std": 0.0188871719979286
+      },
+      "recorded": {
+        "mean": 0.03338518794625998,
+        "std": 0.0188871719979286
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/rare_eig_nmse",
+      "recomputed": {
+        "mean": 0.38845080261429155,
+        "std": 0.16367883256113278
+      },
+      "recorded": {
+        "mean": 0.38845080261429155,
+        "std": 0.16367883256113278
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/regime_acc",
+      "recomputed": {
+        "mean": 0.6125,
+        "std": 0.21754629137011022
+      },
+      "recorded": {
+        "mean": 0.6125,
+        "std": 0.21754629137011022
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/regime_bal_acc",
+      "recomputed": {
+        "mean": 0.41500000026490946,
+        "std": 0.18411952614582924
+      },
+      "recorded": {
+        "mean": 0.41500000026490946,
+        "std": 0.18411952614582924
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/risk_mse",
+      "recomputed": {
+        "mean": 0.13187279750903447,
+        "std": 0.06421474182169622
+      },
+      "recorded": {
+        "mean": 0.13187279750903447,
+        "std": 0.06421474182169622
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_memory/tail_f1",
+      "recomputed": {
+        "mean": 0.5539317512162669,
+        "std": 0.19126704627626054
+      },
+      "recorded": {
+        "mean": 0.5539317512162669,
+        "std": 0.19126704627626054
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/cov_mse",
+      "recomputed": {
+        "mean": 0.09062919213126103,
+        "std": 0.04690821816851445
+      },
+      "recorded": {
+        "mean": 0.09062919213126103,
+        "std": 0.04690821816851445
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/drift_mse",
+      "recomputed": {
+        "mean": 0.020178189656386774,
+        "std": 0.008654829351451567
+      },
+      "recorded": {
+        "mean": 0.020178189656386774,
+        "std": 0.008654829351451567
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/eig_nmse",
+      "recomputed": {
+        "mean": 0.3225448320309321,
+        "std": 0.09876964814159545
+      },
+      "recorded": {
+        "mean": 0.3225448320309321,
+        "std": 0.09876964814159545
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/entropy_mse",
+      "recomputed": {
+        "mean": 0.01677240605155627,
+        "std": 0.010571179400034362
+      },
+      "recorded": {
+        "mean": 0.01677240605155627,
+        "std": 0.010571179400034362
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/event_rate",
+      "recomputed": {
+        "mean": 0.45,
+        "std": 0.17608788840929535
+      },
+      "recorded": {
+        "mean": 0.45,
+        "std": 0.17608788840929535
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/gap_rmse",
+      "recomputed": {
+        "mean": 0.957735234995683,
+        "std": 0.47333056315776506
+      },
+      "recorded": {
+        "mean": 0.957735234995683,
+        "std": 0.47333056315776506
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/gate_cal",
+      "recomputed": {
+        "mean": 0.55,
+        "std": 0.17608788840929535
+      },
+      "recorded": {
+        "mean": 0.55,
+        "std": 0.17608788840929535
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/gate_mean",
+      "recomputed": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "recorded": {
+        "mean": 1.0,
+        "std": 0.0
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/lat_align",
+      "recomputed": {
+        "mean": 0.002452231718537708,
+        "std": 0.002135713508705255
+      },
+      "recorded": {
+        "mean": 0.002452231718537708,
+        "std": 0.002135713508705255
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/proj_mse",
+      "recomputed": {
+        "mean": 0.026725554714600246,
+        "std": 0.0012792808395554528
+      },
+      "recorded": {
+        "mean": 0.026725554714600246,
+        "std": 0.0012792808395554528
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/rank_mse",
+      "recomputed": {
+        "mean": 2.581172982851664,
+        "std": 0.5369818617031351
+      },
+      "recorded": {
+        "mean": 2.581172982851664,
+        "std": 0.5369818617031351
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/rare_cov_mse",
+      "recomputed": {
+        "mean": 0.13840017678836983,
+        "std": 0.06499709594727464
+      },
+      "recorded": {
+        "mean": 0.13840017678836983,
+        "std": 0.06499709594727464
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/rare_drift_mse",
+      "recomputed": {
+        "mean": 0.025271062087267638,
+        "std": 0.02041690415056151
+      },
+      "recorded": {
+        "mean": 0.025271062087267638,
+        "std": 0.02041690415056151
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/rare_eig_nmse",
+      "recomputed": {
+        "mean": 0.3919436958928903,
+        "std": 0.17094665847852847
+      },
+      "recorded": {
+        "mean": 0.3919436958928903,
+        "std": 0.17094665847852847
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/regime_acc",
+      "recomputed": {
+        "mean": 0.6166666666666667,
+        "std": 0.21188636891818535
+      },
+      "recorded": {
+        "mean": 0.6166666666666667,
+        "std": 0.21188636891818535
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/regime_bal_acc",
+      "recomputed": {
+        "mean": 0.4111111111111111,
+        "std": 0.18790593916986403
+      },
+      "recorded": {
+        "mean": 0.4111111111111111,
+        "std": 0.18790593916986403
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/risk_mse",
+      "recomputed": {
+        "mean": 0.14151435469587645,
+        "std": 0.06453752100659499
+      },
+      "recorded": {
+        "mean": 0.14151435469587645,
+        "std": 0.06453752100659499
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_gate/tail_f1",
+      "recomputed": {
+        "mean": 0.5539317512162669,
+        "std": 0.19126704627626054
+      },
+      "recorded": {
+        "mean": 0.5539317512162669,
+        "std": 0.19126704627626054
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/cov_mse",
+      "recomputed": {
+        "mean": 0.09471529349684715,
+        "std": 0.04777853547416667
+      },
+      "recorded": {
+        "mean": 0.09471529349684715,
+        "std": 0.04777853547416667
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/drift_mse",
+      "recomputed": {
+        "mean": 0.022838871367275713,
+        "std": 0.012888749225234343
+      },
+      "recorded": {
+        "mean": 0.022838871367275713,
+        "std": 0.012888749225234343
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/eig_nmse",
+      "recomputed": {
+        "mean": 0.2851836445430915,
+        "std": 0.08898060535403471
+      },
+      "recorded": {
+        "mean": 0.2851836445430915,
+        "std": 0.08898060535403471
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/entropy_mse",
+      "recomputed": {
+        "mean": 0.022965924876431624,
+        "std": 0.007776579213508263
+      },
+      "recorded": {
+        "mean": 0.022965924876431624,
+        "std": 0.007776579213508263
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/event_rate",
+      "recomputed": {
+        "mean": 0.45,
+        "std": 0.17608788840929535
+      },
+      "recorded": {
+        "mean": 0.45,
+        "std": 0.17608788840929535
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/gap_rmse",
+      "recomputed": {
+        "mean": 0.9183330938220025,
+        "std": 0.4043765785365883
+      },
+      "recorded": {
+        "mean": 0.9183330938220025,
+        "std": 0.4043765785365883
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/gate_cal",
+      "recomputed": {
+        "mean": 0.5000993549823761,
+        "std": 0.03587470671674477
+      },
+      "recorded": {
+        "mean": 0.5000993549823761,
+        "std": 0.03587470671674477
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/gate_mean",
+      "recomputed": {
+        "mean": 0.633086335659027,
+        "std": 0.04977639503253637
+      },
+      "recorded": {
+        "mean": 0.633086335659027,
+        "std": 0.04977639503253637
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/lat_align",
+      "recomputed": {
+        "mean": 0.002428022271487862,
+        "std": 0.0020457526242106425
+      },
+      "recorded": {
+        "mean": 0.002428022271487862,
+        "std": 0.0020457526242106425
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/proj_mse",
+      "recomputed": {
+        "mean": 0.026810299853483835,
+        "std": 0.001222294460082888
+      },
+      "recorded": {
+        "mean": 0.026810299853483835,
+        "std": 0.001222294460082888
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/rank_mse",
+      "recomputed": {
+        "mean": 2.2140505870183307,
+        "std": 0.8633669033621596
+      },
+      "recorded": {
+        "mean": 2.2140505870183307,
+        "std": 0.8633669033621596
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/rare_cov_mse",
+      "recomputed": {
+        "mean": 0.1426624028633038,
+        "std": 0.06422335646869845
+      },
+      "recorded": {
+        "mean": 0.1426624028633038,
+        "std": 0.06422335646869845
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/rare_drift_mse",
+      "recomputed": {
+        "mean": 0.028021412653227648,
+        "std": 0.018802183535125163
+      },
+      "recorded": {
+        "mean": 0.028021412653227648,
+        "std": 0.018802183535125163
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/rare_eig_nmse",
+      "recomputed": {
+        "mean": 0.34445292403300604,
+        "std": 0.17963972378223658
+      },
+      "recorded": {
+        "mean": 0.34445292403300604,
+        "std": 0.17963972378223658
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/regime_acc",
+      "recomputed": {
+        "mean": 0.49583333333333335,
+        "std": 0.2905932629027116
+      },
+      "recorded": {
+        "mean": 0.49583333333333335,
+        "std": 0.2905932629027116
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/regime_bal_acc",
+      "recomputed": {
+        "mean": 0.4111111111111111,
+        "std": 0.18790593916986403
+      },
+      "recorded": {
+        "mean": 0.4111111111111111,
+        "std": 0.18790593916986403
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/risk_mse",
+      "recomputed": {
+        "mean": 0.12071330559750398,
+        "std": 0.08351563800153265
+      },
+      "recorded": {
+        "mean": 0.12071330559750398,
+        "std": 0.08351563800153265
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "aggregate/no_regime/tail_f1",
+      "recomputed": {
+        "mean": 0.5539317512162669,
+        "std": 0.19126704627626054
+      },
+      "recorded": {
+        "mean": 0.5539317512162669,
+        "std": 0.19126704627626054
+      },
+      "values_aggregated": 5
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/cov_mse",
+      "recomputed": {
+        "mean": 0.09724465554787053,
+        "std": 0.04604203010381467
+      },
+      "recorded": {
+        "mean": 0.09724465554787053,
+        "std": 0.04604203010381467
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/drift_mse",
+      "recomputed": {
+        "mean": 1.0446857399410672,
+        "std": 0.14326118728684054
+      },
+      "recorded": {
+        "mean": 1.0446857399410672,
+        "std": 0.14326118728684054
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/eig_nmse",
+      "recomputed": {
+        "mean": 0.4098233828941981,
+        "std": 0.1046216754428607
+      },
+      "recorded": {
+        "mean": 0.4098233828941981,
+        "std": 0.1046216754428607
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/entropy_mse",
+      "recomputed": {
+        "mean": 0.022262525573993722,
+        "std": 0.0104258534715603
+      },
+      "recorded": {
+        "mean": 0.022262525573993722,
+        "std": 0.0104258534715603
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/event_rate",
+      "recomputed": {
+        "mean": 0.4166666666666667,
+        "std": 0.12668615834434868
+      },
+      "recorded": {
+        "mean": 0.4166666666666667,
+        "std": 0.12668615834434868
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/gap_rmse",
+      "recomputed": {
+        "mean": 1.006189966532919,
+        "std": 0.2989608570229646
+      },
+      "recorded": {
+        "mean": 1.006189966532919,
+        "std": 0.2989608570229646
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/gate_cal",
+      "recomputed": {
+        "mean": 0.5038042280409071,
+        "std": 0.003701183581140625
+      },
+      "recorded": {
+        "mean": 0.5038042280409071,
+        "std": 0.003701183581140625
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/gate_mean",
+      "recomputed": {
+        "mean": 0.5000014238887363,
+        "std": 1.336935070958706e-05
+      },
+      "recorded": {
+        "mean": 0.5000014238887363,
+        "std": 1.336935070958706e-05
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/proj_mse",
+      "recomputed": {
+        "mean": 0.027954040757483905,
+        "std": 0.0025712994891125295
+      },
+      "recorded": {
+        "mean": 0.027954040757483905,
+        "std": 0.0025712994891125295
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/rank_mse",
+      "recomputed": {
+        "mean": 0.13913688113292058,
+        "std": 0.06101499418274832
+      },
+      "recorded": {
+        "mean": 0.13913688113292058,
+        "std": 0.06101499418274832
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/regime_acc",
+      "recomputed": {
+        "mean": 0.6888888888888889,
+        "std": 0.17159383568311667
+      },
+      "recorded": {
+        "mean": 0.6888888888888889,
+        "std": 0.17159383568311667
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/regime_bal_acc",
+      "recomputed": {
+        "mean": 0.4148148148148148,
+        "std": 0.09192350848882117
+      },
+      "recorded": {
+        "mean": 0.4148148148148148,
+        "std": 0.09192350848882117
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/risk_mse",
+      "recomputed": {
+        "mean": 0.022170541528612375,
+        "std": 0.008558687032549849
+      },
+      "recorded": {
+        "mean": 0.022170541528612375,
+        "std": 0.008558687032549849
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/persistence/tail_f1",
+      "recomputed": {
+        "mean": 0.5090077313519978,
+        "std": 0.14193302260922855
+      },
+      "recorded": {
+        "mean": 0.5090077313519978,
+        "std": 0.14193302260922855
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/cov_mse",
+      "recomputed": {
+        "mean": 0.15557238974918922,
+        "std": 0.08847867528156934
+      },
+      "recorded": {
+        "mean": 0.15557238974918922,
+        "std": 0.08847867528156934
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/drift_mse",
+      "recomputed": {
+        "mean": 0.03244398480488194,
+        "std": 0.003947415461721001
+      },
+      "recorded": {
+        "mean": 0.03244398480488194,
+        "std": 0.003947415461721001
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/eig_nmse",
+      "recomputed": {
+        "mean": 0.7758658748533991,
+        "std": 0.35803825669078504
+      },
+      "recorded": {
+        "mean": 0.7758658748533991,
+        "std": 0.35803825669078504
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/entropy_mse",
+      "recomputed": {
+        "mean": 0.08947051213019425,
+        "std": 0.027986577729691164
+      },
+      "recorded": {
+        "mean": 0.08947051213019425,
+        "std": 0.027986577729691164
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/event_rate",
+      "recomputed": {
+        "mean": 0.4166666666666667,
+        "std": 0.12668615834434868
+      },
+      "recorded": {
+        "mean": 0.4166666666666667,
+        "std": 0.12668615834434868
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/gap_rmse",
+      "recomputed": {
+        "mean": 1.2177295313941108,
+        "std": 0.34900912357109143
+      },
+      "recorded": {
+        "mean": 1.2177295313941108,
+        "std": 0.34900912357109143
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/gate_cal",
+      "recomputed": {
+        "mean": 0.5038042280409071,
+        "std": 0.003701183581140625
+      },
+      "recorded": {
+        "mean": 0.5038042280409071,
+        "std": 0.003701183581140625
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/gate_mean",
+      "recomputed": {
+        "mean": 0.5000014238887363,
+        "std": 1.336935070958706e-05
+      },
+      "recorded": {
+        "mean": 0.5000014238887363,
+        "std": 1.336935070958706e-05
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/proj_mse",
+      "recomputed": {
+        "mean": 0.028404282819893625,
+        "std": 0.0019286322470848413
+      },
+      "recorded": {
+        "mean": 0.028404282819893625,
+        "std": 0.0019286322470848413
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/rank_mse",
+      "recomputed": {
+        "mean": 0.3777823404305511,
+        "std": 0.09112589804430922
+      },
+      "recorded": {
+        "mean": 0.3777823404305511,
+        "std": 0.09112589804430922
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/regime_acc",
+      "recomputed": {
+        "mean": 0.6611111111111111,
+        "std": 0.19196836159078884
+      },
+      "recorded": {
+        "mean": 0.6611111111111111,
+        "std": 0.19196836159078884
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/regime_bal_acc",
+      "recomputed": {
+        "mean": 0.3975308639031869,
+        "std": 0.0856758102450136
+      },
+      "recorded": {
+        "mean": 0.3975308639031869,
+        "std": 0.0856758102450136
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/risk_mse",
+      "recomputed": {
+        "mean": 0.027487106194409233,
+        "std": 0.010637074047269567
+      },
+      "recorded": {
+        "mean": 0.027487106194409233,
+        "std": 0.010637074047269567
+      },
+      "values_aggregated": 20
+    },
+    {
+      "independent_seeds": 5,
+      "metric": "benchmark/trend/tail_f1",
+      "recomputed": {
+        "mean": 0.5090077313519978,
+        "std": 0.14193302260922855
+      },
+      "recorded": {
+        "mean": 0.5090077313519978,
+        "std": 0.14193302260922855
+      },
+      "values_aggregated": 20
+    }
+  ],
+  "aggregate_sha256": "1f3e1de62a4e31b1ee0a90aedcb29c875f6f0e0cd0a7e883a09edfd95328114c",
+  "archive_digest": "sha256:5de19317b079570db8a97f9cbd5b01da5c1c06878325e3f42c9c3a78db63f6b4",
+  "artifact_id": 9975833698,
+  "auxiliary_nan_boundary": "24 original seed-43 walkforward rare-event NaNs are preserved outside the audited test/baseline/history metrics; they are not usable numerical evidence.",
+  "baseline_summary_count": 28,
+  "execution_head": "9369a5f2b0b972af846fa70baca027451271e08c",
+  "interpretation": "Saved-file identity and arithmetic only; mixed/negative predecessor remains closed. No independent training reproduction, significance test, practical-effect threshold, or successor execution authorization.",
+  "ledger_sha256": "a5b4586ce8ee4dbd377fdd55117003680a5cb10c8256690da7bb195aa30d6c8c",
+  "model_summary_count": 72,
+  "nonfinite_auxiliary_diagnostics": [
+    "seed_43/full/metrics.json:walkforward/late/rare_cov_mse",
+    "seed_43/full/metrics.json:walkforward/late/rare_drift_mse",
+    "seed_43/full/metrics.json:walkforward/late/rare_eig_nmse",
+    "seed_43/full/metrics.json:walkforward/mid/rare_cov_mse",
+    "seed_43/full/metrics.json:walkforward/mid/rare_drift_mse",
+    "seed_43/full/metrics.json:walkforward/mid/rare_eig_nmse",
+    "seed_43/no_memory/metrics.json:walkforward/late/rare_cov_mse",
+    "seed_43/no_memory/metrics.json:walkforward/late/rare_drift_mse",
+    "seed_43/no_memory/metrics.json:walkforward/late/rare_eig_nmse",
+    "seed_43/no_memory/metrics.json:walkforward/mid/rare_cov_mse",
+    "seed_43/no_memory/metrics.json:walkforward/mid/rare_drift_mse",
+    "seed_43/no_memory/metrics.json:walkforward/mid/rare_eig_nmse",
+    "seed_43/no_gate/metrics.json:walkforward/late/rare_cov_mse",
+    "seed_43/no_gate/metrics.json:walkforward/late/rare_drift_mse",
+    "seed_43/no_gate/metrics.json:walkforward/late/rare_eig_nmse",
+    "seed_43/no_gate/metrics.json:walkforward/mid/rare_cov_mse",
+    "seed_43/no_gate/metrics.json:walkforward/mid/rare_drift_mse",
+    "seed_43/no_gate/metrics.json:walkforward/mid/rare_eig_nmse",
+    "seed_43/no_regime/metrics.json:walkforward/late/rare_cov_mse",
+    "seed_43/no_regime/metrics.json:walkforward/late/rare_drift_mse",
+    "seed_43/no_regime/metrics.json:walkforward/late/rare_eig_nmse",
+    "seed_43/no_regime/metrics.json:walkforward/mid/rare_cov_mse",
+    "seed_43/no_regime/metrics.json:walkforward/mid/rare_drift_mse",
+    "seed_43/no_regime/metrics.json:walkforward/mid/rare_eig_nmse"
+  ],
+  "protected_outcomes_accessed": false,
+  "protocol": "eigen-jepa-final-rigor-v2-20260905",
+  "raw_file_sha256": {
+    "seed_19/full/metrics.json": "bcea2925785eb12083100d24857b6682cb3e67fcdcfc67268ce00afe6e2efa20",
+    "seed_19/no_gate/metrics.json": "365be74bf6fe498536045315af44eac107ab1f853d58191f2a953caafa3578d2",
+    "seed_19/no_memory/metrics.json": "fd00ec291d310322bcdff5780bd7a33845c1ba290f5212cc057fe152ea19f27d",
+    "seed_19/no_regime/metrics.json": "0ec8d3aeb9762c80a26c5a1da4d859735aade20be97d553b10979954e1f65267",
+    "seed_31/full/metrics.json": "4c700cb527b84fec14f35e987bf4ffcee630d6b420fb27b46c69f3e0c3c99a67",
+    "seed_31/no_gate/metrics.json": "2f1561952f1f02b947de40176127f89f374d66edc602d67d49fd414cf0fb6d53",
+    "seed_31/no_memory/metrics.json": "9c00d8b657b0b6ee25738eb3ad1fc8567b89ce2a6d33c2488dfc083a744d96eb",
+    "seed_31/no_regime/metrics.json": "e007fde451686b6e2aaa85a5bf5285167a8c61b1b5ccba8b11f423e5c00abcdd",
+    "seed_43/full/metrics.json": "7fb89cbe06b9036e8e70a080e094380702441924feda7537ee4e2be7f749b055",
+    "seed_43/no_gate/metrics.json": "eca167c1b2c3fc59a62e0c6eb5022ef4556b34e4221c04a5a5de53450a5ed908",
+    "seed_43/no_memory/metrics.json": "d9b7605ea1be61bf948f32f1bd7978a53d85e7d74b7f6ed89cc8b79f3ee5d706",
+    "seed_43/no_regime/metrics.json": "393fdf4cc3f50c3d48cd9e1970b3c948ca1efa74efebf3459d7fcf362c33d8e8",
+    "seed_59/full/metrics.json": "7d262efcb9c1ac8361ff16480afaabb8a7c0679c4cd95dc25a87b51c7c4a6206",
+    "seed_59/no_gate/metrics.json": "68ea9176dcdae5f202ab7a4b248e86c997c721f33492de9caf5dab8547d0dbad",
+    "seed_59/no_memory/metrics.json": "50b660a3383c988248e2b6cb6647de2f9ee88c659b9ca0a27311a885068f3c4e",
+    "seed_59/no_regime/metrics.json": "cde98267d29571798fe8f15205174962e3ce586bf709273c7e8cf621abba14e7",
+    "seed_7/full/metrics.json": "d55e73cd69f25b653762418248b41ef796e1e6e7cb09f9b7ccac80d70e2d8f7b",
+    "seed_7/no_gate/metrics.json": "5a98226469b3331998100991eaf0d4be3d6e3f5a48440274e85f47ea7ffc7612",
+    "seed_7/no_memory/metrics.json": "9dc29f866ac5ad9879663a80f99297cb317ca6f630851a87d0357c70113953cc",
+    "seed_7/no_regime/metrics.json": "773cce65bb5207e3f7e3f275de3832eff145f1c72f97620321975cbae025d2f0"
+  },
+  "schema_version": 1,
+  "scientific_runs": 0,
+  "standard_deviation": "population",
+  "status": "RETAINED_V2_PACKAGE_PASS",
+  "workflow_run_id": 33988159305
+}

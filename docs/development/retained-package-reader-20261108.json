@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-08",
+  "kind": "SAVED_EVIDENCE_REPORTING_REPAIR",
+  "repository": "Finance-Meta-Research/Eigen-JEPA",
+  "source_base_commit": "3e62ec8d02dda1d6926d6724ba5fc271edea403d",
+  "session_contract": {
+    "id": "20261108-finance-retained-evidence-closeout",
+    "scope": "Saved-evidence arithmetic verification and manuscript rebuild; no new scientific outcomes.",
+    "source_heads": {
+      "FI_JEPA": "b996820307885aee324e0eb53ccab01be21e3029",
+      "Eigen_JEPA": "3e62ec8d02dda1d6926d6724ba5fc271edea403d"
+    },
+    "work": [
+      "Verify source snapshots and retained artifact hashes",
+      "Run current saved-data gates",
+      "Rebuild retained tables and manuscripts",
+      "Reproduce and repair concrete saved-data or layout defects on copies",
+      "Record tests and remaining publication requirements"
+    ],
+    "budget": {
+      "max_local_commands": 35,
+      "max_total_cpu_seconds": 600,
+      "paid_compute": false,
+      "training_runs": 0,
+      "protected_outcome_access": false,
+      "extension_reason": "Initial builds exposed a 126.61429pt table overflow; existing Eigen gate permits aggregate arithmetic drift. Bounded reporting fixes plus corruption tests require additional local verifier/build invocations, no scientific execution."
+    },
+    "scientific_boundaries": [
+      "FI-JEPA v1 remains closed negative/boundary",
+      "Eigen-JEPA v2 remains closed mixed/boundary",
+      "No inference about successors or external validation"
+    ]
+  },
+  "scientific_disposition": "MIXED / NEGATIVE BOUNDARY; predecessor CLOSED",
+  "scientific_runs": 0,
+  "training_campaigns": 0,
+  "paid_compute": false,
+  "protected_evaluation_opened": false,
+  "scientific_result_changed": false,
+  "research_complete": false,
+  "prior_active_session": {
+    "id": "20261010-0945-query-gradient-v2",
+    "opened_before_implementation": true,
+    "recorded_utc": "2026-10-10 09:57:23 UTC",
+    "parent_commit": "e0f71481524e2af88029106bde7476fd95a34b27",
+    "additional_parent_commit": "a20efd8ad82e188a4803072b74c6d95a5cb09186",
+    "status": "ENGINEERING_CLOSED_PUBLISHED_DRAFT",
+    "contract": "docs/development/query-retrieval-v2-20261010.md",
+    "budget": {
+      "local_test_or_probe_commands": 5,
+      "cumulative_test_command_wall_seconds": 240,
+      "review_repair_cycles": 2,
+      "independent_review_commands": 1,
+      "independent_review_wall_seconds": 90,
+      "retained_demo_attempts": 1,
+      "retained_demo_wall_seconds": 60,
+      "cpu_threads": 1,
+      "protected_runs": 0,
+      "paid_compute": 0,
+      "scientific_campaigns": 0
+    },
+    "consumed": {
+      "local_test_or_probe_commands": 2,
+      "cumulative_test_command_wall_seconds": 46.215956717016525,
+      "retained_demo_attempts": 1,
+      "review_repair_cycles": 0,
+      "retained_demo_wall_seconds": 6.506398980985978
+    },
+    "verification_receipts": [
+      "research/verification/query_retrieval_v2_20261010/attempt_01_baseline/receipt.json",
+      "research/verification/query_retrieval_v2_20261010/attempt_02_candidate/receipt.json",
+      "research/verification/query_retrieval_v2_20261010/demo_attempt_01/receipt.json"
+    ],
+    "independent_review": {
+      "reviewer": "/root/atg_ngmt_olympus",
+      "outcome": "PASS_NO_BLOCKER",
+      "scope": "Source-only review of runtime, tests, prospective contract, legacy boundary; no independent execution.",
+      "reviewed_source_sha256": {
+        "eigen_jepa/query_retrieval_v2.py": "561d5f49ffabf4b72f51c6027d06e2cf579c971c90d05b17f4ca1e4d4f964dd0",
+        "tests/test_query_retrieval_v2.py": "5d1e2d7f9cd2bc8bddd651d17f4b102233fc35d9ef322e0ff51ccf009f1e0583",
+        "eigen_jepa/model.py": "8bc5136c8bb9eb432b76d96c1752da3901b20ea5704977f0b17e8b9fda824af5",
+        "eigen_jepa/memory.py": "d206ea802a933edfb0a1c3757aba2a228461b173bcc7f701b799bce8dc83e8c8",
+        "eigen_jepa/losses.py": "59d7ba63dda6c8bfa7ba11395f35e62ad5f43c87d7f5149fc59ce8b9f97e896c",
+        "tests/test_sanity.py": "13cfbb43d1524c000b36ba36e65fc9a9cfcc3b809c8da4ea39e41cb92f78f1d7",
+        "tests/test_checkpoint_evaluation_v3.py": "cdebb9f58530e23ad06df32e965e35475c6866c438066b3360b30a00c127e3c9",
+        "tests/test_research_evidence_integrity.py": "0150161fdd0a0bc71ac1ea918e25a12c82a34826fcf88b75db5360fbc7980a07"
+      },
+      "execution_commands": 0,
+      "repair_cycles": 0
+    },
+    "demo_attempt": {
+      "number": 1,
+      "status": "PASSED",
+      "command_receipt": "research/verification/query_retrieval_v2_20261010/demo_attempt_01/receipt.json",
+      "max_wall_seconds": 60,
+      "output_directory": "research/verification/query_retrieval_v2_20261010/demo",
+      "wall_seconds": 6.506398980985978,
+      "exit_code": 0,
+      "report": "research/verification/query_retrieval_v2_20261010/demo/report.json"
+    },
+    "closed_utc": "2026-10-10T10:20:50.981622+00:00",
+    "unused_execution_budget_closed": true,
+    "final_local_tests_passed": 93,
+    "protected_runs": 0,
+    "scientific_campaigns": 0,
+    "paid_compute": 0,
+    "publication": {
+      "branch": "codex/query-gradient-v2-20261010-0945",
+      "base_branch": "codex/checkpoint-policy-replay-v3-20261010-5077684",
+      "status": "PUBLISHED_DRAFT",
+      "hosted_verification": "Pending at this metadata-only closure; current-head observations are recorded in the PR body and coordinator receipt.",
+      "pull_request": 37,
+      "url": "https://github.com/Finance-Meta-Research/Eigen-JEPA/pull/37",
+      "implementation_commit": "5a59b0f050977444cced94498ca34adf10413a69",
+      "implementation_tree": "278040c71fc306169c6c80e31593287967f058ba",
+      "head_reference": "refs/heads/codex/query-gradient-v2-20261010-0945"
+    }
+  },
+  "prior_current_phase": "ENGINEERING_INTEGRATION_REVIEW",
+  "prior_current_change": "Integrate the reviewed geometry, cohort-reduction, checkpoint replay and query-retrieval development stack with the separately reviewed covariance-v2 and purged-window corrections. Preserve both complete canonical histories and all implementation, test, retained-artifact and frozen-source identities from their respective parents.",
+  "prior_pending_gates": [
+    "Publish this history-preserving integration commit and require its current-head hosted engineering and submission-claim checks before merging the #37 through #32 stack.",
+    "Legacy model/training columns remain nonorthogonal. A training or architecture repair would be a separately versioned scientific change.",
+    "Any scientific use of the prospective APIs requires explicit source and input identities, a separately versioned hypothesis/specification/methodology and a pre-outcome confirmatory freeze; no forecasting utility or scientific completion is inferred."
+  ],
+  "current_main_observation": {
+    "open_pull_requests_before_changes": 0,
+    "source_head": "3e62ec8d02dda1d6926d6724ba5fc271edea403d",
+    "observed_20261108": true
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "torch_available": false,
+    "pytest_available": false,
+    "device": "CPU"
+  },
+  "pdf_build": {
+    "source_base_commit": "3e62ec8d02dda1d6926d6724ba5fc271edea403d",
+    "pdf_sha256": "ba4f6f306860e2b6ab84ac16540a804bc336ccba45441d6dd60cefeb94deae18",
+    "pages": 5,
+    "undefined_references_or_citations": false,
+    "overfull_boxes": 0,
+    "duplicate_pdf_destinations": false,
+    "visual_review": "All five pages inspected; table page reviewed at enlarged resolution.",
+    "source_sha256": {
+      "paper/final_rigor_v2_seed_table.tex": "c45ba3fa3c8399b114d01a5083be0e8567c49b92ba33ecea52c0c0047bdf039e",
+      "paper/conference_v2_supplement.tex": "5f0c5b82f91c5eabaebf8c9535e7f76523aefc723f3fc19b730a746212394f38",
+      "paper/conference_v2.tex": "58fa55e9b64f5bed9e0e21e9cb36e5d35ec58f6dc191f74601568199cee23962",
+      "paper/arxivrefined.sty": "5008c113e729a4cd8ce5acae84c868cfa213d527003a1712255cf85f0078795a",
+      "paper/final_rigor_v2_paired_table.tex": "86eda4cca0632b9aba21a7509f1014c29f556e442a55038b128a3a27956967df",
+      "paper/results_table.tex": "4265c11e2d505aaf40171f51704a3e432f32e18d74a0902dff5032c78326f235",
+      "paper/final_rigor_v2_table.tex": "4787ca14d7a0f80454adf65f6bb5d84e46ecf2fc38f33acf54efc1f8925e2dd4",
+      "paper/main.tex": "68ed29322177eb2bb3efb594e0bf74406d03a384935f01fe9bf70cf3e2147368",
+      "paper/benchmark_ablation.tex": "79482b553272c318cdc101a07597d57b00d12681dc4227de7603765fb2518d56",
+      "paper/figures/results_table.tex": "b242ef27cdf9658e42f10b7bba36ee59c958dc7ebc390b02f346ad94452cc284"
+    },
+    "environment": {
+      "python": "3.12.14",
+      "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+      "pdflatex": "pdfTeX 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian)"
+    },
+    "scope": "Saved evidence and manuscript rendering; no training, protected data or new outcomes."
+  },
+  "hosted_verification": "Pending draft publication; do not infer hosted success from local checks.",
+  "observation": "Historical check_final_rigor_v2.py accepts finite aggregate values without recomputing them from raw runs; generated fixture changing full/eig_nmse mean to zero still passes.",
+  "change": "Add a separate stdlib reader pinned to the seed-ledger SHA256; check all20 raw hashes, exact 5x4x18 metric surface, numeric types, eight epochs and all100 aggregate means/population SDs. Keep historical gates and scientific sources byte-identical.",
+  "historical_auxiliary_nonfinite": "24 original seed-43 walkforward mid/late rare-event NaNs remain preserved and explicitly excluded from audited test/baseline/history metrics. The reader allows only those exact auxiliary paths in the hash-bound files.",
+  "validation": {
+    "original_archive_sha256": "5de19317b079570db8a97f9cbd5b01da5c1c06878325e3f42c9c3a78db63f6b4",
+    "restored_metric_files": 21,
+    "hash_bound_raw_files": 20,
+    "recomputed_model_summaries": 72,
+    "recomputed_baseline_summaries": 28,
+    "independent_seeds": 5,
+    "baseline_rows_aggregated": 20,
+    "generated_fixture_tests": 10,
+    "corrupted_mean_witness": "Original gate PASS; new reader rejects.",
+    "prior_checks": "Original final-rigor-v2 gate, seed ledger with raw-file checks, and submission claim gate all PASS.",
+    "pdf": "Five pages, no overfull boxes, unresolved references or duplicate destinations; all pages and enlarged result tables inspected.",
+    "full_model_tests": "Not rerun locally; PyTorch and pytest unavailable, and no model/runtime code changed."
+  },
+  "commands": [
+    "python scripts/restore_retained_v2_metrics.py /path/to/original-artifact.zip",
+    "python scripts/check_final_rigor_v2.py",
+    "python scripts/verify_final_rigor_v2_seed_ledger.py --artifact-root results/final_rigor_v2",
+    "python scripts/verify_submission_claim_gate.py",
+    "python scripts/verify_retained_v2_package.py --json",
+    "python -m unittest discover -s tests -p test_retained_v2_package.py -v",
+    "pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex (two passes)"
+  ],
+  "ci_trigger_review": {
+    "will_run": [
+      "CI: general generated-fixture correctness suite",
+      "Submission claim gate: frozen claim-boundary checks"
+    ],
+    "will_not_run": [
+      "final-rigor-v2-execution.yml: none of its scientific execution path filters are changed",
+      "No workflow_dispatch is requested"
+    ]
+  },
+  "aggregate_audit": "research/verification/retained_v2_package_20261108/aggregate_audit.json",
+  "independent_review": {
+    "reviewer": "/root",
+    "scope": "Source-only independent review of additive saved-evidence reader; no execution by reviewer.",
+    "outcome": "PASS_NO_BLOCKER",
+    "findings": "Pinned original ledger, pre-parse raw hashes, exact 24-NaN allowlist, five-seed distinction and population-SD recomputation match the stated saved-artifact scope."
+  }
+}
