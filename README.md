@@ -17,9 +17,22 @@ To restore metrics locally, download GitHub Actions artifact `9975833698` from r
 ```bash
 python scripts/restore_retained_v2_metrics.py /path/to/artifact.zip
 python scripts/check_final_rigor_v2.py
+python scripts/verify_retained_v2_package.py
 ```
 
 The restore command checks the exact published digest, restores only the named metric files, and refuses conflicting existing files. It neither fetches data nor trains a model. Do not substitute historical single-seed metrics or rerun a frozen study to fill the checkout gap. Full figures/checkpoints remain in the original retained artifact; this command restores only the metrics needed by the gate.
+
+The additive saved-package reader binds all 20 raw files to the committed seed
+ledger and independently recomputes all 72 model and 28 baseline means and
+population standard deviations. The original execution gate remains unchanged;
+its finite-summary checks alone do not establish arithmetic agreement. Run
+`python scripts/verify_retained_v2_package.py --json` for the full receipt, or
+`python -m unittest discover -s tests -p test_retained_v2_package.py -v` for the
+stdlib-only generated-fixture regressions. The baseline aggregation contains
+20 repeated seed/variant rows but only five independent seeds. The reader
+explicitly preserves 24 original seed-43 walkforward rare-event NaNs outside
+the audited test/baseline/history fields. They are not numerical evidence.
+See the [November 8 verification record](docs/development/retained-package-reader-20261108.json).
 
 ## Implemented scope
 
